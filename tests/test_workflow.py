@@ -16,8 +16,9 @@ class RefreshWorkflowTests(unittest.TestCase):
         self.assertIn("python -m unittest discover -s tests -v", workflow)
         self.assertIn("python scripts/generate.py", workflow)
         self.assertIn("cancel-in-progress: false", workflow)
+        self.assertIn("uses: actions/checkout@v7", workflow)
+        self.assertIn("uses: actions/setup-python@v7", workflow)
 
 
 if __name__ == "__main__":
     unittest.main()
-

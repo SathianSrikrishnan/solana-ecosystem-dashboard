@@ -41,4 +41,5 @@ python -m unittest discover -s tests -v
 python scripts\generate.py
 ```
 
-Project status and the next decision are tracked in [docs/NEXT.md](docs/NEXT.md).
+Start with the [big-picture map](docs/BIG-PICTURE-MAP.md), then check
+[docs/NEXT.md](docs/NEXT.md) for the current learning and build slice.

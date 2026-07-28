@@ -29,10 +29,16 @@ Auto-recharge stays disabled, posts are cached, and X remains optional rather
 than a dependency for core health reporting. Sathian will top up the existing X
 balance only if required.
 
+### 2026-07-28 — Use Jupiter for the first application study
+
+The first Dune adoption slice will compare network-level fee payers and
+successful signers with wallets using Jupiter. Jupiter is a useful first case
+because its substantial routing and trading activity exposes the difference
+between app usage, direct usage, aggregators, humans, and automation.
+
 ## Open
 
 - Final product name and domain.
 - Primary audience emphasis.
-- First Dune adoption question and definitions.
 - First monitored X account list.
 - Hosting provider and production schedule.

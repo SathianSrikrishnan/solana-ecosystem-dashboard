@@ -14,14 +14,18 @@ Verified foundation:
 - nine passing foundation tests;
 - a clean six-hour GitHub refresh workflow.
 
-## Next human decision
+## Current product slice
 
-Choose the first application for the activity-identity comparison. Recommended:
-Jupiter, because it is widely used and gives us meaningful human-versus-bot and
-direct-versus-routed activity questions.
+Adoption identity using Jupiter:
+
+- daily unique fee payers;
+- daily unique successful signers;
+- daily unique Jupiter users;
+- overlap between those populations;
+- clear limitations before bot classification.
 
 ## Next technical phase
 
-Teach and add the first Dune learning slice: compare transaction senders,
-successful signers, application users, and estimated human/bot activity without
-collapsing them into a single "users" number.
+Inspect Dune's Solana transaction and instruction schemas, write the first
+bounded seven-day query, verify a small result, and add it to the normalized
+report model without calling any population "people."

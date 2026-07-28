@@ -28,3 +28,9 @@ Solana Data, growthepie, L2BEAT, Artemis, and Token Terminal prove that serious
 ecosystem analytics products exist. A plain metrics dashboard would be a weak
 entry. The differentiated product must connect transparent measurements to
 identity nuance, live health, anomalies, explanations, and decisions.
+
+## 2026-07-28 — Activity is an identity ladder
+
+Fee payers, successful signers, application users, likely bots, and likely
+human-controlled wallets answer different questions. We will display them as a
+ladder and add retention rather than selecting one number and calling it users.

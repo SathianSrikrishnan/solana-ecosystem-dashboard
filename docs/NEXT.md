@@ -16,9 +16,9 @@ Verified foundation:
 
 ## Next human decision
 
-Choose the initial X API spend cap before any credits are purchased. The
-recommended experiment is a hard $20 cap, auto-recharge disabled, targeted
-account list, and persistent caching.
+Choose the first application for the activity-identity comparison. Recommended:
+Jupiter, because it is widely used and gives us meaningful human-versus-bot and
+direct-versus-routed activity questions.
 
 ## Next technical phase
 

@@ -2,30 +2,26 @@
 
 ## Current phase
 
-Foundation and first live, no-key network snapshot.
+Foundation complete; first Dune/adoption learning slice next.
 
 ## Current build target
 
-Collect direct Solana RPC health data and generate:
+Verified foundation:
 
-- structured JSON;
-- a readable Markdown report;
-- a standalone dark HTML dashboard.
+- public standalone repository on `main`;
+- direct no-key Solana RPC collection;
+- JSON, Markdown, and standalone dark HTML generation;
+- nine passing foundation tests;
+- a clean six-hour GitHub refresh workflow.
 
 ## Next human decision
 
-Choose the first audience lens:
-
-1. curious builder;
-2. ecosystem operator;
-3. analyst/investor.
-
-The product can serve all three later, but the opening screen needs one primary
-job.
+Choose the initial X API spend cap before any credits are purchased. The
+recommended experiment is a hard $20 cap, auto-recharge disabled, targeted
+account list, and persistent caching.
 
 ## Next technical phase
 
-Add the first Dune learning slice: compare transaction senders, successful
-signers, application users, and estimated human/bot activity without collapsing
-them into a single "users" number.
-
+Teach and add the first Dune learning slice: compare transaction senders,
+successful signers, application users, and estimated human/bot activity without
+collapsing them into a single "users" number.

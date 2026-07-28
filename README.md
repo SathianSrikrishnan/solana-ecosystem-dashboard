@@ -3,6 +3,9 @@
 Working repository for a trustworthy, automatically updating view of Solana's
 network health, adoption, economics, validators, ecosystem changes, and news.
 
+Public repository:
+<https://github.com/SathianSrikrishnan/solana-ecosystem-dashboard>
+
 The project is being built for the Superteam Canada **Develop Solana Ecosystem
 Auto-Updating Report & Interactive Dashboard** bounty.
 
@@ -39,4 +42,3 @@ python scripts\generate.py
 ```
 
 Project status and the next decision are tracked in [docs/NEXT.md](docs/NEXT.md).
-

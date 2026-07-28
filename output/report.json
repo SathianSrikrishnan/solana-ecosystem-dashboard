@@ -1,0 +1,145 @@
+{
+  "generated_at": "2026-07-28T01:46:01.903293Z",
+  "metrics": {
+    "active_validators": {
+      "caveat": "A validator count does not describe how evenly stake is distributed.",
+      "collected_at": "2026-07-28T01:46:01.903293Z",
+      "confidence": "high",
+      "definition": "Vote accounts currently classified as active by the RPC response.",
+      "label": "Active validators",
+      "source": {
+        "method": "getVoteAccounts",
+        "name": "Solana JSON-RPC",
+        "url": "https://api.mainnet-beta.solana.com"
+      },
+      "status": "ok",
+      "unit": "validators",
+      "value": 694
+    },
+    "block_height": {
+      "caveat": "This is network progress, not a measure of user adoption.",
+      "collected_at": "2026-07-28T01:46:01.903293Z",
+      "confidence": "high",
+      "definition": "Current block height reported by the selected RPC node.",
+      "label": "Block height",
+      "source": {
+        "method": "getBlockHeight",
+        "name": "Solana JSON-RPC",
+        "url": "https://api.mainnet-beta.solana.com"
+      },
+      "status": "ok",
+      "unit": "block",
+      "value": 413710484
+    },
+    "current_slot": {
+      "caveat": "Different RPC nodes can be a few slots apart.",
+      "collected_at": "2026-07-28T01:46:01.903293Z",
+      "confidence": "high",
+      "definition": "Latest slot reported by the selected public RPC node.",
+      "label": "Current slot",
+      "source": {
+        "method": "getSlot",
+        "name": "Solana JSON-RPC",
+        "url": "https://api.mainnet-beta.solana.com"
+      },
+      "status": "ok",
+      "unit": "slot",
+      "value": 435651618
+    },
+    "delinquent_validators": {
+      "caveat": "Temporary delinquency can recover and is not automatically malicious behavior.",
+      "collected_at": "2026-07-28T01:46:01.903293Z",
+      "confidence": "high",
+      "definition": "Vote accounts currently classified as delinquent by the RPC response.",
+      "label": "Delinquent validators",
+      "source": {
+        "method": "getVoteAccounts",
+        "name": "Solana JSON-RPC",
+        "url": "https://api.mainnet-beta.solana.com"
+      },
+      "status": "ok",
+      "unit": "validators",
+      "value": 13
+    },
+    "epoch_progress": {
+      "caveat": "Epoch progress describes validator timing, not economic growth.",
+      "collected_at": "2026-07-28T01:46:01.903293Z",
+      "confidence": "high",
+      "definition": "Share of the current epoch's slots already completed.",
+      "label": "Epoch progress",
+      "source": {
+        "method": "getEpochInfo",
+        "name": "Solana JSON-RPC",
+        "url": "https://api.mainnet-beta.solana.com"
+      },
+      "status": "ok",
+      "unit": "percent",
+      "value": 45.28
+    },
+    "estimated_non_vote_tps": {
+      "caveat": "Non-vote transactions can still include bots and automated programs.",
+      "collected_at": "2026-07-28T01:46:01.903293Z",
+      "confidence": "high",
+      "definition": "Non-vote transactions in the latest RPC performance sample divided by sample seconds.",
+      "label": "Estimated non-vote TPS",
+      "source": {
+        "method": "getRecentPerformanceSamples",
+        "name": "Solana JSON-RPC",
+        "url": "https://api.mainnet-beta.solana.com"
+      },
+      "status": "ok",
+      "unit": "transactions/second",
+      "value": 1432.17
+    },
+    "estimated_slot_time": {
+      "caveat": "This is a short recent estimate and can move between samples.",
+      "collected_at": "2026-07-28T01:46:01.903293Z",
+      "confidence": "high",
+      "definition": "Latest performance sample duration divided by slots produced.",
+      "label": "Estimated slot time",
+      "source": {
+        "method": "getRecentPerformanceSamples",
+        "name": "Solana JSON-RPC",
+        "url": "https://api.mainnet-beta.solana.com"
+      },
+      "status": "ok",
+      "unit": "seconds",
+      "value": 0.42
+    },
+    "estimated_tps": {
+      "caveat": "Includes validator votes, so it is not the same as user activity.",
+      "collected_at": "2026-07-28T01:46:01.903293Z",
+      "confidence": "high",
+      "definition": "All transactions in the latest RPC performance sample divided by sample seconds.",
+      "label": "Estimated total TPS",
+      "source": {
+        "method": "getRecentPerformanceSamples",
+        "name": "Solana JSON-RPC",
+        "url": "https://api.mainnet-beta.solana.com"
+      },
+      "status": "ok",
+      "unit": "transactions/second",
+      "value": 3052.88
+    },
+    "rpc_health": {
+      "caveat": "This checks one public RPC endpoint, not every validator.",
+      "collected_at": "2026-07-28T01:46:01.903293Z",
+      "confidence": "high",
+      "definition": "Health response from the selected public RPC node.",
+      "label": "RPC health",
+      "source": {
+        "method": "getHealth",
+        "name": "Solana JSON-RPC",
+        "url": "https://api.mainnet-beta.solana.com"
+      },
+      "status": "ok",
+      "unit": "status",
+      "value": "ok"
+    }
+  },
+  "schema_version": "0.1.0",
+  "summary": {
+    "headline": "The selected Solana RPC endpoint reports healthy.",
+    "status": "healthy"
+  }
+}

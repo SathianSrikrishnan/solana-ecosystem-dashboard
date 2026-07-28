@@ -36,6 +36,13 @@ successful signers with wallets using Jupiter. Jupiter is a useful first case
 because its substantial routing and trading activity exposes the difference
 between app usage, direct usage, aggregators, humans, and automation.
 
+### 2026-07-28 - Lock one shared metric contract
+
+Every collector and interface uses schema version `0.2.0`. Each metric carries
+a stable ID, dashboard section, value, definition, source, collection time,
+source time, status, confidence, caveat, and optional historical series. The
+pipeline rejects incomplete metrics before publishing any report.
+
 ## Open
 
 - Final product name and domain.

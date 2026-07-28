@@ -37,7 +37,7 @@ class SnapshotTests(unittest.TestCase):
 
         snapshot = build_network_snapshot(rpc_results, collected_at)
 
-        self.assertEqual(snapshot["schema_version"], "0.1.0")
+        self.assertEqual(snapshot["schema_version"], "0.2.0")
         self.assertEqual(snapshot["generated_at"], collected_at)
         self.assertEqual(snapshot["metrics"]["rpc_health"]["value"], "ok")
         self.assertEqual(snapshot["metrics"]["estimated_tps"]["value"], 2000.0)
@@ -59,4 +59,3 @@ class SnapshotTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

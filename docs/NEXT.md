@@ -2,7 +2,8 @@
 
 ## Current phase
 
-Foundation complete; first Dune/adoption learning slice next.
+Foundation and shared metric contract complete; first Dune/adoption learning
+slice next.
 
 ## Current build target
 
@@ -11,8 +12,9 @@ Verified foundation:
 - public standalone repository on `main`;
 - direct no-key Solana RPC collection;
 - JSON, Markdown, and standalone dark HTML generation;
-- nine passing foundation tests;
+- thirteen passing foundation and contract tests;
 - a clean six-hour GitHub refresh workflow.
+- enforced metric schema `0.2.0` shared by collectors and interfaces.
 
 ## Current product slice
 

@@ -34,3 +34,10 @@ identity nuance, live health, anomalies, explanations, and decisions.
 Fee payers, successful signers, application users, likely bots, and likely
 human-controlled wallets answer different questions. We will display them as a
 ladder and add retention rather than selecting one number and calling it users.
+
+## 2026-07-28 - Why the shared contract comes first
+
+Collectors and the interface can be built separately only when they agree on
+the shape of a metric. The contract is the labeled box every source must fill.
+Validation prevents a chart from quietly showing a number with no definition,
+source, freshness, or limitation.

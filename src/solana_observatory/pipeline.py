@@ -5,12 +5,14 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from .contracts import validate_snapshot
 from .renderers import render_html, render_json, render_markdown
 
 
 def write_reports(
     snapshot: dict[str, Any], output_dir: Path
 ) -> list[Path]:
+    validate_snapshot(snapshot)
     output_dir.mkdir(parents=True, exist_ok=True)
     outputs = {
         output_dir / "report.json": render_json(snapshot),
@@ -20,4 +22,3 @@ def write_reports(
     for path, contents in outputs.items():
         path.write_text(contents, encoding="utf-8")
     return list(outputs)
-

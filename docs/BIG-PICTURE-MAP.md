@@ -101,3 +101,8 @@ Codex researches, implements, tests, automates, and records the evidence.
 - A builder discovers a useful signal worth investigating.
 - The repository runs easily and continues updating after the bounty.
 
+## Execution map
+
+The pull-request and worktree sequence lives in `docs/ROADMAP-PR-MAP.md`. The
+interface structure and remaining design decisions live in
+`docs/INTERFACE-ARCHITECTURE.md`.

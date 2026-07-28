@@ -42,4 +42,6 @@ python scripts\generate.py
 ```
 
 Start with the [big-picture map](docs/BIG-PICTURE-MAP.md), then check
-[docs/NEXT.md](docs/NEXT.md) for the current learning and build slice.
+[the interface architecture](docs/INTERFACE-ARCHITECTURE.md),
+[the PR roadmap](docs/ROADMAP-PR-MAP.md), and [docs/NEXT.md](docs/NEXT.md) for
+the current learning and build slice.

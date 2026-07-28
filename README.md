@@ -45,3 +45,6 @@ Start with the [big-picture map](docs/BIG-PICTURE-MAP.md), then check
 [the interface architecture](docs/INTERFACE-ARCHITECTURE.md),
 [the PR roadmap](docs/ROADMAP-PR-MAP.md), and [docs/NEXT.md](docs/NEXT.md) for
 the current learning and build slice.
+
+When opening this repository as a new Codex project, use
+[docs/CODEX-PROJECT-START.md](docs/CODEX-PROJECT-START.md).

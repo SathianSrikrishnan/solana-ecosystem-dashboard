@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-01T13:56:51.163536Z",
+  "generated_at": "2026-08-01T19:35:43.996664Z",
   "metrics": {
     "active_validators": {
       "caveat": "A validator count does not describe how evenly stake is distributed.",
-      "collected_at": "2026-08-01T13:56:51.163536Z",
+      "collected_at": "2026-08-01T19:35:43.996664Z",
       "confidence": "high",
       "definition": "Vote accounts currently classified as active by the RPC response.",
       "label": "Active validators",
@@ -18,7 +18,7 @@
     },
     "block_height": {
       "caveat": "This is network progress, not a measure of user adoption.",
-      "collected_at": "2026-08-01T13:56:51.163536Z",
+      "collected_at": "2026-08-01T19:35:43.996664Z",
       "confidence": "high",
       "definition": "Current block height reported by the selected RPC node.",
       "label": "Block height",
@@ -29,11 +29,11 @@
       },
       "status": "ok",
       "unit": "block",
-      "value": 414629949
+      "value": 414677943
     },
     "current_slot": {
       "caveat": "Different RPC nodes can be a few slots apart.",
-      "collected_at": "2026-08-01T13:56:51.163536Z",
+      "collected_at": "2026-08-01T19:35:43.996664Z",
       "confidence": "high",
       "definition": "Latest slot reported by the selected public RPC node.",
       "label": "Current slot",
@@ -44,11 +44,11 @@
       },
       "status": "ok",
       "unit": "slot",
-      "value": 436573911
+      "value": 436621957
     },
     "delinquent_validators": {
       "caveat": "Temporary delinquency can recover and is not automatically malicious behavior.",
-      "collected_at": "2026-08-01T13:56:51.163536Z",
+      "collected_at": "2026-08-01T19:35:43.996664Z",
       "confidence": "high",
       "definition": "Vote accounts currently classified as delinquent by the RPC response.",
       "label": "Delinquent validators",
@@ -63,7 +63,7 @@
     },
     "epoch_progress": {
       "caveat": "Epoch progress describes validator timing, not economic growth.",
-      "collected_at": "2026-08-01T13:56:51.163536Z",
+      "collected_at": "2026-08-01T19:35:43.996664Z",
       "confidence": "high",
       "definition": "Share of the current epoch's slots already completed.",
       "label": "Epoch progress",
@@ -74,11 +74,11 @@
       },
       "status": "ok",
       "unit": "percent",
-      "value": 58.78
+      "value": 69.9
     },
     "estimated_non_vote_tps": {
       "caveat": "Non-vote transactions can still include bots and automated programs.",
-      "collected_at": "2026-08-01T13:56:51.163536Z",
+      "collected_at": "2026-08-01T19:35:43.996664Z",
       "confidence": "high",
       "definition": "Non-vote transactions in the latest RPC performance sample divided by sample seconds.",
       "label": "Estimated non-vote TPS",
@@ -89,11 +89,11 @@
       },
       "status": "ok",
       "unit": "transactions/second",
-      "value": 1635.4
+      "value": 1458.13
     },
     "estimated_slot_time": {
       "caveat": "This is a short recent estimate and can move between samples.",
-      "collected_at": "2026-08-01T13:56:51.163536Z",
+      "collected_at": "2026-08-01T19:35:43.996664Z",
       "confidence": "high",
       "definition": "Latest performance sample duration divided by slots produced.",
       "label": "Estimated slot time",
@@ -108,7 +108,7 @@
     },
     "estimated_tps": {
       "caveat": "Includes validator votes, so it is not the same as user activity.",
-      "collected_at": "2026-08-01T13:56:51.163536Z",
+      "collected_at": "2026-08-01T19:35:43.996664Z",
       "confidence": "high",
       "definition": "All transactions in the latest RPC performance sample divided by sample seconds.",
       "label": "Estimated total TPS",
@@ -119,11 +119,11 @@
       },
       "status": "ok",
       "unit": "transactions/second",
-      "value": 3237.18
+      "value": 3056.45
     },
     "rpc_health": {
       "caveat": "This checks one public RPC endpoint, not every validator.",
-      "collected_at": "2026-08-01T13:56:51.163536Z",
+      "collected_at": "2026-08-01T19:35:43.996664Z",
       "confidence": "high",
       "definition": "Health response from the selected public RPC node.",
       "label": "RPC health",

@@ -17,7 +17,9 @@ Within 30 seconds, a visitor should understand:
 
 ## Audience hypothesis
 
-Primary: curious Solana builders who want to choose where to spend attention.
+Primary: beginner-to-intermediate Solana builders becoming informed ecosystem
+participants. They want to understand what changed, what the measurements
+actually mean, and where to spend attention.
 
 Secondary:
 
@@ -43,9 +45,38 @@ Secondary:
 4. A normalized JSON model records value, unit, definition, source, freshness,
    confidence, and caveats.
 5. Markdown and standalone HTML are generated from the same verified model.
-6. An optional AI analyst explains verified changes and proposes hypotheses.
+6. A scheduled AI analyst automatically explains verified changes and proposes
+   labeled hypotheses. PR 6 will implement generation; deterministic reports
+   remain the source of truth and still publish when analysis is unavailable.
 
 ## Deadline
 
 Submission deadline: 2026-08-17 at 23:59 America/Toronto.
 
+## Current product milestone
+
+PR 1 provides the responsive interface shell over normalized schema `0.2.0`
+data. The overview exposes three bounded headline signals, source health, and
+the current reading. Network and validator facts are grouped into their own
+sections; adoption, economy, and ecosystem remain explicit planned states until
+their verified adapters land. The shell also defines the automatic briefing's
+grounded and unavailable states while keeping interpretation visually separate
+from deterministic facts. The generation adapter remains deferred to PR 6.
+
+## Builder learning goals
+
+This project should also help Sathian move from reading about blockchains to
+doing basic, verifiable work on Solana. That includes understanding wallets,
+transactions, staking, RPCs, validators, and the operational trade-offs behind
+running blockchain infrastructure.
+
+Exploring Solana, Ethereum, and Bitcoin node hardware is a related learning
+track, not a requirement for the bounty. We will research current hardware,
+bandwidth, uptime, staking, reward, and cost requirements before buying
+equipment or presenting node operation as an investment.
+
+The broader builder thesis is that low-cost, high-speed financial rails will
+create durable opportunities in payments, decentralized finance, staking, and
+new applications. The dashboard is the evidence layer for approaching those
+opportunities: learn the primitives, verify the data, build small experiments,
+and only then introduce real infrastructure or capital.

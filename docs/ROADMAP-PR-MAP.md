@@ -50,3 +50,11 @@ Canonical local folder:
 
 `C:\Users\sathi\Projects\solana-ecosystem-dashboard`
 
+## Completion receipts
+
+- PR 1 (`interface-shell`) — completed locally 2026-08-03. The standalone HTML
+  now has a responsive overview, all planned product sections, grouped
+  normalized data, visible source health and unavailable states, evidence
+  details, and a separate automatic-briefing boundary. It renders grounded
+  analysis metadata when supplied and an honest unavailable state otherwise;
+  AI generation is intentionally deferred to PR 6.

@@ -1,6 +1,6 @@
 # Solana Ecosystem Report
 
-Generated: `2026-08-03T03:56:18.469378Z`
+Generated: `2026-08-03T10:07:14.686835Z`
 
 **Current reading:** The selected Solana RPC endpoint reports healthy.
 
@@ -12,87 +12,87 @@ Health response from the selected public RPC node.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getHealth`
-- Collected: `2026-08-03T03:56:18.469378Z`
+- Collected: `2026-08-03T10:07:14.686835Z`
 - Confidence: `high`
 - Important limitation: This checks one public RPC endpoint, not every validator.
 
-### Current slot: 436,897,969 slot
+### Current slot: 436,950,743 slot
 
 Latest slot reported by the selected public RPC node.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getSlot`
-- Collected: `2026-08-03T03:56:18.469378Z`
+- Collected: `2026-08-03T10:07:14.686835Z`
 - Confidence: `high`
 - Important limitation: Different RPC nodes can be a few slots apart.
 
-### Block height: 414,953,596 block
+### Block height: 415,006,286 block
 
 Current block height reported by the selected RPC node.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getBlockHeight`
-- Collected: `2026-08-03T03:56:18.469378Z`
+- Collected: `2026-08-03T10:07:14.686835Z`
 - Confidence: `high`
 - Important limitation: This is network progress, not a measure of user adoption.
 
-### Epoch progress: 33.79 percent
+### Epoch progress: 46.01 percent
 
 Share of the current epoch's slots already completed.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getEpochInfo`
-- Collected: `2026-08-03T03:56:18.469378Z`
+- Collected: `2026-08-03T10:07:14.686835Z`
 - Confidence: `high`
 - Important limitation: Epoch progress describes validator timing, not economic growth.
 
-### Estimated total TPS: 2,898.98 transactions/second
+### Estimated total TPS: 3,023.32 transactions/second
 
 All transactions in the latest RPC performance sample divided by sample seconds.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getRecentPerformanceSamples`
-- Collected: `2026-08-03T03:56:18.469378Z`
+- Collected: `2026-08-03T10:07:14.686835Z`
 - Confidence: `high`
 - Important limitation: Includes validator votes, so it is not the same as user activity.
 
-### Estimated non-vote TPS: 1,378.15 transactions/second
+### Estimated non-vote TPS: 1,394.42 transactions/second
 
 Non-vote transactions in the latest RPC performance sample divided by sample seconds.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getRecentPerformanceSamples`
-- Collected: `2026-08-03T03:56:18.469378Z`
+- Collected: `2026-08-03T10:07:14.686835Z`
 - Confidence: `high`
 - Important limitation: Non-vote transactions can still include bots and automated programs.
 
-### Estimated slot time: 0.45 seconds
+### Estimated slot time: 0.42 seconds
 
 Latest performance sample duration divided by slots produced.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getRecentPerformanceSamples`
-- Collected: `2026-08-03T03:56:18.469378Z`
+- Collected: `2026-08-03T10:07:14.686835Z`
 - Confidence: `high`
 - Important limitation: This is a short recent estimate and can move between samples.
 
-### Active validators: 688 validators
+### Active validators: 691 validators
 
 Vote accounts currently classified as active by the RPC response.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getVoteAccounts`
-- Collected: `2026-08-03T03:56:18.469378Z`
+- Collected: `2026-08-03T10:07:14.686835Z`
 - Confidence: `high`
 - Important limitation: A validator count does not describe how evenly stake is distributed.
 
-### Delinquent validators: 15 validators
+### Delinquent validators: 12 validators
 
 Vote accounts currently classified as delinquent by the RPC response.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getVoteAccounts`
-- Collected: `2026-08-03T03:56:18.469378Z`
+- Collected: `2026-08-03T10:07:14.686835Z`
 - Confidence: `high`
 - Important limitation: Temporary delinquency can recover and is not automatically malicious behavior.
 

@@ -3,242 +3,539 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A source-visible Solana ecosystem observatory.">
   <title>Solana Ecosystem Dashboard</title>
   <style>
     :root {
       color-scheme: dark;
-      --bg: #090b10;
-      --panel: #11151d;
-      --panel-2: #171c26;
-      --text: #f5f7fb;
-      --muted: #9da8b8;
-      --line: #273042;
-      --green: #58e6a9;
-      --violet: #9a8cff;
+      --bg: #070a0e;
+      --panel: #10161c;
+      --panel-raised: #151d25;
+      --text: #f0f5f3;
+      --muted: #96a6a1;
+      --line: #25312f;
+      --green: #4df0a8;
+      --violet: #a58cff;
+      --amber: #f1bd67;
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       background:
-        radial-gradient(circle at 15% 0%, rgba(88,230,169,.12), transparent 36rem),
-        radial-gradient(circle at 85% 5%, rgba(154,140,255,.12), transparent 30rem),
+        linear-gradient(rgba(77,240,168,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(77,240,168,.025) 1px, transparent 1px),
+        radial-gradient(circle at 75% 0%, rgba(77,240,168,.1), transparent 38rem),
         var(--bg);
+      background-size: 48px 48px, 48px 48px, auto, auto;
       color: var(--text);
-      font: 16px/1.55 Inter, ui-sans-serif, system-ui, sans-serif;
+      font: 16px/1.55 "Segoe UI Variable", "Trebuchet MS", sans-serif;
     }
-    main { width: min(1120px, calc(100% - 32px)); margin: auto; padding: 56px 0 80px; }
-    .eyebrow {
+    a { color: inherit; }
+    .skip-link { position: fixed; left: 16px; top: -80px; z-index: 10; padding: 10px 14px; background: var(--green); color: var(--bg); }
+    .skip-link:focus { top: 12px; }
+    .site-header { position: sticky; top: 0; z-index: 5; border-bottom: 1px solid var(--line); background: rgba(7,10,14,.88); backdrop-filter: blur(18px); }
+    .header-inner { width: min(1180px, calc(100% - 32px)); margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 68px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 760; text-decoration: none; }
+    .brand-mark { width: 12px; height: 12px; border: 2px solid var(--green); transform: rotate(45deg); }
+    nav { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+    nav a { padding: 8px 10px; color: var(--muted); font-size: .78rem; text-decoration: none; white-space: nowrap; }
+    nav a:hover, nav a:focus-visible { color: var(--text); }
+    main { width: min(1180px, calc(100% - 32px)); margin: auto; padding: 70px 0 100px; }
+    .eyebrow, .fact-label, .section-index {
       color: var(--green);
+      font-family: "Cascadia Mono", Consolas, monospace;
       font-size: .75rem;
       font-weight: 750;
       letter-spacing: .13em;
       text-transform: uppercase;
     }
-    h1 { max-width: 780px; margin: 10px 0 14px; font-size: clamp(2.3rem, 7vw, 5.4rem); line-height: .95; letter-spacing: -.055em; }
-    .lede { max-width: 700px; color: var(--muted); font-size: 1.08rem; }
-    .reading {
-      margin: 34px 0 18px;
-      padding: 22px;
-      border: 1px solid rgba(88,230,169,.26);
-      border-radius: 18px;
-      background: rgba(17,21,29,.78);
+    h1, h2, h3, .signal-value, .metric-value, .source-health strong {
+      font-family: Bahnschrift, "Franklin Gothic Medium", sans-serif;
+      font-stretch: condensed;
     }
-    .reading strong { color: var(--green); }
-    .timestamp { color: var(--muted); font-size: .83rem; }
-    h2 { margin: 42px 0 16px; font-size: 1.35rem; letter-spacing: -.02em; }
-    .grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
-    .metric-card {
-      min-height: 270px;
+    h1 { max-width: 850px; margin: 14px 0 20px; font-size: clamp(3rem, 8vw, 6.4rem); line-height: .9; letter-spacing: -.065em; }
+    h2, h3, p { margin-top: 0; }
+    .lede { max-width: 680px; color: var(--muted); font-size: 1.1rem; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 34px; color: var(--muted); font-size: .8rem; }
+    .hero-meta strong { color: var(--text); }
+    .reading {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 24px;
+      margin: 48px 0 20px;
+      padding: 28px;
+      border: 1px solid rgba(77,240,168,.28);
+      background: linear-gradient(135deg, rgba(77,240,168,.08), rgba(16,22,28,.88));
+    }
+    .reading h2 { margin: 8px 0 0; font-size: clamp(1.5rem, 3vw, 2.4rem); line-height: 1.12; letter-spacing: -.035em; }
+    .source-health { align-self: end; padding-left: 24px; border-left: 1px solid var(--line); }
+    .source-health strong { display: block; font-size: 1.3rem; color: var(--green); }
+    .signal-grid, .metric-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+    .signal-card {
       padding: 20px;
       border: 1px solid var(--line);
-      border-radius: 18px;
-      background: linear-gradient(145deg, rgba(23,28,38,.94), rgba(17,21,29,.94));
+      background: rgba(16,22,28,.72);
+    }
+    .signal-value { margin-top: 28px; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 780; letter-spacing: -.05em; }
+    .analysis-panel {
+      margin-top: 20px;
+      padding: 26px;
+      border: 1px solid rgba(165,140,255,.4);
+      border-left: 3px solid var(--violet);
+      background: rgba(165,140,255,.06);
+    }
+    .analysis-panel h2 { margin: 14px 0 10px; font-size: clamp(1.35rem, 2.5vw, 2rem); }
+    .analysis-panel p { color: var(--muted); }
+    .analysis-meta { display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--muted); font-size: .78rem; }
+    .analysis-meta strong { color: var(--text); }
+    .dashboard-section { padding: 74px 0 10px; scroll-margin-top: 62px; }
+    .section-heading { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: end; margin-bottom: 22px; }
+    .section-heading > div { display: flex; align-items: baseline; gap: 16px; }
+    .section-heading h2 { margin: 0; font-size: 2rem; letter-spacing: -.04em; }
+    .section-heading p { max-width: 520px; margin: 0; color: var(--muted); }
+    .metric-card {
+      min-width: 0;
+      padding: 22px;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(21,29,37,.95), rgba(16,22,28,.95));
     }
     .metric-topline { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .78rem; }
-    .status { color: var(--green); text-transform: uppercase; letter-spacing: .08em; }
-    .metric-value { margin-top: 22px; font-size: 2.2rem; font-weight: 760; letter-spacing: -.04em; }
+    .metric-card h3 { min-height: 48px; margin: 22px 0 6px; font-size: 1rem; }
+    .metric-reading { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+    .metric-value { font-size: 2.1rem; font-weight: 760; letter-spacing: -.045em; }
     .metric-unit { color: var(--violet); font-size: .78rem; }
-    .definition { min-height: 64px; color: var(--muted); font-size: .86rem; }
+    .definition { min-height: 64px; margin: 18px 0; color: var(--muted); font-size: .86rem; }
+    .status { color: var(--green); text-transform: uppercase; letter-spacing: .08em; }
+    .status-unavailable, .status-error, .status-stale { color: var(--amber); }
     details { color: var(--muted); font-size: .78rem; }
     summary { cursor: pointer; color: var(--text); }
-    .explanation {
-      max-width: 780px;
-      padding: 24px;
+    code { color: var(--violet); }
+    .empty-state { padding: 30px; border: 1px dashed var(--line); color: var(--muted); }
+    .empty-state p { margin: 10px 0 0; }
+    .methods-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .methods-card, .interpretation {
+      padding: 26px;
+      border: 1px solid var(--line);
+      background: rgba(16,22,28,.72);
+    }
+    .interpretation {
       border-left: 3px solid var(--violet);
       background: rgba(154,140,255,.06);
       color: var(--muted);
     }
-    @media (max-width: 820px) { .grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
-    @media (max-width: 560px) {
-      main { width: min(100% - 22px, 1120px); padding-top: 32px; }
-      .grid { grid-template-columns: 1fr; }
-      .metric-card { min-height: 0; }
+    @keyframes settle-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    #overview > * { animation: settle-in .55s ease-out both; }
+    #overview > :nth-child(2) { animation-delay: .06s; }
+    #overview > :nth-child(3) { animation-delay: .12s; }
+    #overview > :nth-child(4) { animation-delay: .18s; }
+    #overview > :nth-child(5) { animation-delay: .24s; }
+    #overview > :nth-child(6) { animation-delay: .3s; }
+    @media (max-width: 900px) {
+      .signal-grid, .metric-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .header-inner { align-items: flex-start; flex-direction: column; padding: 14px 0 10px; }
+      nav { width: 100%; }
+    }
+    @media (max-width: 680px) {
+      main, .header-inner { width: min(100% - 24px, 1180px); }
+      main { padding-top: 48px; }
+      .reading, .section-heading, .methods-grid { grid-template-columns: 1fr; }
+      .source-health { padding: 20px 0 0; border: 0; border-top: 1px solid var(--line); }
+      .signal-grid, .metric-grid { grid-template-columns: 1fr; }
+      .dashboard-section { padding-top: 58px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      #overview > * { animation: none; }
     }
   </style>
 </head>
 <body>
-  <main>
-    <div class="eyebrow">Live foundation · direct RPC</div>
-    <h1>Solana, without the fog.</h1>
-    <p class="lede">A source-visible view of network health. This first build deliberately separates network machinery from claims about people or adoption.</p>
+  <a class="skip-link" href="#main-content">Skip to dashboard</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#overview"><span class="brand-mark"></span> Solana Observatory</a>
+      <nav aria-label="Dashboard sections">
+        <a href="#overview">Overview</a>
+        <a href="#network">Network</a>
+        <a href="#adoption">Adoption</a>
+        <a href="#economy">Economy</a>
+        <a href="#validators">Validators</a>
+        <a href="#ecosystem">Ecosystem</a>
+        <a href="#methods">Methods</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main-content">
+    <section id="overview">
+      <div class="eyebrow">Verified facts · direct RPC</div>
+      <h1>Solana,<br>without the fog.</h1>
+      <p class="lede">A source-visible view of network health, adoption, economics, validators, and ecosystem change. Wallets and transactions are measurements—not people.</p>
+      <div class="hero-meta">
+        <span><strong>Snapshot</strong> 2026-07-28T13:43:19.325189Z</span>
+        <span><strong>Contract</strong> 0.2.0</span>
+        <span><strong>Access</strong> Public, no account</span>
+      </div>
 
-    <section class="reading">
-      <div class="eyebrow">Current reading</div>
-      <p><strong>The selected Solana RPC endpoint reports healthy.</strong></p>
-      <div class="timestamp">Collected 2026-07-28T13:43:19.325189Z</div>
+      <section class="reading" aria-labelledby="current-reading">
+        <div>
+          <div class="eyebrow">What is happening now?</div>
+          <h2 id="current-reading">The selected Solana RPC endpoint reports healthy.</h2>
+        </div>
+        <div class="source-health">
+          <span class="eyebrow">Source health</span>
+          <strong>9 of 9 metrics reporting</strong>
+          <span>Failures remain visible instead of blanking the report.</span>
+        </div>
+      </section>
+      <div class="signal-grid">
+      <article class="signal-card">
+        <div class="metric-topline">
+          <span>Is the network functioning properly?</span>
+          <span class="status status-ok">ok</span>
+        </div>
+        <h3>RPC health</h3>
+        <div class="signal-value">ok</div>
+        <div class="metric-unit">status</div>
+      </article>
+
+
+      <article class="signal-card">
+        <div class="metric-topline">
+          <span>Is application and wallet activity growing or returning?</span>
+          <span class="status status-planned">planned</span>
+        </div>
+        <h3>Awaiting verified data</h3>
+        <div class="signal-value">Not available</div>
+        <div class="metric-unit">A verified adapter will activate this signal.</div>
+      </article>
+
+
+      <article class="signal-card">
+        <div class="metric-topline">
+          <span>Is meaningful economic activity increasing?</span>
+          <span class="status status-planned">planned</span>
+        </div>
+        <h3>Awaiting verified data</h3>
+        <div class="signal-value">Not available</div>
+        <div class="metric-unit">A verified adapter will activate this signal.</div>
+      </article>
+    </div>
+
+      <aside class="analysis-panel" data-status="unavailable">
+        <div class="metric-topline">
+          <span class="eyebrow">Automatic AI briefing</span>
+          <span class="status status-unavailable">unavailable</span>
+        </div>
+        <h2>Analysis unavailable for this snapshot</h2>
+        <p>The verified report remains available. No explanation is generated unless a grounded analysis record is supplied by the scheduled pipeline.</p>
+      </aside>
+
     </section>
 
-    <h2>What is happening now?</h2>
-    <section class="grid">
-            <article class="metric-card" data-metric="rpc_health">
-              <div class="metric-topline">
-                <span class="metric-label">RPC health</span>
-                <span class="status">ok</span>
-              </div>
-              <div class="metric-value">ok</div>
-              <div class="metric-unit">status</div>
-              <p class="definition">Health response from the selected public RPC node.</p>
-              <details>
-                <summary>Source and limitation</summary>
-                <p><strong>Source:</strong> Solana JSON-RPC / getHealth</p>
-                <p>This checks one public RPC endpoint, not every validator.</p>
-              </details>
-            </article>
-            
 
-            <article class="metric-card" data-metric="current_slot">
-              <div class="metric-topline">
-                <span class="metric-label">Current slot</span>
-                <span class="status">ok</span>
+            <section class="dashboard-section" id="network">
+              <div class="section-heading">
+                <div>
+                  <span class="section-index">01</span>
+                  <h2>Network</h2>
+                </div>
+                <p>Live network capacity, timing, and selected RPC health.</p>
               </div>
-              <div class="metric-value">435,753,787</div>
-              <div class="metric-unit">slot</div>
-              <p class="definition">Latest slot reported by the selected public RPC node.</p>
-              <details>
-                <summary>Source and limitation</summary>
-                <p><strong>Source:</strong> Solana JSON-RPC / getSlot</p>
-                <p>Different RPC nodes can be a few slots apart.</p>
-              </details>
-            </article>
-            
+              <div class="metric-grid">
+      <article class="metric-card" data-metric="block_height" data-status="ok">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-ok">ok</span>
+        </div>
+        <h3>Block height</h3>
+        <div class="metric-reading">
+          <span class="metric-value">413,812,365</span>
+          <span class="metric-unit">block</span>
+        </div>
+        <p class="definition">Current block height reported by the selected RPC node.</p>
+        <details>
+          <summary>Definition, source, and limitation</summary>
+          <div class="evidence">
+            <p><strong>Source:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getBlockHeight</code></p>
+            <p><strong>Collected:</strong> 2026-07-28T13:43:19.325189Z</p>
+            <p><strong>Confidence:</strong> high</p>
+            <p><strong>Important limitation:</strong> This is network progress, not a measure of user adoption.</p>
+          </div>
+        </details>
+      </article>
 
-            <article class="metric-card" data-metric="block_height">
-              <div class="metric-topline">
-                <span class="metric-label">Block height</span>
-                <span class="status">ok</span>
-              </div>
-              <div class="metric-value">413,812,365</div>
-              <div class="metric-unit">block</div>
-              <p class="definition">Current block height reported by the selected RPC node.</p>
-              <details>
-                <summary>Source and limitation</summary>
-                <p><strong>Source:</strong> Solana JSON-RPC / getBlockHeight</p>
-                <p>This is network progress, not a measure of user adoption.</p>
-              </details>
-            </article>
-            
 
-            <article class="metric-card" data-metric="epoch_progress">
-              <div class="metric-topline">
-                <span class="metric-label">Epoch progress</span>
-                <span class="status">ok</span>
-              </div>
-              <div class="metric-value">68.93</div>
-              <div class="metric-unit">percent</div>
-              <p class="definition">Share of the current epoch&#x27;s slots already completed.</p>
-              <details>
-                <summary>Source and limitation</summary>
-                <p><strong>Source:</strong> Solana JSON-RPC / getEpochInfo</p>
-                <p>Epoch progress describes validator timing, not economic growth.</p>
-              </details>
-            </article>
-            
+      <article class="metric-card" data-metric="current_slot" data-status="ok">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-ok">ok</span>
+        </div>
+        <h3>Current slot</h3>
+        <div class="metric-reading">
+          <span class="metric-value">435,753,787</span>
+          <span class="metric-unit">slot</span>
+        </div>
+        <p class="definition">Latest slot reported by the selected public RPC node.</p>
+        <details>
+          <summary>Definition, source, and limitation</summary>
+          <div class="evidence">
+            <p><strong>Source:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getSlot</code></p>
+            <p><strong>Collected:</strong> 2026-07-28T13:43:19.325189Z</p>
+            <p><strong>Confidence:</strong> high</p>
+            <p><strong>Important limitation:</strong> Different RPC nodes can be a few slots apart.</p>
+          </div>
+        </details>
+      </article>
 
-            <article class="metric-card" data-metric="estimated_tps">
-              <div class="metric-topline">
-                <span class="metric-label">Estimated total TPS</span>
-                <span class="status">ok</span>
-              </div>
-              <div class="metric-value">3,670.50</div>
-              <div class="metric-unit">transactions/second</div>
-              <p class="definition">All transactions in the latest RPC performance sample divided by sample seconds.</p>
-              <details>
-                <summary>Source and limitation</summary>
-                <p><strong>Source:</strong> Solana JSON-RPC / getRecentPerformanceSamples</p>
-                <p>Includes validator votes, so it is not the same as user activity.</p>
-              </details>
-            </article>
-            
 
-            <article class="metric-card" data-metric="estimated_non_vote_tps">
-              <div class="metric-topline">
-                <span class="metric-label">Estimated non-vote TPS</span>
-                <span class="status">ok</span>
-              </div>
-              <div class="metric-value">2,081.32</div>
-              <div class="metric-unit">transactions/second</div>
-              <p class="definition">Non-vote transactions in the latest RPC performance sample divided by sample seconds.</p>
-              <details>
-                <summary>Source and limitation</summary>
-                <p><strong>Source:</strong> Solana JSON-RPC / getRecentPerformanceSamples</p>
-                <p>Non-vote transactions can still include bots and automated programs.</p>
-              </details>
-            </article>
-            
+      <article class="metric-card" data-metric="epoch_progress" data-status="ok">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-ok">ok</span>
+        </div>
+        <h3>Epoch progress</h3>
+        <div class="metric-reading">
+          <span class="metric-value">68.93</span>
+          <span class="metric-unit">percent</span>
+        </div>
+        <p class="definition">Share of the current epoch&#x27;s slots already completed.</p>
+        <details>
+          <summary>Definition, source, and limitation</summary>
+          <div class="evidence">
+            <p><strong>Source:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getEpochInfo</code></p>
+            <p><strong>Collected:</strong> 2026-07-28T13:43:19.325189Z</p>
+            <p><strong>Confidence:</strong> high</p>
+            <p><strong>Important limitation:</strong> Epoch progress describes validator timing, not economic growth.</p>
+          </div>
+        </details>
+      </article>
 
-            <article class="metric-card" data-metric="estimated_slot_time">
-              <div class="metric-topline">
-                <span class="metric-label">Estimated slot time</span>
-                <span class="status">ok</span>
-              </div>
-              <div class="metric-value">0.44</div>
-              <div class="metric-unit">seconds</div>
-              <p class="definition">Latest performance sample duration divided by slots produced.</p>
-              <details>
-                <summary>Source and limitation</summary>
-                <p><strong>Source:</strong> Solana JSON-RPC / getRecentPerformanceSamples</p>
-                <p>This is a short recent estimate and can move between samples.</p>
-              </details>
-            </article>
-            
 
-            <article class="metric-card" data-metric="active_validators">
-              <div class="metric-topline">
-                <span class="metric-label">Active validators</span>
-                <span class="status">ok</span>
-              </div>
-              <div class="metric-value">692</div>
-              <div class="metric-unit">validators</div>
-              <p class="definition">Vote accounts currently classified as active by the RPC response.</p>
-              <details>
-                <summary>Source and limitation</summary>
-                <p><strong>Source:</strong> Solana JSON-RPC / getVoteAccounts</p>
-                <p>A validator count does not describe how evenly stake is distributed.</p>
-              </details>
-            </article>
-            
+      <article class="metric-card" data-metric="estimated_non_vote_tps" data-status="ok">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-ok">ok</span>
+        </div>
+        <h3>Estimated non-vote TPS</h3>
+        <div class="metric-reading">
+          <span class="metric-value">2,081.32</span>
+          <span class="metric-unit">transactions/second</span>
+        </div>
+        <p class="definition">Non-vote transactions in the latest RPC performance sample divided by sample seconds.</p>
+        <details>
+          <summary>Definition, source, and limitation</summary>
+          <div class="evidence">
+            <p><strong>Source:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getRecentPerformanceSamples</code></p>
+            <p><strong>Collected:</strong> 2026-07-28T13:43:19.325189Z</p>
+            <p><strong>Confidence:</strong> high</p>
+            <p><strong>Important limitation:</strong> Non-vote transactions can still include bots and automated programs.</p>
+          </div>
+        </details>
+      </article>
 
-            <article class="metric-card" data-metric="delinquent_validators">
-              <div class="metric-topline">
-                <span class="metric-label">Delinquent validators</span>
-                <span class="status">ok</span>
-              </div>
-              <div class="metric-value">15</div>
-              <div class="metric-unit">validators</div>
-              <p class="definition">Vote accounts currently classified as delinquent by the RPC response.</p>
-              <details>
-                <summary>Source and limitation</summary>
-                <p><strong>Source:</strong> Solana JSON-RPC / getVoteAccounts</p>
-                <p>Temporary delinquency can recover and is not automatically malicious behavior.</p>
-              </details>
-            </article>
+
+      <article class="metric-card" data-metric="estimated_slot_time" data-status="ok">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-ok">ok</span>
+        </div>
+        <h3>Estimated slot time</h3>
+        <div class="metric-reading">
+          <span class="metric-value">0.44</span>
+          <span class="metric-unit">seconds</span>
+        </div>
+        <p class="definition">Latest performance sample duration divided by slots produced.</p>
+        <details>
+          <summary>Definition, source, and limitation</summary>
+          <div class="evidence">
+            <p><strong>Source:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getRecentPerformanceSamples</code></p>
+            <p><strong>Collected:</strong> 2026-07-28T13:43:19.325189Z</p>
+            <p><strong>Confidence:</strong> high</p>
+            <p><strong>Important limitation:</strong> This is a short recent estimate and can move between samples.</p>
+          </div>
+        </details>
+      </article>
+
+
+      <article class="metric-card" data-metric="estimated_tps" data-status="ok">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-ok">ok</span>
+        </div>
+        <h3>Estimated total TPS</h3>
+        <div class="metric-reading">
+          <span class="metric-value">3,670.50</span>
+          <span class="metric-unit">transactions/second</span>
+        </div>
+        <p class="definition">All transactions in the latest RPC performance sample divided by sample seconds.</p>
+        <details>
+          <summary>Definition, source, and limitation</summary>
+          <div class="evidence">
+            <p><strong>Source:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getRecentPerformanceSamples</code></p>
+            <p><strong>Collected:</strong> 2026-07-28T13:43:19.325189Z</p>
+            <p><strong>Confidence:</strong> high</p>
+            <p><strong>Important limitation:</strong> Includes validator votes, so it is not the same as user activity.</p>
+          </div>
+        </details>
+      </article>
+
+
+      <article class="metric-card" data-metric="rpc_health" data-status="ok">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-ok">ok</span>
+        </div>
+        <h3>RPC health</h3>
+        <div class="metric-reading">
+          <span class="metric-value">ok</span>
+          <span class="metric-unit">status</span>
+        </div>
+        <p class="definition">Health response from the selected public RPC node.</p>
+        <details>
+          <summary>Definition, source, and limitation</summary>
+          <div class="evidence">
+            <p><strong>Source:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getHealth</code></p>
+            <p><strong>Collected:</strong> 2026-07-28T13:43:19.325189Z</p>
+            <p><strong>Confidence:</strong> high</p>
+            <p><strong>Important limitation:</strong> This checks one public RPC endpoint, not every validator.</p>
+          </div>
+        </details>
+      </article>
+    </div>
             </section>
 
-    <h2>How to read this</h2>
-    <section class="explanation">
-      These measurements describe the network's machinery. Total TPS includes validator votes. Non-vote TPS can still include bots. Neither number equals “humans using Solana.”
+
+            <section class="dashboard-section" id="adoption">
+              <div class="section-heading">
+                <div>
+                  <span class="section-index">02</span>
+                  <h2>Adoption</h2>
+                </div>
+                <p>Wallet activity and retention with identity limitations kept visible.</p>
+              </div>
+
+              <div class="empty-state">
+                <span class="status status-planned">Data adapter planned</span>
+                <p>This section will activate when its verified data slice lands.</p>
+              </div>
+
+            </section>
+
+
+            <section class="dashboard-section" id="economy">
+              <div class="section-heading">
+                <div>
+                  <span class="section-index">03</span>
+                  <h2>Economy</h2>
+                </div>
+                <p>Market, liquidity, fees, and onchain economic activity.</p>
+              </div>
+
+              <div class="empty-state">
+                <span class="status status-planned">Data adapter planned</span>
+                <p>This section will activate when its verified data slice lands.</p>
+              </div>
+
+            </section>
+
+
+            <section class="dashboard-section" id="validators">
+              <div class="section-heading">
+                <div>
+                  <span class="section-index">04</span>
+                  <h2>Validators</h2>
+                </div>
+                <p>Validator participation and, in later slices, stake distribution.</p>
+              </div>
+              <div class="metric-grid">
+      <article class="metric-card" data-metric="active_validators" data-status="ok">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-ok">ok</span>
+        </div>
+        <h3>Active validators</h3>
+        <div class="metric-reading">
+          <span class="metric-value">692</span>
+          <span class="metric-unit">validators</span>
+        </div>
+        <p class="definition">Vote accounts currently classified as active by the RPC response.</p>
+        <details>
+          <summary>Definition, source, and limitation</summary>
+          <div class="evidence">
+            <p><strong>Source:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getVoteAccounts</code></p>
+            <p><strong>Collected:</strong> 2026-07-28T13:43:19.325189Z</p>
+            <p><strong>Confidence:</strong> high</p>
+            <p><strong>Important limitation:</strong> A validator count does not describe how evenly stake is distributed.</p>
+          </div>
+        </details>
+      </article>
+
+
+      <article class="metric-card" data-metric="delinquent_validators" data-status="ok">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-ok">ok</span>
+        </div>
+        <h3>Delinquent validators</h3>
+        <div class="metric-reading">
+          <span class="metric-value">15</span>
+          <span class="metric-unit">validators</span>
+        </div>
+        <p class="definition">Vote accounts currently classified as delinquent by the RPC response.</p>
+        <details>
+          <summary>Definition, source, and limitation</summary>
+          <div class="evidence">
+            <p><strong>Source:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getVoteAccounts</code></p>
+            <p><strong>Collected:</strong> 2026-07-28T13:43:19.325189Z</p>
+            <p><strong>Confidence:</strong> high</p>
+            <p><strong>Important limitation:</strong> Temporary delinquency can recover and is not automatically malicious behavior.</p>
+          </div>
+        </details>
+      </article>
+    </div>
+            </section>
+
+
+            <section class="dashboard-section" id="ecosystem">
+              <div class="section-heading">
+                <div>
+                  <span class="section-index">05</span>
+                  <h2>Ecosystem</h2>
+                </div>
+                <p>Selected upgrades, announcements, and application movements.</p>
+              </div>
+
+              <div class="empty-state">
+                <span class="status status-planned">Data adapter planned</span>
+                <p>This section will activate when its verified data slice lands.</p>
+              </div>
+
+            </section>
+
+
+    <section class="dashboard-section" id="methods">
+      <div class="section-heading">
+        <div><span class="section-index">06</span><h2>Methods</h2></div>
+        <p>How to read this report without mistaking a useful metric for the whole truth.</p>
+      </div>
+      <div class="methods-grid">
+        <article class="methods-card">
+          <span class="eyebrow">Verified facts</span>
+          <h3>Deterministic data pipeline</h3>
+          <p>Every metric retains its definition, source, collection time, confidence, and important limitation. Total TPS includes validator votes. Non-vote TPS can still include bots. Neither number equals “humans using Solana.”</p>
+        </article>
+        <aside class="interpretation">
+          <span class="eyebrow">Interpretation</span>
+          <h3>Kept separate from measurements</h3>
+          <p>Automatic explanations may use only validated facts from this snapshot. Evidence IDs, uncertainty, generation time, and model stay visible; if analysis fails, the verified report still publishes.</p>
+        </aside>
+      </div>
     </section>
   </main>
-  <script id="snapshot" type="application/json">{"schema_version": "0.2.0", "generated_at": "2026-07-28T13:43:19.325189Z", "summary": {"status": "healthy", "headline": "The selected Solana RPC endpoint reports healthy."}, "metrics": {"rpc_health": {"id": "rpc_health", "section": "network", "label": "RPC health", "value": "ok", "unit": "status", "status": "ok", "definition": "Health response from the selected public RPC node.", "source": {"name": "Solana JSON-RPC", "method": "getHealth", "url": "https://api.mainnet-beta.solana.com"}, "collected_at": "2026-07-28T13:43:19.325189Z", "source_time": null, "confidence": "high", "caveat": "This checks one public RPC endpoint, not every validator.", "series": []}, "current_slot": {"id": "current_slot", "section": "network", "label": "Current slot", "value": 435753787, "unit": "slot", "status": "ok", "definition": "Latest slot reported by the selected public RPC node.", "source": {"name": "Solana JSON-RPC", "method": "getSlot", "url": "https://api.mainnet-beta.solana.com"}, "collected_at": "2026-07-28T13:43:19.325189Z", "source_time": null, "confidence": "high", "caveat": "Different RPC nodes can be a few slots apart.", "series": []}, "block_height": {"id": "block_height", "section": "network", "label": "Block height", "value": 413812365, "unit": "block", "status": "ok", "definition": "Current block height reported by the selected RPC node.", "source": {"name": "Solana JSON-RPC", "method": "getBlockHeight", "url": "https://api.mainnet-beta.solana.com"}, "collected_at": "2026-07-28T13:43:19.325189Z", "source_time": null, "confidence": "high", "caveat": "This is network progress, not a measure of user adoption.", "series": []}, "epoch_progress": {"id": "epoch_progress", "section": "network", "label": "Epoch progress", "value": 68.93, "unit": "percent", "status": "ok", "definition": "Share of the current epoch's slots already completed.", "source": {"name": "Solana JSON-RPC", "method": "getEpochInfo", "url": "https://api.mainnet-beta.solana.com"}, "collected_at": "2026-07-28T13:43:19.325189Z", "source_time": null, "confidence": "high", "caveat": "Epoch progress describes validator timing, not economic growth.", "series": []}, "estimated_tps": {"id": "estimated_tps", "section": "network", "label": "Estimated total TPS", "value": 3670.5, "unit": "transactions/second", "status": "ok", "definition": "All transactions in the latest RPC performance sample divided by sample seconds.", "source": {"name": "Solana JSON-RPC", "method": "getRecentPerformanceSamples", "url": "https://api.mainnet-beta.solana.com"}, "collected_at": "2026-07-28T13:43:19.325189Z", "source_time": null, "confidence": "high", "caveat": "Includes validator votes, so it is not the same as user activity.", "series": []}, "estimated_non_vote_tps": {"id": "estimated_non_vote_tps", "section": "network", "label": "Estimated non-vote TPS", "value": 2081.32, "unit": "transactions/second", "status": "ok", "definition": "Non-vote transactions in the latest RPC performance sample divided by sample seconds.", "source": {"name": "Solana JSON-RPC", "method": "getRecentPerformanceSamples", "url": "https://api.mainnet-beta.solana.com"}, "collected_at": "2026-07-28T13:43:19.325189Z", "source_time": null, "confidence": "high", "caveat": "Non-vote transactions can still include bots and automated programs.", "series": []}, "estimated_slot_time": {"id": "estimated_slot_time", "section": "network", "label": "Estimated slot time", "value": 0.441, "unit": "seconds", "status": "ok", "definition": "Latest performance sample duration divided by slots produced.", "source": {"name": "Solana JSON-RPC", "method": "getRecentPerformanceSamples", "url": "https://api.mainnet-beta.solana.com"}, "collected_at": "2026-07-28T13:43:19.325189Z", "source_time": null, "confidence": "high", "caveat": "This is a short recent estimate and can move between samples.", "series": []}, "active_validators": {"id": "active_validators", "section": "validators", "label": "Active validators", "value": 692, "unit": "validators", "status": "ok", "definition": "Vote accounts currently classified as active by the RPC response.", "source": {"name": "Solana JSON-RPC", "method": "getVoteAccounts", "url": "https://api.mainnet-beta.solana.com"}, "collected_at": "2026-07-28T13:43:19.325189Z", "source_time": null, "confidence": "high", "caveat": "A validator count does not describe how evenly stake is distributed.", "series": []}, "delinquent_validators": {"id": "delinquent_validators", "section": "validators", "label": "Delinquent validators", "value": 15, "unit": "validators", "status": "ok", "definition": "Vote accounts currently classified as delinquent by the RPC response.", "source": {"name": "Solana JSON-RPC", "method": "getVoteAccounts", "url": "https://api.mainnet-beta.solana.com"}, "collected_at": "2026-07-28T13:43:19.325189Z", "source_time": null, "confidence": "high", "caveat": "Temporary delinquency can recover and is not automatically malicious behavior.", "series": []}}}</script>
+  <script id="snapshot" type="application/json">{"generated_at": "2026-07-28T13:43:19.325189Z", "metrics": {"active_validators": {"caveat": "A validator count does not describe how evenly stake is distributed.", "collected_at": "2026-07-28T13:43:19.325189Z", "confidence": "high", "definition": "Vote accounts currently classified as active by the RPC response.", "id": "active_validators", "label": "Active validators", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "validators", "value": 692}, "block_height": {"caveat": "This is network progress, not a measure of user adoption.", "collected_at": "2026-07-28T13:43:19.325189Z", "confidence": "high", "definition": "Current block height reported by the selected RPC node.", "id": "block_height", "label": "Block height", "section": "network", "series": [], "source": {"method": "getBlockHeight", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "block", "value": 413812365}, "current_slot": {"caveat": "Different RPC nodes can be a few slots apart.", "collected_at": "2026-07-28T13:43:19.325189Z", "confidence": "high", "definition": "Latest slot reported by the selected public RPC node.", "id": "current_slot", "label": "Current slot", "section": "network", "series": [], "source": {"method": "getSlot", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "slot", "value": 435753787}, "delinquent_validators": {"caveat": "Temporary delinquency can recover and is not automatically malicious behavior.", "collected_at": "2026-07-28T13:43:19.325189Z", "confidence": "high", "definition": "Vote accounts currently classified as delinquent by the RPC response.", "id": "delinquent_validators", "label": "Delinquent validators", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "validators", "value": 15}, "epoch_progress": {"caveat": "Epoch progress describes validator timing, not economic growth.", "collected_at": "2026-07-28T13:43:19.325189Z", "confidence": "high", "definition": "Share of the current epoch's slots already completed.", "id": "epoch_progress", "label": "Epoch progress", "section": "network", "series": [], "source": {"method": "getEpochInfo", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "percent", "value": 68.93}, "estimated_non_vote_tps": {"caveat": "Non-vote transactions can still include bots and automated programs.", "collected_at": "2026-07-28T13:43:19.325189Z", "confidence": "high", "definition": "Non-vote transactions in the latest RPC performance sample divided by sample seconds.", "id": "estimated_non_vote_tps", "label": "Estimated non-vote TPS", "section": "network", "series": [], "source": {"method": "getRecentPerformanceSamples", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "transactions/second", "value": 2081.32}, "estimated_slot_time": {"caveat": "This is a short recent estimate and can move between samples.", "collected_at": "2026-07-28T13:43:19.325189Z", "confidence": "high", "definition": "Latest performance sample duration divided by slots produced.", "id": "estimated_slot_time", "label": "Estimated slot time", "section": "network", "series": [], "source": {"method": "getRecentPerformanceSamples", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "seconds", "value": 0.441}, "estimated_tps": {"caveat": "Includes validator votes, so it is not the same as user activity.", "collected_at": "2026-07-28T13:43:19.325189Z", "confidence": "high", "definition": "All transactions in the latest RPC performance sample divided by sample seconds.", "id": "estimated_tps", "label": "Estimated total TPS", "section": "network", "series": [], "source": {"method": "getRecentPerformanceSamples", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "transactions/second", "value": 3670.5}, "rpc_health": {"caveat": "This checks one public RPC endpoint, not every validator.", "collected_at": "2026-07-28T13:43:19.325189Z", "confidence": "high", "definition": "Health response from the selected public RPC node.", "id": "rpc_health", "label": "RPC health", "section": "network", "series": [], "source": {"method": "getHealth", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "status", "value": "ok"}}, "schema_version": "0.2.0", "summary": {"headline": "The selected Solana RPC endpoint reports healthy.", "status": "healthy"}}</script>
 </body>
 </html>

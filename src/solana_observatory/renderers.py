@@ -7,12 +7,38 @@ import json
 from typing import Any
 
 
+SECTION_DETAILS = {
+    "network": (
+        "Network",
+        "Live network capacity, timing, and selected RPC health.",
+    ),
+    "adoption": (
+        "Adoption",
+        "Wallet activity and retention with identity limitations kept visible.",
+    ),
+    "economy": (
+        "Economy",
+        "Market, liquidity, fees, and onchain economic activity.",
+    ),
+    "validators": (
+        "Validators",
+        "Validator participation and, in later slices, stake distribution.",
+    ),
+    "ecosystem": (
+        "Ecosystem",
+        "Selected upgrades, announcements, and application movements.",
+    ),
+}
+
+
 def render_json(snapshot: dict[str, Any]) -> str:
     return json.dumps(snapshot, indent=2, sort_keys=True) + "\n"
 
 
 def _display_value(metric: dict[str, Any]) -> str:
     value = metric["value"]
+    if value is None:
+        return "Not available"
     if isinstance(value, float):
         return f"{value:,.2f}"
     if isinstance(value, int):
@@ -59,143 +85,430 @@ def render_markdown(snapshot: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _metric_card(metric_id: str, metric: dict[str, Any]) -> str:
+    return """
+      <article class="metric-card" data-metric="{metric_id}" data-status="{status}">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-{status}">{status}</span>
+        </div>
+        <h3>{label}</h3>
+        <div class="metric-reading">
+          <span class="metric-value">{value}</span>
+          <span class="metric-unit">{unit}</span>
+        </div>
+        <p class="definition">{definition}</p>
+        <details>
+          <summary>Definition, source, and limitation</summary>
+          <div class="evidence">
+            <p><strong>Source:</strong> <a href="{source_url}">{source}</a> / <code>{method}</code></p>
+            <p><strong>Collected:</strong> {collected_at}</p>
+            <p><strong>Confidence:</strong> {confidence}</p>
+            <p><strong>Important limitation:</strong> {caveat}</p>
+          </div>
+        </details>
+      </article>
+    """.format(
+        metric_id=html.escape(metric_id),
+        label=html.escape(metric["label"]),
+        status=html.escape(metric["status"]),
+        value=html.escape(_display_value(metric)),
+        unit=html.escape(metric["unit"]),
+        definition=html.escape(metric["definition"]),
+        source=html.escape(metric["source"]["name"]),
+        source_url=html.escape(metric["source"]["url"], quote=True),
+        method=html.escape(metric["source"]["method"]),
+        collected_at=html.escape(metric["collected_at"]),
+        confidence=html.escape(metric["confidence"]),
+        caveat=html.escape(metric["caveat"]),
+    )
+
+
+def _signal_card(
+    question: str,
+    metric: dict[str, Any] | None,
+) -> str:
+    if metric is None:
+        status = "planned"
+        label = "Awaiting verified data"
+        value = "Not available"
+        unit = "A verified adapter will activate this signal."
+    else:
+        status = metric["status"]
+        label = metric["label"]
+        value = _display_value(metric)
+        unit = metric["unit"]
+
+    return """
+      <article class="signal-card">
+        <div class="metric-topline">
+          <span>{question}</span>
+          <span class="status status-{status}">{status}</span>
+        </div>
+        <h3>{label}</h3>
+        <div class="signal-value">{value}</div>
+        <div class="metric-unit">{unit}</div>
+      </article>
+    """.format(
+        question=html.escape(question),
+        label=html.escape(label),
+        status=html.escape(status),
+        value=html.escape(value),
+        unit=html.escape(unit),
+    )
+
+
+def _analysis_panel(snapshot: dict[str, Any]) -> str:
+    analysis = snapshot.get("analysis")
+    if not isinstance(analysis, dict) or analysis.get("status") != "ok":
+        return """
+      <aside class="analysis-panel" data-status="unavailable">
+        <div class="metric-topline">
+          <span class="eyebrow">Automatic AI briefing</span>
+          <span class="status status-unavailable">unavailable</span>
+        </div>
+        <h2>Analysis unavailable for this snapshot</h2>
+        <p>The verified report remains available. No explanation is generated unless a grounded analysis record is supplied by the scheduled pipeline.</p>
+      </aside>
+        """
+
+    supporting_metric_ids = ", ".join(
+        str(metric_id)
+        for metric_id in analysis.get("supporting_metric_ids", [])
+    ) or "None supplied"
+    return """
+      <aside class="analysis-panel" data-status="ok">
+        <div class="metric-topline">
+          <span class="eyebrow">Automatic AI briefing</span>
+          <span class="status status-ok">grounded</span>
+        </div>
+        <h2>{current_reading}</h2>
+        <p><strong>Uncertainty:</strong> {uncertainty}</p>
+        <div class="analysis-meta">
+          <span><strong>Evidence:</strong> {supporting_metric_ids}</span>
+          <span><strong>Generated:</strong> {generated_at}</span>
+          <span><strong>Model:</strong> {model}</span>
+        </div>
+      </aside>
+    """.format(
+        current_reading=html.escape(str(analysis.get("current_reading", ""))),
+        uncertainty=html.escape(str(analysis.get("uncertainty", "Not supplied"))),
+        supporting_metric_ids=html.escape(supporting_metric_ids),
+        generated_at=html.escape(str(analysis.get("generated_at", "Not supplied"))),
+        model=html.escape(str(analysis.get("model", "Not supplied"))),
+    )
+
+
 def render_html(snapshot: dict[str, Any]) -> str:
-    cards = []
-    for metric_id, metric in snapshot["metrics"].items():
-        cards.append(
-            """
-            <article class="metric-card" data-metric="{metric_id}">
-              <div class="metric-topline">
-                <span class="metric-label">{label}</span>
-                <span class="status">{status}</span>
+    metrics = snapshot["metrics"]
+    grouped_metrics = {
+        section: [
+            (metric_id, metric)
+            for metric_id, metric in metrics.items()
+            if metric.get("section", "network") == section
+        ]
+        for section in SECTION_DETAILS
+    }
+    section_markup = []
+    for index, (section, (title, description)) in enumerate(
+        SECTION_DETAILS.items(), start=1
+    ):
+        section_metrics = grouped_metrics[section]
+        if section_metrics:
+            content = '<div class="metric-grid">' + "\n".join(
+                _metric_card(metric_id, metric)
+                for metric_id, metric in section_metrics
+            ) + "</div>"
+        else:
+            content = """
+              <div class="empty-state">
+                <span class="status status-planned">Data adapter planned</span>
+                <p>This section will activate when its verified data slice lands.</p>
               </div>
-              <div class="metric-value">{value}</div>
-              <div class="metric-unit">{unit}</div>
-              <p class="definition">{definition}</p>
-              <details>
-                <summary>Source and limitation</summary>
-                <p><strong>Source:</strong> {source} / {method}</p>
-                <p>{caveat}</p>
-              </details>
-            </article>
+            """
+        section_markup.append(
+            """
+            <section class="dashboard-section" id="{section}">
+              <div class="section-heading">
+                <div>
+                  <span class="section-index">{index:02d}</span>
+                  <h2>{title}</h2>
+                </div>
+                <p>{description}</p>
+              </div>
+              {content}
+            </section>
             """.format(
-                metric_id=html.escape(metric_id),
-                label=html.escape(metric["label"]),
-                status=html.escape(metric["status"]),
-                value=html.escape(_display_value(metric)),
-                unit=html.escape(metric["unit"]),
-                definition=html.escape(metric["definition"]),
-                source=html.escape(metric["source"]["name"]),
-                method=html.escape(metric["source"]["method"]),
-                caveat=html.escape(metric["caveat"]),
+                section=section,
+                index=index,
+                title=title,
+                description=description,
+                content=content,
             )
         )
 
+    network_metric = metrics.get("rpc_health")
+    adoption_metric = next(
+        (metric for _, metric in grouped_metrics["adoption"]), None
+    )
+    economy_metric = next(
+        (metric for _, metric in grouped_metrics["economy"]), None
+    )
+    signal_markup = "\n".join(
+        (
+            _signal_card(
+                "Is the network functioning properly?",
+                network_metric,
+            ),
+            _signal_card(
+                "Is application and wallet activity growing or returning?",
+                adoption_metric,
+            ),
+            _signal_card(
+                "Is meaningful economic activity increasing?",
+                economy_metric,
+            ),
+        )
+    )
+    reporting_count = sum(
+        metric["status"] == "ok" for metric in metrics.values()
+    )
+    metric_count = len(metrics)
     embedded_snapshot = json.dumps(snapshot).replace("</", "<\\/")
-    card_markup = "\n".join(cards)
-    generated_at = html.escape(snapshot["generated_at"])
-    headline = html.escape(snapshot["summary"]["headline"])
+    dashboard_sections = "\n".join(section_markup)
+    analysis_panel = _analysis_panel(snapshot)
 
-    return f"""<!doctype html>
+    document = """<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A source-visible Solana ecosystem observatory.">
   <title>Solana Ecosystem Dashboard</title>
   <style>
     :root {{
       color-scheme: dark;
-      --bg: #090b10;
-      --panel: #11151d;
-      --panel-2: #171c26;
-      --text: #f5f7fb;
-      --muted: #9da8b8;
-      --line: #273042;
-      --green: #58e6a9;
-      --violet: #9a8cff;
+      --bg: #070a0e;
+      --panel: #10161c;
+      --panel-raised: #151d25;
+      --text: #f0f5f3;
+      --muted: #96a6a1;
+      --line: #25312f;
+      --green: #4df0a8;
+      --violet: #a58cff;
+      --amber: #f1bd67;
     }}
     * {{ box-sizing: border-box; }}
+    html {{ scroll-behavior: smooth; }}
     body {{
       margin: 0;
       background:
-        radial-gradient(circle at 15% 0%, rgba(88,230,169,.12), transparent 36rem),
-        radial-gradient(circle at 85% 5%, rgba(154,140,255,.12), transparent 30rem),
+        linear-gradient(rgba(77,240,168,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(77,240,168,.025) 1px, transparent 1px),
+        radial-gradient(circle at 75% 0%, rgba(77,240,168,.1), transparent 38rem),
         var(--bg);
+      background-size: 48px 48px, 48px 48px, auto, auto;
       color: var(--text);
-      font: 16px/1.55 Inter, ui-sans-serif, system-ui, sans-serif;
+      font: 16px/1.55 "Segoe UI Variable", "Trebuchet MS", sans-serif;
     }}
-    main {{ width: min(1120px, calc(100% - 32px)); margin: auto; padding: 56px 0 80px; }}
-    .eyebrow {{
+    a {{ color: inherit; }}
+    .skip-link {{ position: fixed; left: 16px; top: -80px; z-index: 10; padding: 10px 14px; background: var(--green); color: var(--bg); }}
+    .skip-link:focus {{ top: 12px; }}
+    .site-header {{ position: sticky; top: 0; z-index: 5; border-bottom: 1px solid var(--line); background: rgba(7,10,14,.88); backdrop-filter: blur(18px); }}
+    .header-inner {{ width: min(1180px, calc(100% - 32px)); margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 68px; }}
+    .brand {{ display: flex; align-items: center; gap: 10px; font-weight: 760; text-decoration: none; }}
+    .brand-mark {{ width: 12px; height: 12px; border: 2px solid var(--green); transform: rotate(45deg); }}
+    nav {{ display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }}
+    nav a {{ padding: 8px 10px; color: var(--muted); font-size: .78rem; text-decoration: none; white-space: nowrap; }}
+    nav a:hover, nav a:focus-visible {{ color: var(--text); }}
+    main {{ width: min(1180px, calc(100% - 32px)); margin: auto; padding: 70px 0 100px; }}
+    .eyebrow, .fact-label, .section-index {{
       color: var(--green);
+      font-family: "Cascadia Mono", Consolas, monospace;
       font-size: .75rem;
       font-weight: 750;
       letter-spacing: .13em;
       text-transform: uppercase;
     }}
-    h1 {{ max-width: 780px; margin: 10px 0 14px; font-size: clamp(2.3rem, 7vw, 5.4rem); line-height: .95; letter-spacing: -.055em; }}
-    .lede {{ max-width: 700px; color: var(--muted); font-size: 1.08rem; }}
-    .reading {{
-      margin: 34px 0 18px;
-      padding: 22px;
-      border: 1px solid rgba(88,230,169,.26);
-      border-radius: 18px;
-      background: rgba(17,21,29,.78);
+    h1, h2, h3, .signal-value, .metric-value, .source-health strong {{
+      font-family: Bahnschrift, "Franklin Gothic Medium", sans-serif;
+      font-stretch: condensed;
     }}
-    .reading strong {{ color: var(--green); }}
-    .timestamp {{ color: var(--muted); font-size: .83rem; }}
-    h2 {{ margin: 42px 0 16px; font-size: 1.35rem; letter-spacing: -.02em; }}
-    .grid {{ display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }}
-    .metric-card {{
-      min-height: 270px;
+    h1 {{ max-width: 850px; margin: 14px 0 20px; font-size: clamp(3rem, 8vw, 6.4rem); line-height: .9; letter-spacing: -.065em; }}
+    h2, h3, p {{ margin-top: 0; }}
+    .lede {{ max-width: 680px; color: var(--muted); font-size: 1.1rem; }}
+    .hero-meta {{ display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 34px; color: var(--muted); font-size: .8rem; }}
+    .hero-meta strong {{ color: var(--text); }}
+    .reading {{
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 24px;
+      margin: 48px 0 20px;
+      padding: 28px;
+      border: 1px solid rgba(77,240,168,.28);
+      background: linear-gradient(135deg, rgba(77,240,168,.08), rgba(16,22,28,.88));
+    }}
+    .reading h2 {{ margin: 8px 0 0; font-size: clamp(1.5rem, 3vw, 2.4rem); line-height: 1.12; letter-spacing: -.035em; }}
+    .source-health {{ align-self: end; padding-left: 24px; border-left: 1px solid var(--line); }}
+    .source-health strong {{ display: block; font-size: 1.3rem; color: var(--green); }}
+    .signal-grid, .metric-grid {{ display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }}
+    .signal-card {{
       padding: 20px;
       border: 1px solid var(--line);
-      border-radius: 18px;
-      background: linear-gradient(145deg, rgba(23,28,38,.94), rgba(17,21,29,.94));
+      background: rgba(16,22,28,.72);
+    }}
+    .signal-value {{ margin-top: 28px; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 780; letter-spacing: -.05em; }}
+    .analysis-panel {{
+      margin-top: 20px;
+      padding: 26px;
+      border: 1px solid rgba(165,140,255,.4);
+      border-left: 3px solid var(--violet);
+      background: rgba(165,140,255,.06);
+    }}
+    .analysis-panel h2 {{ margin: 14px 0 10px; font-size: clamp(1.35rem, 2.5vw, 2rem); }}
+    .analysis-panel p {{ color: var(--muted); }}
+    .analysis-meta {{ display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--muted); font-size: .78rem; }}
+    .analysis-meta strong {{ color: var(--text); }}
+    .dashboard-section {{ padding: 74px 0 10px; scroll-margin-top: 62px; }}
+    .section-heading {{ display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: end; margin-bottom: 22px; }}
+    .section-heading > div {{ display: flex; align-items: baseline; gap: 16px; }}
+    .section-heading h2 {{ margin: 0; font-size: 2rem; letter-spacing: -.04em; }}
+    .section-heading p {{ max-width: 520px; margin: 0; color: var(--muted); }}
+    .metric-card {{
+      min-width: 0;
+      padding: 22px;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(21,29,37,.95), rgba(16,22,28,.95));
     }}
     .metric-topline {{ display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .78rem; }}
-    .status {{ color: var(--green); text-transform: uppercase; letter-spacing: .08em; }}
-    .metric-value {{ margin-top: 22px; font-size: 2.2rem; font-weight: 760; letter-spacing: -.04em; }}
+    .metric-card h3 {{ min-height: 48px; margin: 22px 0 6px; font-size: 1rem; }}
+    .metric-reading {{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }}
+    .metric-value {{ font-size: 2.1rem; font-weight: 760; letter-spacing: -.045em; }}
     .metric-unit {{ color: var(--violet); font-size: .78rem; }}
-    .definition {{ min-height: 64px; color: var(--muted); font-size: .86rem; }}
+    .definition {{ min-height: 64px; margin: 18px 0; color: var(--muted); font-size: .86rem; }}
+    .status {{ color: var(--green); text-transform: uppercase; letter-spacing: .08em; }}
+    .status-unavailable, .status-error, .status-stale {{ color: var(--amber); }}
     details {{ color: var(--muted); font-size: .78rem; }}
     summary {{ cursor: pointer; color: var(--text); }}
-    .explanation {{
-      max-width: 780px;
-      padding: 24px;
+    code {{ color: var(--violet); }}
+    .empty-state {{ padding: 30px; border: 1px dashed var(--line); color: var(--muted); }}
+    .empty-state p {{ margin: 10px 0 0; }}
+    .methods-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }}
+    .methods-card, .interpretation {{
+      padding: 26px;
+      border: 1px solid var(--line);
+      background: rgba(16,22,28,.72);
+    }}
+    .interpretation {{
       border-left: 3px solid var(--violet);
       background: rgba(154,140,255,.06);
       color: var(--muted);
     }}
-    @media (max-width: 820px) {{ .grid {{ grid-template-columns: repeat(2, minmax(0,1fr)); }} }}
-    @media (max-width: 560px) {{
-      main {{ width: min(100% - 22px, 1120px); padding-top: 32px; }}
-      .grid {{ grid-template-columns: 1fr; }}
-      .metric-card {{ min-height: 0; }}
+    @keyframes settle-in {{
+      from {{ opacity: 0; transform: translateY(10px); }}
+      to {{ opacity: 1; transform: translateY(0); }}
+    }}
+    #overview > * {{ animation: settle-in .55s ease-out both; }}
+    #overview > :nth-child(2) {{ animation-delay: .06s; }}
+    #overview > :nth-child(3) {{ animation-delay: .12s; }}
+    #overview > :nth-child(4) {{ animation-delay: .18s; }}
+    #overview > :nth-child(5) {{ animation-delay: .24s; }}
+    #overview > :nth-child(6) {{ animation-delay: .3s; }}
+    @media (max-width: 900px) {{
+      .signal-grid, .metric-grid {{ grid-template-columns: repeat(2, minmax(0,1fr)); }}
+      .header-inner {{ align-items: flex-start; flex-direction: column; padding: 14px 0 10px; }}
+      nav {{ width: 100%; }}
+    }}
+    @media (max-width: 680px) {{
+      main, .header-inner {{ width: min(100% - 24px, 1180px); }}
+      main {{ padding-top: 48px; }}
+      .reading, .section-heading, .methods-grid {{ grid-template-columns: 1fr; }}
+      .source-health {{ padding: 20px 0 0; border: 0; border-top: 1px solid var(--line); }}
+      .signal-grid, .metric-grid {{ grid-template-columns: 1fr; }}
+      .dashboard-section {{ padding-top: 58px; }}
+    }}
+    @media (prefers-reduced-motion: reduce) {{
+      html {{ scroll-behavior: auto; }}
+      #overview > * {{ animation: none; }}
     }}
   </style>
 </head>
 <body>
-  <main>
-    <div class="eyebrow">Live foundation · direct RPC</div>
-    <h1>Solana, without the fog.</h1>
-    <p class="lede">A source-visible view of network health. This first build deliberately separates network machinery from claims about people or adoption.</p>
+  <a class="skip-link" href="#main-content">Skip to dashboard</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#overview"><span class="brand-mark"></span> Solana Observatory</a>
+      <nav aria-label="Dashboard sections">
+        <a href="#overview">Overview</a>
+        <a href="#network">Network</a>
+        <a href="#adoption">Adoption</a>
+        <a href="#economy">Economy</a>
+        <a href="#validators">Validators</a>
+        <a href="#ecosystem">Ecosystem</a>
+        <a href="#methods">Methods</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main-content">
+    <section id="overview">
+      <div class="eyebrow">Verified facts · direct RPC</div>
+      <h1>Solana,<br>without the fog.</h1>
+      <p class="lede">A source-visible view of network health, adoption, economics, validators, and ecosystem change. Wallets and transactions are measurements—not people.</p>
+      <div class="hero-meta">
+        <span><strong>Snapshot</strong> {generated_at}</span>
+        <span><strong>Contract</strong> {schema_version}</span>
+        <span><strong>Access</strong> Public, no account</span>
+      </div>
 
-    <section class="reading">
-      <div class="eyebrow">Current reading</div>
-      <p><strong>{headline}</strong></p>
-      <div class="timestamp">Collected {generated_at}</div>
+      <section class="reading" aria-labelledby="current-reading">
+        <div>
+          <div class="eyebrow">What is happening now?</div>
+          <h2 id="current-reading">{headline}</h2>
+        </div>
+        <div class="source-health">
+          <span class="eyebrow">Source health</span>
+          <strong>{reporting_count} of {metric_count} metrics reporting</strong>
+          <span>Failures remain visible instead of blanking the report.</span>
+        </div>
+      </section>
+      <div class="signal-grid">{signal_markup}</div>
+      {analysis_panel}
     </section>
 
-    <h2>What is happening now?</h2>
-    <section class="grid">{card_markup}</section>
+    {dashboard_sections}
 
-    <h2>How to read this</h2>
-    <section class="explanation">
-      These measurements describe the network's machinery. Total TPS includes validator votes. Non-vote TPS can still include bots. Neither number equals “humans using Solana.”
+    <section class="dashboard-section" id="methods">
+      <div class="section-heading">
+        <div><span class="section-index">06</span><h2>Methods</h2></div>
+        <p>How to read this report without mistaking a useful metric for the whole truth.</p>
+      </div>
+      <div class="methods-grid">
+        <article class="methods-card">
+          <span class="eyebrow">Verified facts</span>
+          <h3>Deterministic data pipeline</h3>
+          <p>Every metric retains its definition, source, collection time, confidence, and important limitation. Total TPS includes validator votes. Non-vote TPS can still include bots. Neither number equals “humans using Solana.”</p>
+        </article>
+        <aside class="interpretation">
+          <span class="eyebrow">Interpretation</span>
+          <h3>Kept separate from measurements</h3>
+          <p>Automatic explanations may use only validated facts from this snapshot. Evidence IDs, uncertainty, generation time, and model stay visible; if analysis fails, the verified report still publishes.</p>
+        </aside>
+      </div>
     </section>
   </main>
   <script id="snapshot" type="application/json">{embedded_snapshot}</script>
 </body>
 </html>
 """
-
+    rendered = document.format(
+        generated_at=html.escape(snapshot["generated_at"]),
+        schema_version=html.escape(snapshot["schema_version"]),
+        headline=html.escape(snapshot["summary"]["headline"]),
+        reporting_count=reporting_count,
+        metric_count=metric_count,
+        signal_markup=signal_markup,
+        analysis_panel=analysis_panel,
+        dashboard_sections=dashboard_sections,
+        embedded_snapshot=embedded_snapshot,
+    )
+    return "\n".join(line.rstrip() for line in rendered.splitlines()) + "\n"

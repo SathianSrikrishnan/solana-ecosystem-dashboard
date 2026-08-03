@@ -43,9 +43,63 @@ a stable ID, dashboard section, value, definition, source, collection time,
 source time, status, confidence, caveat, and optional historical series. The
 pipeline rejects incomplete metrics before publishing any report.
 
+### 2026-07-30 - Use a progressive observatory shell
+
+The interface opens with three current signals and source health, then groups
+all normalized metrics by product section. Future sections stay visible as
+honest planned states instead of sample or invented data. Facts and
+interpretation use separate visual containers, and an unavailable measurement
+renders as "Not available" rather than zero.
+
+### 2026-07-30 - Design first for the curious Solana builder
+
+The primary reader is a beginner-to-intermediate builder becoming an informed
+Solana participant. The interface should help that reader understand what
+changed, what each measurement actually means, and what deserves investigation
+without assuming analyst or validator-operator knowledge. Operator, investor,
+and writer use cases remain secondary.
+
+### 2026-07-30 - Balance the three opening questions
+
+The opening screen should answer one question from each layer of the ecosystem:
+
+1. Is the Solana network functioning properly?
+2. Is application and wallet activity growing or returning?
+3. Is meaningful economic activity increasing?
+
+Each question may use a small set of component signals rather than pretending
+one metric is a complete health score. Exact headline metrics can change as
+verified data slices land.
+
+### 2026-07-30 - Default to a seven-day comparison
+
+The interface compares the latest seven complete days with the preceding seven
+days by default. This is responsive enough to reveal meaningful movement while
+reducing the noise of a single day. Thirty-day and ninety-day views provide
+deeper context where historical data is available.
+
+### 2026-07-30 - Make grounded AI explanation automatic
+
+Every completed snapshot should include an automatic plain-English briefing.
+AI is the product's interpretation layer, not an optional accessory. It may
+only receive validated metrics and deterministic changes or anomalies; it
+cannot invent, backfill, or alter measurements.
+
+The briefing must remain visually distinct from verified facts and expose its
+generation time, supporting measurements, uncertainty, and known gaps. If AI
+generation fails, the deterministic dashboard still publishes and shows the
+explanation as unavailable rather than hiding the failure.
+
+### 2026-07-30 - Do not publish an opaque health score
+
+The product will not compress network operation, adoption, and economic
+activity into one numerical score. The opening view uses transparent component
+signals and an automatic plain-English briefing. Readers can inspect the
+measurements behind every conclusion instead of trusting subjective hidden
+weights.
+
 ## Open
 
 - Final product name and domain.
-- Primary audience emphasis.
 - First monitored X account list.
 - Hosting provider and production schedule.

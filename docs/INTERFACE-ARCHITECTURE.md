@@ -56,10 +56,8 @@ Definitions, sources, queries, freshness, confidence, caveats, and known gaps.
 ## Decisions needed before final polish
 
 - Final name and visual identity.
-- Whether to show a single health score or only component signals.
-- Default comparison window: 7, 30, or 90 days.
-- Whether AI explanations appear automatically or behind an Explain control.
-- Which three signals earn the opening screen.
+- Which verified metrics best support each of the three locked opening
+  questions as the adoption and economy adapters land.
 
 ## When to build
 

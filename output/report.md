@@ -6,25 +6,15 @@ Generated: `2026-07-28T13:43:19.325189Z`
 
 ## What is happening now?
 
-### RPC health: ok status
+### Active validators: 692 validators
 
-Health response from the selected public RPC node.
-
-- Status: `ok`
-- Source: Solana JSON-RPC / `getHealth`
-- Collected: `2026-07-28T13:43:19.325189Z`
-- Confidence: `high`
-- Important limitation: This checks one public RPC endpoint, not every validator.
-
-### Current slot: 435,753,787 slot
-
-Latest slot reported by the selected public RPC node.
+Vote accounts currently classified as active by the RPC response.
 
 - Status: `ok`
-- Source: Solana JSON-RPC / `getSlot`
+- Source: Solana JSON-RPC / `getVoteAccounts`
 - Collected: `2026-07-28T13:43:19.325189Z`
 - Confidence: `high`
-- Important limitation: Different RPC nodes can be a few slots apart.
+- Important limitation: A validator count does not describe how evenly stake is distributed.
 
 ### Block height: 413,812,365 block
 
@@ -36,6 +26,26 @@ Current block height reported by the selected RPC node.
 - Confidence: `high`
 - Important limitation: This is network progress, not a measure of user adoption.
 
+### Current slot: 435,753,787 slot
+
+Latest slot reported by the selected public RPC node.
+
+- Status: `ok`
+- Source: Solana JSON-RPC / `getSlot`
+- Collected: `2026-07-28T13:43:19.325189Z`
+- Confidence: `high`
+- Important limitation: Different RPC nodes can be a few slots apart.
+
+### Delinquent validators: 15 validators
+
+Vote accounts currently classified as delinquent by the RPC response.
+
+- Status: `ok`
+- Source: Solana JSON-RPC / `getVoteAccounts`
+- Collected: `2026-07-28T13:43:19.325189Z`
+- Confidence: `high`
+- Important limitation: Temporary delinquency can recover and is not automatically malicious behavior.
+
 ### Epoch progress: 68.93 percent
 
 Share of the current epoch's slots already completed.
@@ -45,16 +55,6 @@ Share of the current epoch's slots already completed.
 - Collected: `2026-07-28T13:43:19.325189Z`
 - Confidence: `high`
 - Important limitation: Epoch progress describes validator timing, not economic growth.
-
-### Estimated total TPS: 3,670.50 transactions/second
-
-All transactions in the latest RPC performance sample divided by sample seconds.
-
-- Status: `ok`
-- Source: Solana JSON-RPC / `getRecentPerformanceSamples`
-- Collected: `2026-07-28T13:43:19.325189Z`
-- Confidence: `high`
-- Important limitation: Includes validator votes, so it is not the same as user activity.
 
 ### Estimated non-vote TPS: 2,081.32 transactions/second
 
@@ -76,25 +76,25 @@ Latest performance sample duration divided by slots produced.
 - Confidence: `high`
 - Important limitation: This is a short recent estimate and can move between samples.
 
-### Active validators: 692 validators
+### Estimated total TPS: 3,670.50 transactions/second
 
-Vote accounts currently classified as active by the RPC response.
-
-- Status: `ok`
-- Source: Solana JSON-RPC / `getVoteAccounts`
-- Collected: `2026-07-28T13:43:19.325189Z`
-- Confidence: `high`
-- Important limitation: A validator count does not describe how evenly stake is distributed.
-
-### Delinquent validators: 15 validators
-
-Vote accounts currently classified as delinquent by the RPC response.
+All transactions in the latest RPC performance sample divided by sample seconds.
 
 - Status: `ok`
-- Source: Solana JSON-RPC / `getVoteAccounts`
+- Source: Solana JSON-RPC / `getRecentPerformanceSamples`
 - Collected: `2026-07-28T13:43:19.325189Z`
 - Confidence: `high`
-- Important limitation: Temporary delinquency can recover and is not automatically malicious behavior.
+- Important limitation: Includes validator votes, so it is not the same as user activity.
+
+### RPC health: ok status
+
+Health response from the selected public RPC node.
+
+- Status: `ok`
+- Source: Solana JSON-RPC / `getHealth`
+- Collected: `2026-07-28T13:43:19.325189Z`
+- Confidence: `high`
+- Important limitation: This checks one public RPC endpoint, not every validator.
 
 ## How to read this
 

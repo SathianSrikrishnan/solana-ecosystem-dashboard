@@ -41,3 +41,19 @@ Collectors and the interface can be built separately only when they agree on
 the shape of a metric. The contract is the labeled box every source must fill.
 Validation prevents a chart from quietly showing a number with no definition,
 source, freshness, or limitation.
+
+## 2026-07-30 - A dashboard shell can be honest before it is complete
+
+An unfinished section should not disappear or borrow placeholder numbers. A
+visible "data adapter planned" state teaches the reader what the product will
+cover while preserving the boundary between verified facts and future work.
+The same principle applies to source failure: "Not available" is information;
+an invented zero is misinformation.
+
+## 2026-08-03 - AI can be automatic without becoming the source of truth
+
+The interface can promise an automatic explanation while preserving a hard
+boundary: validated metrics are evidence, and AI is interpretation. A grounded
+briefing identifies its supporting metric IDs, uncertainty, generation time,
+and model. If no valid briefing exists, the dashboard says so and still
+publishes the deterministic report.

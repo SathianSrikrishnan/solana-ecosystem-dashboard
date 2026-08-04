@@ -43,3 +43,11 @@ after the full normalized snapshot validates.
 4. Update the metric registry, learning log, costs, next steps, and PR receipt.
 5. Run tests, compilation, diff hygiene, and browser verification before
    committing the completed slice.
+
+### Completion receipt
+
+- Public query: <https://dune.com/queries/8213434>
+- Verified result: seven rows for 2026-07-28 through 2026-08-03.
+- Latest value: 2,252,879 distinct successful fee-payer addresses.
+- Collected: `2026-08-04T01:55:05Z`.
+- Dune usage: 3.892 included credits and $0 extra spend.

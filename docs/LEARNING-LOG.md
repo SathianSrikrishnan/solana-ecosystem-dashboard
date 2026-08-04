@@ -57,3 +57,15 @@ boundary: validated metrics are evidence, and AI is interpretation. A grounded
 briefing identifies its supporting metric IDs, uncertainty, generation time,
 and model. If no valid briefing exists, the dashboard says so and still
 publishes the deterministic report.
+
+## 2026-08-03 - A wallet count is useful when its boundary is visible
+
+Our first Dune query found 2,252,879 distinct successful fee-paying addresses
+on 2026-08-03, the latest complete UTC day at collection time. This does not
+mean 2,252,879 people used Solana. It means that many distinct primary signer
+addresses paid for at least one successful, non-vote transaction.
+
+The distinction matters because one human or bot can control many addresses,
+while a relayer can pay for another user's transaction. The metric is a useful
+lower-level activity signal, and later signer, application, overlap, and
+retention views will add context rather than relabeling it as users.

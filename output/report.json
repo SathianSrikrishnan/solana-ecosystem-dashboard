@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-28T13:43:19.325189Z",
+  "generated_at": "2026-08-04T01:55:05Z",
   "metrics": {
     "active_validators": {
       "caveat": "A validator count does not describe how evenly stake is distributed.",
@@ -57,6 +57,54 @@
       "status": "ok",
       "unit": "slot",
       "value": 435753787
+    },
+    "daily_unique_successful_fee_payers": {
+      "caveat": "Wallet addresses are not people: one person or bot can control many addresses, and relayers may pay fees for others.",
+      "collected_at": "2026-08-04T01:55:05Z",
+      "confidence": "high",
+      "definition": "Distinct primary signer (fee payer) addresses on successful non-vote Solana transactions during the latest complete UTC day.",
+      "id": "daily_unique_successful_fee_payers",
+      "label": "Daily unique successful fee payers",
+      "section": "adoption",
+      "series": [
+        {
+          "observed_at": "2026-07-28",
+          "value": 2260069
+        },
+        {
+          "observed_at": "2026-07-29",
+          "value": 2225476
+        },
+        {
+          "observed_at": "2026-07-30",
+          "value": 2360439
+        },
+        {
+          "observed_at": "2026-07-31",
+          "value": 2146322
+        },
+        {
+          "observed_at": "2026-08-01",
+          "value": 1899721
+        },
+        {
+          "observed_at": "2026-08-02",
+          "value": 1649399
+        },
+        {
+          "observed_at": "2026-08-03",
+          "value": 2252879
+        }
+      ],
+      "source": {
+        "method": "solana.transactions / daily_unique_fee_payers.sql",
+        "name": "Dune",
+        "url": "https://dune.com/queries/8213434"
+      },
+      "source_time": "2026-08-03",
+      "status": "ok",
+      "unit": "wallet addresses",
+      "value": 2252879
     },
     "delinquent_validators": {
       "caveat": "Temporary delinquency can recover and is not automatically malicious behavior.",

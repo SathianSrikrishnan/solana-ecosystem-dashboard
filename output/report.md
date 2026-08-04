@@ -1,6 +1,6 @@
 # Solana Ecosystem Report
 
-Generated: `2026-07-28T13:43:19.325189Z`
+Generated: `2026-08-04T01:55:05Z`
 
 **Current reading:** The selected Solana RPC endpoint reports healthy.
 
@@ -95,6 +95,16 @@ Health response from the selected public RPC node.
 - Collected: `2026-07-28T13:43:19.325189Z`
 - Confidence: `high`
 - Important limitation: This checks one public RPC endpoint, not every validator.
+
+### Daily unique successful fee payers: 2,252,879 wallet addresses
+
+Distinct primary signer (fee payer) addresses on successful non-vote Solana transactions during the latest complete UTC day.
+
+- Status: `ok`
+- Source: Dune / `solana.transactions / daily_unique_fee_payers.sql`
+- Collected: `2026-08-04T01:55:05Z`
+- Confidence: `high`
+- Important limitation: Wallet addresses are not people: one person or bot can control many addresses, and relayers may pay fees for others.
 
 ## How to read this
 

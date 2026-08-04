@@ -2,7 +2,8 @@
 
 ## Current phase
 
-PR 1 interface shell complete; first Dune/adoption learning slice next.
+PR 1 interface shell complete; PR 2's first verified Dune/adoption metric is
+now visible.
 
 ## Current build target
 
@@ -13,7 +14,8 @@ Verified foundation:
 - JSON, Markdown, and standalone dark HTML generation;
 - responsive overview, section navigation, source-health visibility, and
   explicit planned states for data slices that have not landed;
-- twenty-three passing foundation, contract, and interface tests;
+- thirty-four passing foundation, contract, interface, query, adapter, and
+  import-command tests;
 - a clean six-hour GitHub refresh workflow;
 - enforced metric schema `0.2.0` shared by collectors and interfaces.
 - an automatic briefing presentation contract with visible grounding metadata
@@ -31,9 +33,10 @@ Adoption identity using Jupiter:
 
 ## Next technical phase
 
-Inspect Dune's Solana transaction and instruction schemas, write the first
-bounded seven-day query, verify a small result, and add it to the normalized
-report model without calling any population "people."
+Add the next rung of the activity-identity ladder: daily unique successful
+signers, followed by Jupiter users and overlap. Preserve the same bounded
+query, provenance, failure, and wallet-not-people rules. Then add retention so
+the product distinguishes one-time addresses from recurring activity.
 
 ## Parallel learning track
 

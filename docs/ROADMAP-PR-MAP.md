@@ -58,3 +58,10 @@ Canonical local folder:
   details, and a separate automatic-briefing boundary. It renders grounded
   analysis metadata when supplied and an honest unavailable state otherwise;
   AI generation is intentionally deferred to PR 6.
+- PR 2 (`dune-adoption`) - first vertical slice completed locally 2026-08-03.
+  Public Dune query <https://dune.com/queries/8213434> returns seven complete
+  UTC days of distinct successful fee-payer addresses. A strict no-key CSV
+  importer publishes the normalized metric to JSON, Markdown, and HTML; bad
+  input leaves prior reports untouched. The newest value is visibly labeled
+  as wallet addresses rather than people. Dune usage was 3.892 included
+  credits and $0 extra spend.

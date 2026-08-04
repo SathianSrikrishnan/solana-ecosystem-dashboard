@@ -32,6 +32,21 @@ version `0.2.0`, shared by collectors, JSON, Markdown, and the interface.
 - recent estimated slot time
 - current and delinquent validator counts
 
+## Adoption metric: daily unique successful fee payers
+
+- `id`: `daily_unique_successful_fee_payers`
+- Definition: distinct primary signer (fee payer) addresses on successful
+  non-vote Solana transactions during the latest complete UTC day.
+- Source: Dune `solana.transactions`, implemented in
+  `queries/daily_unique_fee_payers.sql` and published at
+  <https://dune.com/queries/8213434>.
+- Window: the latest seven complete UTC days; the newest day is the displayed
+  value and all seven observations remain in `series`.
+- Limitation: addresses are not people. One person or bot may control several
+  addresses, and relayers may pay transaction fees for others.
+- Collection path: manual CSV export plus the standard-library importer. This
+  keeps the core usable without an API key and makes source failure explicit.
+
 ## Later metric family: activity identities
 
 - transaction sender wallets;

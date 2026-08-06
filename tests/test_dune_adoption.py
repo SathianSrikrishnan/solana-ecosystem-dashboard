@@ -25,6 +25,17 @@ class DuneAdoptionTests(unittest.TestCase):
 2026-07-30,130
 """
 
+    def _valid_signers_csv(self):
+        return """activity_date,unique_successful_signers
+2026-08-02,190
+2026-07-31,170
+2026-07-27,130
+2026-08-01,180
+2026-07-29,150
+2026-07-28,140
+2026-07-30,160
+"""
+
     def test_daily_fee_payer_adapter_module_exists(self):
         self.assertTrue(MODULE_PATH.exists(), "Dune adoption adapter is missing")
 
@@ -110,6 +121,49 @@ class DuneAdoptionTests(unittest.TestCase):
                 collected_at=self.collected_at,
                 source_url=self.source_url,
             )
+
+    def test_successful_signer_parser_builds_a_sorted_metric(self):
+        metric = dune_adoption.parse_daily_successful_signers_csv(
+            self._valid_signers_csv(),
+            collected_at=self.collected_at,
+            source_url=self.source_url,
+        )
+
+        self.assertEqual(metric["id"], "daily_unique_successful_signers")
+        self.assertEqual(metric["section"], "adoption")
+        self.assertEqual(metric["unit"], "wallet addresses")
+        self.assertEqual(metric["status"], "ok")
+        self.assertEqual(metric["value"], 190)
+        self.assertEqual(metric["source"]["name"], "Dune")
+        self.assertEqual(metric["collected_at"], self.collected_at)
+        self.assertEqual(metric["source_time"], "2026-08-02")
+        self.assertEqual(
+            metric["series"][0],
+            {"observed_at": "2026-07-27", "value": 130},
+        )
+        self.assertIn("not people", metric["caveat"].lower())
+        self.assertIn("several signers", metric["caveat"].lower())
+
+    def test_successful_signer_parser_rejects_invalid_exports(self):
+        invalid_exports = (
+            "",
+            "activity_date,unique_successful_signers\n",
+            self._valid_signers_csv().replace(
+                "2026-07-30,160", "2026-08-02,160"
+            ),
+            self._valid_signers_csv().replace("2026-07-30,160", "bad-date,160"),
+            self._valid_signers_csv().replace("2026-07-30,160", "2026-07-30,-1"),
+            self._valid_signers_csv().replace("2026-07-30,160", "2026-07-30,1.5"),
+            self._valid_signers_csv().replace("2026-07-27,130\n", ""),
+        )
+        for csv_text in invalid_exports:
+            with self.subTest(csv_text=csv_text):
+                with self.assertRaises(ValueError):
+                    dune_adoption.parse_daily_successful_signers_csv(
+                        csv_text,
+                        collected_at=self.collected_at,
+                        source_url=self.source_url,
+                    )
 
 
 if __name__ == "__main__":

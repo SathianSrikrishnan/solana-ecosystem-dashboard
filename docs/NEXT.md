@@ -2,8 +2,9 @@
 
 ## Current phase
 
-PR 1 interface shell is complete. PR 2 now shows two verified rungs of the
-activity-identity ladder: successful fee payers and successful signers.
+PR 1 interface shell is complete. PR 2's verified adoption ladder now shows
+successful fee payers, successful signers, Jupiter Swap signers, exact
+fee-payer overlap, and seven-day return rate.
 
 ## Current build target
 
@@ -14,7 +15,7 @@ Verified foundation:
 - JSON, Markdown, and standalone dark HTML generation;
 - responsive overview, section navigation, source-health visibility, and
   explicit planned states for data slices that have not landed;
-- thirty-nine passing foundation, contract, interface, query, adapter, and
+- forty-six passing foundation, contract, interface, query, adapter, and
   import-command tests;
 - a clean six-hour GitHub refresh workflow;
 - enforced metric schema `0.2.0` shared by collectors and interfaces.
@@ -33,11 +34,11 @@ Adoption identity using Jupiter:
 
 ## Next technical phase
 
-Add the next rung of the activity-identity ladder: daily unique Jupiter users,
-followed by overlap with the network-wide populations. Preserve the same
-bounded query, provenance, failure, and wallet-not-people rules. Then add
-retention so the product distinguishes one-time addresses from recurring
-activity.
+Review and merge the completed PR 2 adoption slice, then build PR 3's economy
+signals: SOL price, TVL, stablecoins, DEX volume, fees, REV, and tokenized
+assets. Keep public/keyless sources primary and display source failures rather
+than substituting zeros. Bot classification remains later work built on these
+verified base populations.
 
 ## Parallel learning track
 

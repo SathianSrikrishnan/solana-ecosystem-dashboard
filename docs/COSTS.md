@@ -42,3 +42,8 @@ No paid plan, payment method, API key, or auto-recharge was enabled.
 The successful-signers query scans the same seven complete UTC days but expands
 each transaction's signer list, so it costs more compute than the fee-payer
 query. We run it deliberately rather than polling or retrying it automatically.
+
+- Jupiter overlap and retention query `8264526`: 3.65 included credits.
+- Jupiter seven-row CSV export: less than 0.01 included credits.
+- Total verified Dune use recorded on 2026-08-08: 13.49 included query credits
+  plus less than 0.03 included export credits; extra spend remained $0.

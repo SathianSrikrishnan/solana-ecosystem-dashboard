@@ -1,6 +1,6 @@
 # Solana Ecosystem Report
 
-Generated: `2026-08-08T15:19:39Z`
+Generated: `2026-08-08T15:31:00Z`
 
 **Current reading:** The selected Solana RPC endpoint reports healthy.
 
@@ -45,6 +45,16 @@ Distinct primary signer (fee payer) addresses on successful non-vote Solana tran
 - Collected: `2026-08-08T15:19:39Z`
 - Confidence: `high`
 - Important limitation: Wallet addresses are not people: one person or bot can control many addresses, and relayers may pay fees for others.
+
+### Daily unique successful signers: 3,628,019 wallet addresses
+
+Distinct signer addresses on successful non-vote Solana transactions during the latest complete UTC day.
+
+- Status: `ok`
+- Source: Dune / `solana.transactions.signers / daily_unique_successful_signers.sql`
+- Collected: `2026-08-08T15:19:39Z`
+- Confidence: `high`
+- Important limitation: Wallet addresses are not people: one person or bot can control many addresses, and one transaction may require several signers.
 
 ### Delinquent validators: 15 validators
 
@@ -106,15 +116,35 @@ Health response from the selected public RPC node.
 - Confidence: `high`
 - Important limitation: This checks one public RPC endpoint, not every validator.
 
-### Daily unique successful signers: 3,628,019 wallet addresses
+### Daily unique Jupiter Swap signers: 26,816 wallet addresses
 
-Distinct signer addresses on successful non-vote Solana transactions during the latest complete UTC day.
+Distinct tx_signer addresses on intended swaps recorded by Dune's curated Jupiter aggregator table during the latest complete UTC day.
 
 - Status: `ok`
-- Source: Dune / `solana.transactions.signers / daily_unique_successful_signers.sql`
-- Collected: `2026-08-08T15:19:39Z`
+- Source: Dune / `jupiter_solana.aggregator_swaps + solana.transactions / daily_jupiter_swap_signers.sql`
+- Collected: `2026-08-08T15:31:00Z`
 - Confidence: `high`
-- Important limitation: Wallet addresses are not people: one person or bot can control many addresses, and one transaction may require several signers.
+- Important limitation: Wallet addresses are not people, and this measures Jupiter Swap signers rather than users of a particular wallet app.
+
+### Jupiter signer and fee-payer overlap: 26,816 wallet addresses
+
+Jupiter Swap signer addresses that were also the successful transaction fee payer on the same UTC day.
+
+- Status: `ok`
+- Source: Dune / `jupiter_solana.aggregator_swaps + solana.transactions / daily_jupiter_swap_signers.sql`
+- Collected: `2026-08-08T15:31:00Z`
+- Confidence: `high`
+- Important limitation: This is an address intersection, not a count of people; sponsored or relayed transactions can fall outside it.
+
+### Jupiter Swap seven-day return rate: 26.43 percent
+
+Share of the day's Jupiter Swap signer addresses also seen at least once during the preceding seven complete UTC days.
+
+- Status: `ok`
+- Source: Dune / `jupiter_solana.aggregator_swaps + solana.transactions / daily_jupiter_swap_signers.sql`
+- Collected: `2026-08-08T15:31:00Z`
+- Confidence: `high`
+- Important limitation: Returning addresses are not necessarily returning people; bots and one person using several wallets remain included.
 
 ## How to read this
 

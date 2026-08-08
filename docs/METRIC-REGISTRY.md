@@ -74,3 +74,23 @@ These are related measurements, not interchangeable truths.
   addresses, and one transaction may require several signers.
 - Collection path: manual CSV export plus the standard-library importer. The
   no-key report remains usable without a Dune API credential.
+
+## Jupiter Swap adoption metrics
+
+The public query <https://dune.com/queries/8264526> uses Dune's curated
+[`jupiter_solana.aggregator_swaps`](https://docs.dune.com/data-catalog/curated/dex-trades/solana/jupiter-aggregator-trades)
+table. Dune documents one row as a user's intended aggregator swap and exposes
+the UTC `block_time` and transaction `tx_signer`. The query also joins
+`solana.transactions` for an exact same-day fee-payer address intersection.
+
+- `daily_unique_jupiter_swap_signers`: distinct `tx_signer` addresses on
+  curated Jupiter aggregator swaps during the latest complete UTC day.
+- `daily_jupiter_fee_payer_overlap`: those Jupiter Swap signer addresses that
+  were also the successful transaction fee payer on the same day.
+- `jupiter_swap_signer_7d_return_rate`: the share of the day's Jupiter Swap
+  signers also seen at least once during the preceding seven complete UTC days.
+- Window: fourteen complete days are read to calculate retention; only the
+  latest seven complete days are published.
+- Limitations: these are wallet addresses, not people. The curated table
+  measures Jupiter Swap activity, not use of Jupiter Wallet, Phantom, or
+  Solflare. Bots and several wallets controlled by one person remain included.

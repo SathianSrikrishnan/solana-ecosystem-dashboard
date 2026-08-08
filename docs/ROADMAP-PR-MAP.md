@@ -72,3 +72,10 @@ Canonical local folder:
   2026-08-07, versus 2,046,280 fee payers. Both measures explicitly say that
   wallets are not people. The two refreshed queries used 9.84 included credits
   plus less than 0.02 for exports, with $0 extra spend.
+- PR 2 (`dune-adoption`) - application, overlap, and retention rung completed
+  locally 2026-08-08. Public query <https://dune.com/queries/8264526> measures
+  curated Jupiter Swap signers, their exact successful fee-payer intersection,
+  and preceding-seven-day returns. On 2026-08-07 it found 26,816 signers,
+  26,816 fee-payer overlaps, and 7,087 returning addresses (26.43%). The query
+  used 3.65 included credits and less than 0.01 for export, with $0 extra spend.
+  PR 2 now has all five planned adoption outputs and forty-six passing tests.

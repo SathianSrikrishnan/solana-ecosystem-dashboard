@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-08T15:19:39Z",
+  "generated_at": "2026-08-08T15:31:00Z",
   "metrics": {
     "active_validators": {
       "caveat": "A validator count does not describe how evenly stake is distributed.",
@@ -57,6 +57,102 @@
       "status": "ok",
       "unit": "slot",
       "value": 435753787
+    },
+    "daily_jupiter_fee_payer_overlap": {
+      "caveat": "This is an address intersection, not a count of people; sponsored or relayed transactions can fall outside it.",
+      "collected_at": "2026-08-08T15:31:00Z",
+      "confidence": "high",
+      "definition": "Jupiter Swap signer addresses that were also the successful transaction fee payer on the same UTC day.",
+      "id": "daily_jupiter_fee_payer_overlap",
+      "label": "Jupiter signer and fee-payer overlap",
+      "section": "adoption",
+      "series": [
+        {
+          "observed_at": "2026-08-01",
+          "value": 23296
+        },
+        {
+          "observed_at": "2026-08-02",
+          "value": 20679
+        },
+        {
+          "observed_at": "2026-08-03",
+          "value": 17920
+        },
+        {
+          "observed_at": "2026-08-04",
+          "value": 20099
+        },
+        {
+          "observed_at": "2026-08-05",
+          "value": 18212
+        },
+        {
+          "observed_at": "2026-08-06",
+          "value": 18275
+        },
+        {
+          "observed_at": "2026-08-07",
+          "value": 26816
+        }
+      ],
+      "source": {
+        "method": "jupiter_solana.aggregator_swaps + solana.transactions / daily_jupiter_swap_signers.sql",
+        "name": "Dune",
+        "url": "https://dune.com/queries/8264526"
+      },
+      "source_time": "2026-08-07",
+      "status": "ok",
+      "unit": "wallet addresses",
+      "value": 26816
+    },
+    "daily_unique_jupiter_swap_signers": {
+      "caveat": "Wallet addresses are not people, and this measures Jupiter Swap signers rather than users of a particular wallet app.",
+      "collected_at": "2026-08-08T15:31:00Z",
+      "confidence": "high",
+      "definition": "Distinct tx_signer addresses on intended swaps recorded by Dune's curated Jupiter aggregator table during the latest complete UTC day.",
+      "id": "daily_unique_jupiter_swap_signers",
+      "label": "Daily unique Jupiter Swap signers",
+      "section": "adoption",
+      "series": [
+        {
+          "observed_at": "2026-08-01",
+          "value": 23296
+        },
+        {
+          "observed_at": "2026-08-02",
+          "value": 20679
+        },
+        {
+          "observed_at": "2026-08-03",
+          "value": 17920
+        },
+        {
+          "observed_at": "2026-08-04",
+          "value": 20099
+        },
+        {
+          "observed_at": "2026-08-05",
+          "value": 18212
+        },
+        {
+          "observed_at": "2026-08-06",
+          "value": 18275
+        },
+        {
+          "observed_at": "2026-08-07",
+          "value": 26816
+        }
+      ],
+      "source": {
+        "method": "jupiter_solana.aggregator_swaps + solana.transactions / daily_jupiter_swap_signers.sql",
+        "name": "Dune",
+        "url": "https://dune.com/queries/8264526"
+      },
+      "source_time": "2026-08-07",
+      "status": "ok",
+      "unit": "wallet addresses",
+      "value": 26816
     },
     "daily_unique_successful_fee_payers": {
       "caveat": "Wallet addresses are not people: one person or bot can control many addresses, and relayers may pay fees for others.",
@@ -248,6 +344,54 @@
       "status": "ok",
       "unit": "transactions/second",
       "value": 3670.5
+    },
+    "jupiter_swap_signer_7d_return_rate": {
+      "caveat": "Returning addresses are not necessarily returning people; bots and one person using several wallets remain included.",
+      "collected_at": "2026-08-08T15:31:00Z",
+      "confidence": "high",
+      "definition": "Share of the day's Jupiter Swap signer addresses also seen at least once during the preceding seven complete UTC days.",
+      "id": "jupiter_swap_signer_7d_return_rate",
+      "label": "Jupiter Swap seven-day return rate",
+      "section": "adoption",
+      "series": [
+        {
+          "observed_at": "2026-08-01",
+          "value": 28.9
+        },
+        {
+          "observed_at": "2026-08-02",
+          "value": 33.54
+        },
+        {
+          "observed_at": "2026-08-03",
+          "value": 39.12
+        },
+        {
+          "observed_at": "2026-08-04",
+          "value": 36.21
+        },
+        {
+          "observed_at": "2026-08-05",
+          "value": 37.69
+        },
+        {
+          "observed_at": "2026-08-06",
+          "value": 38.65
+        },
+        {
+          "observed_at": "2026-08-07",
+          "value": 26.43
+        }
+      ],
+      "source": {
+        "method": "jupiter_solana.aggregator_swaps + solana.transactions / daily_jupiter_swap_signers.sql",
+        "name": "Dune",
+        "url": "https://dune.com/queries/8264526"
+      },
+      "source_time": "2026-08-07",
+      "status": "ok",
+      "unit": "percent",
+      "value": 26.43
     },
     "rpc_health": {
       "caveat": "This checks one public RPC endpoint, not every validator.",

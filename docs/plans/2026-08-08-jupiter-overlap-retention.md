@@ -221,3 +221,24 @@ for the manual visual gate.
 git add data/dune output docs
 git commit -m "feat: publish verified Jupiter adoption metrics"
 ```
+
+## Execution receipt - 2026-08-08
+
+- Public query: <https://dune.com/queries/8264526>
+- Dune execution ID: `01KZGZVJ5516ERAWVG5KBXYWF4`
+- Complete UTC output dates: 2026-08-01 through 2026-08-07
+- Latest Jupiter Swap signers: 26,816 wallet addresses
+- Latest exact successful fee-payer overlap: 26,816 wallet addresses
+- Latest preceding-seven-day returning signers: 7,087 wallet addresses
+- Latest address return rate: 26.43%
+- Query runtime: 30.95 seconds; cost: 3.65 included credits
+- Export: less than 0.01 included credits; extra spend: $0
+- Visual gate: the controlled Chrome security policy blocked direct `file:`
+  navigation, so automated visual inspection could not replace the renderer
+  tests. Sathian's existing in-app local preview remains the manual desktop
+  visual gate; the HTML includes the tested responsive/mobile rules.
+
+All seven days showed a 100% exact address overlap between the curated Jupiter
+`tx_signer` field and successful transaction fee payers. This is recorded as a
+dataset-specific finding, not generalized to other applications. The reviewed
+CSV was imported with collection time `2026-08-08T15:31:00Z`.

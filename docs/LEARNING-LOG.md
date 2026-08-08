@@ -81,3 +81,15 @@ Neither number is a count of people. Comparing the two is useful because it
 shows how a definition changes the answer. Application-level users, overlap,
 retention, and careful automation signals are the next layers needed before we
 can responsibly discuss human participation.
+
+## 2026-08-08 - Application use and return behavior are different signals
+
+On 2026-08-07, Dune's curated Jupiter aggregator table recorded 26,816 distinct
+swap signer addresses. Of those, 7,087 had also appeared during the preceding
+seven complete days, producing a 26.43% address return rate.
+
+All 26,816 were also successful fee payers in the exact address intersection
+for that day, and the same 100% overlap appeared on all seven published days.
+That result tells us how Dune's curated `tx_signer` behaves for this table; it
+does not prove that every application's signer is always its fee payer. More
+importantly, a returning address is still not necessarily a returning person.

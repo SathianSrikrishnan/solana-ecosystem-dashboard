@@ -5,6 +5,21 @@ from __future__ import annotations
 from typing import Any
 
 
+def merge_network_snapshot(
+    prior_snapshot: dict[str, Any], fresh_snapshot: dict[str, Any]
+) -> dict[str, Any]:
+    """Replace refreshed RPC metrics while preserving other verified metrics."""
+    merged = {
+        **prior_snapshot,
+        "schema_version": fresh_snapshot["schema_version"],
+        "generated_at": fresh_snapshot["generated_at"],
+        "summary": fresh_snapshot["summary"],
+        "metrics": dict(prior_snapshot.get("metrics", {})),
+    }
+    merged["metrics"].update(fresh_snapshot["metrics"])
+    return merged
+
+
 RPC_URL = "https://api.mainnet-beta.solana.com"
 
 

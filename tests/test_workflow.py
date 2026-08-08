@@ -15,6 +15,14 @@ class RefreshWorkflowTests(unittest.TestCase):
         self.assertIn("contents: write", workflow)
         self.assertIn("python -m unittest discover -s tests -v", workflow)
         self.assertIn("python scripts/generate.py", workflow)
+        self.assertIn(
+            "python scripts/refresh_economy.py --snapshot output/report.json --output output",
+            workflow,
+        )
+        self.assertLess(
+            workflow.index("python scripts/generate.py"),
+            workflow.index("python scripts/refresh_economy.py"),
+        )
         self.assertIn("cancel-in-progress: false", workflow)
         self.assertIn("uses: actions/checkout@v7", workflow)
         self.assertIn("uses: actions/setup-python@v7", workflow)

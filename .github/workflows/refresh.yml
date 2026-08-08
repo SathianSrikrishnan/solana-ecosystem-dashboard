@@ -32,6 +32,9 @@ jobs:
       - name: Generate reports
         run: python scripts/generate.py
 
+      - name: Refresh economy metrics
+        run: python scripts/refresh_economy.py --snapshot output/report.json --output output
+
       - name: Commit changed reports
         shell: bash
         run: |

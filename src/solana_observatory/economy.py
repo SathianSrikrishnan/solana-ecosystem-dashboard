@@ -124,41 +124,85 @@ def _complete_day_series(
     ]
 
 
-def parse_defillama_economy(
-    tvl_payload: list[dict[str, Any]],
-    stablecoin_payload: list[dict[str, Any]],
-    dex_payload: dict[str, Any],
+def _defillama_metric(
     *,
+    metric_id: str,
+    label: str,
+    definition: str,
+    method: str,
+    source_url: str,
     collected_at: str,
-    source_urls: dict[str, str],
-) -> dict[str, dict[str, Any]]:
-    """Return complete-day Solana TVL, stablecoin, and DEX metrics."""
-
-    collected_time = _collection_time(collected_at)
-    expected_hosts = {
-        "tvl": "api.llama.fi",
-        "stablecoins": "stablecoins.llama.fi",
-        "dex": "api.llama.fi",
+    caveat: str,
+    series: list[dict[str, Any]],
+) -> dict[str, Any]:
+    return {
+        "id": metric_id,
+        "section": "economy",
+        "label": label,
+        "value": series[-1]["value"],
+        "unit": "USD",
+        "status": "ok",
+        "definition": definition,
+        "source": {
+            "name": "DeFiLlama",
+            "method": method,
+            "url": source_url,
+        },
+        "collected_at": collected_at,
+        "source_time": series[-1]["observed_at"],
+        "confidence": "high",
+        "caveat": caveat,
+        "series": series,
     }
-    for source_name, expected_host in expected_hosts.items():
-        source_url = source_urls.get(source_name, "")
-        if urlparse(source_url).hostname != expected_host:
-            raise ValueError(f"{source_name} source URL must use DeFiLlama")
-    if not isinstance(tvl_payload, list) or not isinstance(
-        stablecoin_payload, list
-    ):
-        raise ValueError("DeFiLlama history payloads must be lists")
-    if not isinstance(dex_payload, dict) or not isinstance(
-        dex_payload.get("totalDataChart"), list
-    ):
-        raise ValueError("DeFiLlama DEX payload must include totalDataChart")
 
-    def tvl_value(row: Any) -> tuple[Any, Any]:
+
+def parse_defillama_tvl(
+    payload: list[dict[str, Any]], *, collected_at: str, source_url: str
+) -> dict[str, Any]:
+    """Return latest-complete-day Solana DeFi TVL."""
+    if urlparse(source_url).hostname != "api.llama.fi":
+        raise ValueError("tvl source URL must use DeFiLlama")
+    if not isinstance(payload, list):
+        raise ValueError("DeFiLlama TVL history must be a list")
+
+    def row_value(row: Any) -> tuple[Any, Any]:
         if not isinstance(row, dict):
             raise ValueError("DeFiLlama TVL rows must be objects")
         return row.get("date"), row.get("tvl")
 
-    def stablecoin_value(row: Any) -> tuple[Any, Any]:
+    series = _complete_day_series(
+        payload,
+        collected_time=_collection_time(collected_at),
+        date_value=row_value,
+    )
+    return _defillama_metric(
+        metric_id="solana_defi_tvl_usd",
+        label="Solana DeFi TVL",
+        definition=(
+            "USD value locked in Solana DeFi protocols tracked by "
+            "DeFiLlama on the latest complete UTC day."
+        ),
+        method="v2/historicalChainTvl/Solana",
+        source_url=source_url,
+        collected_at=collected_at,
+        caveat=(
+            "TVL depends on protocol coverage and methodology and can "
+            "double-count economic exposure through composable assets."
+        ),
+        series=series,
+    )
+
+
+def parse_defillama_stablecoins(
+    payload: list[dict[str, Any]], *, collected_at: str, source_url: str
+) -> dict[str, Any]:
+    """Return latest-complete-day Solana stablecoin circulating value."""
+    if urlparse(source_url).hostname != "stablecoins.llama.fi":
+        raise ValueError("stablecoins source URL must use DeFiLlama")
+    if not isinstance(payload, list):
+        raise ValueError("DeFiLlama stablecoin history must be a list")
+
+    def row_value(row: Any) -> tuple[Any, Any]:
         if not isinstance(row, dict) or not isinstance(
             row.get("totalCirculatingUSD"), dict
         ):
@@ -174,102 +218,92 @@ def parse_defillama_economy(
             raise ValueError("Stablecoin bucket cannot be negative")
         return row.get("date"), sum(values)
 
-    def dex_value(row: Any) -> tuple[Any, Any]:
+    series = _complete_day_series(
+        payload,
+        collected_time=_collection_time(collected_at),
+        date_value=row_value,
+    )
+    return _defillama_metric(
+        metric_id="solana_stablecoin_value_usd",
+        label="Solana stablecoin circulating value",
+        definition=(
+            "USD value of circulating stablecoins on Solana across "
+            "DeFiLlama's peg buckets on the latest complete UTC day."
+        ),
+        method="stablecoincharts/Solana",
+        source_url=source_url,
+        collected_at=collected_at,
+        caveat=(
+            "Circulating stablecoin value is not payment volume or proof "
+            "that every token is backed by cash."
+        ),
+        series=series,
+    )
+
+
+def parse_defillama_dex(
+    payload: dict[str, Any], *, collected_at: str, source_url: str
+) -> dict[str, Any]:
+    """Return latest-complete-day Solana spot DEX volume."""
+    if urlparse(source_url).hostname != "api.llama.fi":
+        raise ValueError("dex source URL must use DeFiLlama")
+    if not isinstance(payload, dict) or not isinstance(
+        payload.get("totalDataChart"), list
+    ):
+        raise ValueError("DeFiLlama DEX payload must include totalDataChart")
+
+    def row_value(row: Any) -> tuple[Any, Any]:
         if not isinstance(row, list) or len(row) != 2:
             raise ValueError("DEX chart rows must be timestamp/value pairs")
         return row[0], row[1]
 
-    tvl_series = _complete_day_series(
-        tvl_payload,
-        collected_time=collected_time,
-        date_value=tvl_value,
+    series = _complete_day_series(
+        payload["totalDataChart"],
+        collected_time=_collection_time(collected_at),
+        date_value=row_value,
     )
-    stablecoin_series = _complete_day_series(
-        stablecoin_payload,
-        collected_time=collected_time,
-        date_value=stablecoin_value,
-    )
-    dex_series = _complete_day_series(
-        dex_payload["totalDataChart"],
-        collected_time=collected_time,
-        date_value=dex_value,
+    return _defillama_metric(
+        metric_id="solana_dex_volume_usd",
+        label="Solana daily DEX volume",
+        definition=(
+            "Aggregate Solana spot DEX volume tracked by DeFiLlama on "
+            "the latest complete UTC day."
+        ),
+        method="overview/dexs/Solana?dataType=dailyVolume",
+        source_url=source_url,
+        collected_at=collected_at,
+        caveat=(
+            "Routing can touch several pools, and provider adapter and "
+            "deduplication coverage determine the reported total."
+        ),
+        series=series,
     )
 
-    def metric(
-        *,
-        metric_id: str,
-        label: str,
-        definition: str,
-        method: str,
-        source_url: str,
-        caveat: str,
-        series: list[dict[str, Any]],
-    ) -> dict[str, Any]:
-        return {
-            "id": metric_id,
-            "section": "economy",
-            "label": label,
-            "value": series[-1]["value"],
-            "unit": "USD",
-            "status": "ok",
-            "definition": definition,
-            "source": {
-                "name": "DeFiLlama",
-                "method": method,
-                "url": source_url,
-            },
-            "collected_at": collected_at,
-            "source_time": series[-1]["observed_at"],
-            "confidence": "high",
-            "caveat": caveat,
-            "series": series,
-        }
 
+def parse_defillama_economy(
+    tvl_payload: list[dict[str, Any]],
+    stablecoin_payload: list[dict[str, Any]],
+    dex_payload: dict[str, Any],
+    *,
+    collected_at: str,
+    source_urls: dict[str, str],
+) -> dict[str, dict[str, Any]]:
+    """Return complete-day Solana TVL, stablecoin, and DEX metrics."""
     metrics = [
-        metric(
-            metric_id="solana_defi_tvl_usd",
-            label="Solana DeFi TVL",
-            definition=(
-                "USD value locked in Solana DeFi protocols tracked by "
-                "DeFiLlama on the latest complete UTC day."
-            ),
-            method="v2/historicalChainTvl/Solana",
-            source_url=source_urls["tvl"],
-            caveat=(
-                "TVL depends on protocol coverage and methodology and can "
-                "double-count economic exposure through composable assets."
-            ),
-            series=tvl_series,
+        parse_defillama_tvl(
+            tvl_payload,
+            collected_at=collected_at,
+            source_url=source_urls.get("tvl", ""),
         ),
-        metric(
-            metric_id="solana_stablecoin_value_usd",
-            label="Solana stablecoin circulating value",
-            definition=(
-                "USD value of circulating stablecoins on Solana across "
-                "DeFiLlama's peg buckets on the latest complete UTC day."
-            ),
-            method="stablecoincharts/Solana",
-            source_url=source_urls["stablecoins"],
-            caveat=(
-                "Circulating stablecoin value is not payment volume or proof "
-                "that every token is backed by cash."
-            ),
-            series=stablecoin_series,
+        parse_defillama_stablecoins(
+            stablecoin_payload,
+            collected_at=collected_at,
+            source_url=source_urls.get("stablecoins", ""),
         ),
-        metric(
-            metric_id="solana_dex_volume_usd",
-            label="Solana daily DEX volume",
-            definition=(
-                "Aggregate Solana spot DEX volume tracked by DeFiLlama on "
-                "the latest complete UTC day."
-            ),
-            method="overview/dexs/Solana?dataType=dailyVolume",
-            source_url=source_urls["dex"],
-            caveat=(
-                "Routing can touch several pools, and provider adapter and "
-                "deduplication coverage determine the reported total."
-            ),
-            series=dex_series,
+        parse_defillama_dex(
+            dex_payload,
+            collected_at=collected_at,
+            source_url=source_urls.get("dex", ""),
         ),
     ]
     return {item["id"]: item for item in metrics}

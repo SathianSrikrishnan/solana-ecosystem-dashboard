@@ -161,6 +161,28 @@ class EconomyParserTests(unittest.TestCase):
         self.assertIn("payment", stable_metric["caveat"].lower())
         self.assertIn("routing", dex_metric["caveat"].lower())
 
+    def test_defillama_datasets_can_be_normalized_independently(self):
+        tvl, stablecoins, dex = self._defillama_payloads()
+        urls = self._defillama_urls()
+
+        tvl_metric = economy.parse_defillama_tvl(
+            tvl, collected_at=self.collected_at, source_url=urls["tvl"]
+        )
+        stablecoin_metric = economy.parse_defillama_stablecoins(
+            stablecoins,
+            collected_at=self.collected_at,
+            source_url=urls["stablecoins"],
+        )
+        dex_metric = economy.parse_defillama_dex(
+            dex, collected_at=self.collected_at, source_url=urls["dex"]
+        )
+
+        self.assertEqual(tvl_metric["id"], "solana_defi_tvl_usd")
+        self.assertEqual(
+            stablecoin_metric["id"], "solana_stablecoin_value_usd"
+        )
+        self.assertEqual(dex_metric["id"], "solana_dex_volume_usd")
+
     def test_defillama_parser_rejects_incomplete_or_duplicate_dates(self):
         tvl, stablecoins, dex = self._defillama_payloads()
         invalid_tvl_payloads = (

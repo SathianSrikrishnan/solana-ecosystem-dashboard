@@ -2,9 +2,9 @@
 
 ## Current phase
 
-PR 1 interface shell is complete. PR 2's verified adoption ladder now shows
-successful fee payers, successful signers, Jupiter Swap signers, exact
-fee-payer overlap, and seven-day return rate.
+PR 1 interface shell and PR 2 adoption ladder are complete locally. PR 3 now
+has its four-source, no-key economy core: live SOL price plus complete-day TVL,
+stablecoin value, and DEX volume.
 
 ## Current build target
 
@@ -15,7 +15,7 @@ Verified foundation:
 - JSON, Markdown, and standalone dark HTML generation;
 - responsive overview, section navigation, source-health visibility, and
   explicit planned states for data slices that have not landed;
-- forty-six passing foundation, contract, interface, query, adapter, and
+- sixty-one passing foundation, contract, interface, query, adapter, and
   import-command tests;
 - a clean six-hour GitHub refresh workflow;
 - enforced metric schema `0.2.0` shared by collectors and interfaces.
@@ -24,21 +24,21 @@ Verified foundation:
 
 ## Current product slice
 
-Adoption identity using Jupiter:
+Economy context:
 
-- daily unique fee payers;
-- daily unique successful signers;
-- daily unique Jupiter users;
-- overlap between those populations;
-- clear limitations before bot classification.
+- live SOL/USD price from CoinGecko;
+- latest-complete-day DeFi TVL, stablecoin value, and DEX volume from
+  DeFiLlama;
+- independent visible failure states;
+- fourteen-day daily series for the three DeFiLlama metrics;
+- scheduled refreshes that preserve already-verified dashboard sections.
 
 ## Next technical phase
 
-Review and merge the completed PR 2 adoption slice, then build PR 3's economy
-signals: SOL price, TVL, stablecoins, DEX volume, fees, REV, and tokenized
-assets. Keep public/keyless sources primary and display source failures rather
-than substituting zeros. Bot classification remains later work built on these
-verified base populations.
+Review the visible Economy panel, then research whether fees, REV, and tokenized
+assets have reproducible free definitions suitable for this product. Build only
+the metrics that pass that source review. Validator depth follows; bot
+classification remains later work built on the verified base populations.
 
 ## Parallel learning track
 

@@ -1,0 +1,32 @@
+{
+  "collected_at": "2026-08-08T16:09:03.167075Z",
+  "cost_usd": 0,
+  "metrics": {
+    "sol_price_usd": {
+      "source_time": "2026-08-08T16:07:00Z",
+      "source_url": "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd&include_24hr_change=true&include_last_updated_at=true",
+      "value": 76.32
+    },
+    "solana_defi_tvl_usd": {
+      "source_time": "2026-08-07",
+      "source_url": "https://api.llama.fi/v2/historicalChainTvl/Solana",
+      "value": 4707203417.0
+    },
+    "solana_dex_volume_usd": {
+      "source_time": "2026-08-07",
+      "source_url": "https://api.llama.fi/overview/dexs/Solana?excludeTotalDataChartBreakdown=true&dataType=dailyVolume",
+      "value": 1362519430.02
+    },
+    "solana_stablecoin_value_usd": {
+      "source_time": "2026-08-07",
+      "source_url": "https://stablecoins.llama.fi/stablecoincharts/Solana",
+      "value": 16252010540.0
+    }
+  },
+  "notes": [
+    "SOL price is a live market observation.",
+    "TVL, stablecoin value, and DEX volume use the latest complete UTC day.",
+    "Partial 2026-08-08 DeFiLlama rows were excluded before normalization.",
+    "Only compact normalized evidence is retained; full provider responses are not archived."
+  ]
+}

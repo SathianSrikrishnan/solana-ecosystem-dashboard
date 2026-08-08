@@ -104,8 +104,10 @@ def _complete_day_series(
             ).date()
         except (TypeError, ValueError, OSError) as error:
             raise ValueError("DeFiLlama date must be a Unix timestamp") from error
-        if observed_at >= collected_time.date():
-            raise ValueError("DeFiLlama series must exclude the current UTC day")
+        if observed_at > collected_time.date():
+            raise ValueError("DeFiLlama series cannot include a future UTC day")
+        if observed_at == collected_time.date():
+            continue
         if observed_at in observations:
             raise ValueError(f"Duplicate DeFiLlama date: {observed_at}")
         value = _finite_number(raw_value, "DeFiLlama value")

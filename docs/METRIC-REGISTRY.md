@@ -94,3 +94,22 @@ the UTC `block_time` and transaction `tx_signer`. The query also joins
 - Limitations: these are wallet addresses, not people. The curated table
   measures Jupiter Swap activity, not use of Jupiter Wallet, Phantom, or
   Solflare. Bots and several wallets controlled by one person remain included.
+
+## Economy metrics
+
+The no-key economy core uses one live market reading and three latest-complete-
+day onchain market readings. The different time grains remain explicit.
+
+- `sol_price_usd`: CoinGecko's aggregated USD market price for one SOL. It is
+  live context, not evidence of network or application usage.
+- `solana_defi_tvl_usd`: USD value locked in Solana DeFi protocols tracked by
+  DeFiLlama. Coverage and composability can affect or double-count exposure.
+- `solana_stablecoin_value_usd`: the sum of DeFiLlama's USD-valued peg buckets
+  circulating on Solana. It is not payment volume or proof of backing.
+- `solana_dex_volume_usd`: aggregate Solana spot DEX volume tracked by
+  DeFiLlama. Adapter coverage, routing, and deduplication affect the total.
+- Window: TVL, stablecoin value, and DEX volume retain fourteen complete UTC
+  days. Provider rows for the current partial UTC day are deliberately ignored.
+- Failure behavior: every endpoint is collected and normalized independently.
+  A failed source produces a `null`, visibly `unavailable` metric while the
+  other economy metrics continue reporting.

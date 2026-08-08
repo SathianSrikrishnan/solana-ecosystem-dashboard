@@ -79,3 +79,10 @@ Canonical local folder:
   26,816 fee-payer overlaps, and 7,087 returning addresses (26.43%). The query
   used 3.65 included credits and less than 0.01 for export, with $0 extra spend.
   PR 2 now has all five planned adoption outputs and forty-six passing tests.
+- PR 3 (`economy`) - no-key core completed locally 2026-08-08. CoinGecko
+  supplies live SOL/USD; DeFiLlama supplies the latest complete UTC day's TVL,
+  stablecoin circulating value, and DEX volume plus fourteen-day series. Each
+  source fails independently and visibly. The first verified snapshot recorded
+  $76.32 SOL, $4.707B TVL, $16.252B stablecoin value, and $1.363B DEX volume at
+  $0 cost. Fees, REV, and tokenized assets remain behind a source-definition
+  review rather than being published from ambiguous endpoints.

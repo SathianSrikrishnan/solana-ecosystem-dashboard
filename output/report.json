@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-08T15:31:00Z",
+  "generated_at": "2026-08-08T16:09:03.167075Z",
   "metrics": {
     "active_validators": {
       "caveat": "A validator count does not describe how evenly stake is distributed.",
@@ -411,6 +411,253 @@
       "status": "ok",
       "unit": "status",
       "value": "ok"
+    },
+    "sol_price_usd": {
+      "caveat": "Market price is volatile context, not evidence that network or application usage is growing.",
+      "collected_at": "2026-08-08T16:09:03.167075Z",
+      "confidence": "high",
+      "definition": "CoinGecko's aggregated market price for one SOL in USD.",
+      "id": "sol_price_usd",
+      "label": "SOL price",
+      "section": "economy",
+      "series": [],
+      "source": {
+        "method": "simple/price?ids=solana",
+        "name": "CoinGecko",
+        "url": "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd&include_24hr_change=true&include_last_updated_at=true"
+      },
+      "source_time": "2026-08-08T16:07:00Z",
+      "status": "ok",
+      "unit": "USD",
+      "value": 76.32
+    },
+    "solana_defi_tvl_usd": {
+      "caveat": "TVL depends on protocol coverage and methodology and can double-count economic exposure through composable assets.",
+      "collected_at": "2026-08-08T16:09:03.167075Z",
+      "confidence": "high",
+      "definition": "USD value locked in Solana DeFi protocols tracked by DeFiLlama on the latest complete UTC day.",
+      "id": "solana_defi_tvl_usd",
+      "label": "Solana DeFi TVL",
+      "section": "economy",
+      "series": [
+        {
+          "observed_at": "2026-07-25",
+          "value": 4776297727.0
+        },
+        {
+          "observed_at": "2026-07-26",
+          "value": 4826686052.0
+        },
+        {
+          "observed_at": "2026-07-27",
+          "value": 4905396243.0
+        },
+        {
+          "observed_at": "2026-07-28",
+          "value": 4802569937.0
+        },
+        {
+          "observed_at": "2026-07-29",
+          "value": 4778172182.0
+        },
+        {
+          "observed_at": "2026-07-30",
+          "value": 4782012435.0
+        },
+        {
+          "observed_at": "2026-07-31",
+          "value": 4812810087.0
+        },
+        {
+          "observed_at": "2026-08-01",
+          "value": 4736130794.0
+        },
+        {
+          "observed_at": "2026-08-02",
+          "value": 4704144266.0
+        },
+        {
+          "observed_at": "2026-08-03",
+          "value": 4726924045.0
+        },
+        {
+          "observed_at": "2026-08-04",
+          "value": 4749380354.0
+        },
+        {
+          "observed_at": "2026-08-05",
+          "value": 4789768870.0
+        },
+        {
+          "observed_at": "2026-08-06",
+          "value": 4789850728.0
+        },
+        {
+          "observed_at": "2026-08-07",
+          "value": 4707203417.0
+        }
+      ],
+      "source": {
+        "method": "v2/historicalChainTvl/Solana",
+        "name": "DeFiLlama",
+        "url": "https://api.llama.fi/v2/historicalChainTvl/Solana"
+      },
+      "source_time": "2026-08-07",
+      "status": "ok",
+      "unit": "USD",
+      "value": 4707203417.0
+    },
+    "solana_dex_volume_usd": {
+      "caveat": "Routing can touch several pools, and provider adapter and deduplication coverage determine the reported total.",
+      "collected_at": "2026-08-08T16:09:03.167075Z",
+      "confidence": "high",
+      "definition": "Aggregate Solana spot DEX volume tracked by DeFiLlama on the latest complete UTC day.",
+      "id": "solana_dex_volume_usd",
+      "label": "Solana daily DEX volume",
+      "section": "economy",
+      "series": [
+        {
+          "observed_at": "2026-07-25",
+          "value": 1057484172.9
+        },
+        {
+          "observed_at": "2026-07-26",
+          "value": 1198930649.83
+        },
+        {
+          "observed_at": "2026-07-27",
+          "value": 1841467135.14
+        },
+        {
+          "observed_at": "2026-07-28",
+          "value": 1736687117.15
+        },
+        {
+          "observed_at": "2026-07-29",
+          "value": 1969497273.23
+        },
+        {
+          "observed_at": "2026-07-30",
+          "value": 1579737257.25
+        },
+        {
+          "observed_at": "2026-07-31",
+          "value": 1699396656.08
+        },
+        {
+          "observed_at": "2026-08-01",
+          "value": 1306465331.65
+        },
+        {
+          "observed_at": "2026-08-02",
+          "value": 1348438391.96
+        },
+        {
+          "observed_at": "2026-08-03",
+          "value": 1712543781.88
+        },
+        {
+          "observed_at": "2026-08-04",
+          "value": 1747556147.93
+        },
+        {
+          "observed_at": "2026-08-05",
+          "value": 1636927091.91
+        },
+        {
+          "observed_at": "2026-08-06",
+          "value": 1379094026.18
+        },
+        {
+          "observed_at": "2026-08-07",
+          "value": 1362519430.02
+        }
+      ],
+      "source": {
+        "method": "overview/dexs/Solana?dataType=dailyVolume",
+        "name": "DeFiLlama",
+        "url": "https://api.llama.fi/overview/dexs/Solana?excludeTotalDataChartBreakdown=true&dataType=dailyVolume"
+      },
+      "source_time": "2026-08-07",
+      "status": "ok",
+      "unit": "USD",
+      "value": 1362519430.02
+    },
+    "solana_stablecoin_value_usd": {
+      "caveat": "Circulating stablecoin value is not payment volume or proof that every token is backed by cash.",
+      "collected_at": "2026-08-08T16:09:03.167075Z",
+      "confidence": "high",
+      "definition": "USD value of circulating stablecoins on Solana across DeFiLlama's peg buckets on the latest complete UTC day.",
+      "id": "solana_stablecoin_value_usd",
+      "label": "Solana stablecoin circulating value",
+      "section": "economy",
+      "series": [
+        {
+          "observed_at": "2026-07-25",
+          "value": 17095279369.0
+        },
+        {
+          "observed_at": "2026-07-26",
+          "value": 17019015025.0
+        },
+        {
+          "observed_at": "2026-07-27",
+          "value": 16935093774.0
+        },
+        {
+          "observed_at": "2026-07-28",
+          "value": 17264670069.0
+        },
+        {
+          "observed_at": "2026-07-29",
+          "value": 16185093392.0
+        },
+        {
+          "observed_at": "2026-07-30",
+          "value": 16352855793.0
+        },
+        {
+          "observed_at": "2026-07-31",
+          "value": 16358757413.0
+        },
+        {
+          "observed_at": "2026-08-01",
+          "value": 16356176139.0
+        },
+        {
+          "observed_at": "2026-08-02",
+          "value": 16305444443.0
+        },
+        {
+          "observed_at": "2026-08-03",
+          "value": 16240503930.0
+        },
+        {
+          "observed_at": "2026-08-04",
+          "value": 16418918702.0
+        },
+        {
+          "observed_at": "2026-08-05",
+          "value": 16552276832.0
+        },
+        {
+          "observed_at": "2026-08-06",
+          "value": 16199236431.0
+        },
+        {
+          "observed_at": "2026-08-07",
+          "value": 16252010540.0
+        }
+      ],
+      "source": {
+        "method": "stablecoincharts/Solana",
+        "name": "DeFiLlama",
+        "url": "https://stablecoins.llama.fi/stablecoincharts/Solana"
+      },
+      "source_time": "2026-08-07",
+      "status": "ok",
+      "unit": "USD",
+      "value": 16252010540.0
     }
   },
   "schema_version": "0.2.0",

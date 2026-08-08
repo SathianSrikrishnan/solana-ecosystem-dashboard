@@ -10,7 +10,7 @@ Build and operate the core for $0.
 |---|---|---|
 | Solana public RPC | Live network and validator state | Free, rate-limited, not production-grade |
 | Dune | Historical/adoption SQL | Free allowance first; set spend cap to $0 |
-| CoinGecko | SOL price context | Free Demo/keyless allowance first |
+| CoinGecko | SOL price context | Free keyless public endpoint |
 | DeFiLlama | TVL and ecosystem context | Free public endpoints where permitted |
 | X API | Announcements and public conversation | Optional, pay-per-use, hard budget and cache |
 | Hosting | Static dashboard | Existing/free infrastructure first |
@@ -47,3 +47,14 @@ query. We run it deliberately rather than polling or retrying it automatically.
 - Jupiter seven-row CSV export: less than 0.01 included credits.
 - Total verified Dune use recorded on 2026-08-08: 13.49 included query credits
   plus less than 0.03 included export credits; extra spend remained $0.
+
+## Economy source receipt - 2026-08-08
+
+- CoinGecko public keyless simple-price request: $0 and no API key.
+- DeFiLlama public TVL, stablecoin, and DEX requests: $0 and no API key.
+- Four bounded requests were made per refresh; no retry loop or paid fallback
+  is configured.
+- One compact normalized evidence file was retained. Full third-party payloads
+  were not archived.
+
+Cash spend for this economy slice: $0.

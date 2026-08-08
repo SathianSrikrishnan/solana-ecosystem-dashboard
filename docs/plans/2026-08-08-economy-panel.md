@@ -278,3 +278,12 @@ ambiguous.
 git add docs/research/SOLANA-FEES-REV-RWA-SOURCES.md
 git commit -m "docs: research advanced economy metrics"
 ```
+
+## Execution status
+
+- Tasks 1-3 completed and committed.
+- Task 4 completed: independent source failure states, tested refresh command,
+  scheduled refresh integration, and preservation of prior verified metrics.
+- Task 5 completed locally: bounded live evidence, four Economy cards, and
+  methodology/cost/learning receipts. Manual visual review is the checkpoint.
+- Task 6 remains next after visual review.

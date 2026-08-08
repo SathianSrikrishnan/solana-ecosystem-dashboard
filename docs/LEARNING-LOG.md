@@ -93,3 +93,18 @@ for that day, and the same 100% overlap appeared on all seven published days.
 That result tells us how Dune's curated `tx_signer` behaves for this table; it
 does not prove that every application's signer is always its fee payer. More
 importantly, a returning address is still not necessarily a returning person.
+
+## 2026-08-08 - Live and daily metrics must not pretend to share a clock
+
+SOL price can change from minute to minute, while TVL, stablecoin value, and
+DEX volume are safer to compare after a UTC day is complete. DeFiLlama's public
+responses include a partial row for the current day. The first live test made
+that provider behavior visible: rejecting partial data was correct, but
+rejecting the whole history was not.
+
+The tested fix ignores only today's partial row, retains the latest fourteen
+complete days, and still rejects future or incomplete histories. On the first
+verified snapshot, the live SOL price was $76.32 at 16:07 UTC; the 2026-08-07
+complete-day readings were $4.707 billion TVL, $16.252 billion circulating
+stablecoin value, and $1.363 billion DEX volume. These are four different
+measurements, not one verdict on the health of Solana.

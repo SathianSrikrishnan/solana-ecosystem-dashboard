@@ -183,6 +183,35 @@ class EconomyParserTests(unittest.TestCase):
         )
         self.assertEqual(dex_metric["id"], "solana_dex_volume_usd")
 
+    def test_defillama_parser_ignores_the_providers_partial_current_day(self):
+        tvl, stablecoins, dex = self._defillama_payloads()
+        current_day = int(
+            datetime(2026, 8, 8, tzinfo=timezone.utc).timestamp()
+        )
+        tvl.append({"date": current_day, "tvl": 9999})
+        stablecoins.append(
+            {
+                "date": current_day,
+                "totalCirculatingUSD": {"peggedUSD": 9999},
+            }
+        )
+        dex["totalDataChart"].append([current_day, 9999])
+
+        metrics = economy.parse_defillama_economy(
+            tvl,
+            stablecoins,
+            dex,
+            collected_at=self.collected_at,
+            source_urls=self._defillama_urls(),
+        )
+
+        self.assertTrue(
+            all(metric["source_time"] == "2026-08-07" for metric in metrics.values())
+        )
+        self.assertTrue(
+            all(len(metric["series"]) == 14 for metric in metrics.values())
+        )
+
     def test_defillama_parser_rejects_incomplete_or_duplicate_dates(self):
         tvl, stablecoins, dex = self._defillama_payloads()
         invalid_tvl_payloads = (

@@ -155,3 +155,130 @@ def parse_daily_successful_signers_csv(
         ),
         "series": series,
     }
+
+
+def parse_daily_jupiter_swap_csv(
+    csv_text: str,
+    *,
+    collected_at: str,
+    source_url: str,
+) -> dict[str, dict[str, Any]]:
+    """Return normalized Jupiter signer, overlap, and retention metrics."""
+
+    collected_time = _validate_context(collected_at, source_url)
+    users_series = _parse_daily_observations(
+        csv_text,
+        count_column="unique_jupiter_swap_signers",
+        collected_time=collected_time,
+    )
+    overlap_series = _parse_daily_observations(
+        csv_text,
+        count_column="jupiter_fee_payer_overlap",
+        collected_time=collected_time,
+    )
+    returning_series = _parse_daily_observations(
+        csv_text,
+        count_column="returning_jupiter_swap_signers",
+        collected_time=collected_time,
+    )
+
+    return_rate_series = []
+    for users, overlap, returning in zip(
+        users_series, overlap_series, returning_series
+    ):
+        if overlap["value"] > users["value"]:
+            raise ValueError("Jupiter fee-payer overlap cannot exceed users")
+        if returning["value"] > users["value"]:
+            raise ValueError("Returning Jupiter signers cannot exceed users")
+        if users["value"] == 0 and (overlap["value"] or returning["value"]):
+            raise ValueError("A zero-user day must have zero overlap and returns")
+        return_rate = (
+            0.0
+            if users["value"] == 0
+            else round(returning["value"] / users["value"] * 100, 2)
+        )
+        return_rate_series.append(
+            {"observed_at": users["observed_at"], "value": return_rate}
+        )
+
+    source = {
+        "name": "Dune",
+        "method": (
+            "jupiter_solana.aggregator_swaps + solana.transactions / "
+            "daily_jupiter_swap_signers.sql"
+        ),
+        "url": source_url,
+    }
+    latest_date = users_series[-1]["observed_at"]
+
+    def metric(
+        *,
+        metric_id: str,
+        label: str,
+        unit: str,
+        definition: str,
+        caveat: str,
+        series: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        return {
+            "id": metric_id,
+            "section": "adoption",
+            "label": label,
+            "value": series[-1]["value"],
+            "unit": unit,
+            "status": "ok",
+            "definition": definition,
+            "source": dict(source),
+            "collected_at": collected_at,
+            "source_time": latest_date,
+            "confidence": "high",
+            "caveat": caveat,
+            "series": series,
+        }
+
+    metrics = [
+        metric(
+            metric_id="daily_unique_jupiter_swap_signers",
+            label="Daily unique Jupiter Swap signers",
+            unit="wallet addresses",
+            definition=(
+                "Distinct tx_signer addresses on intended swaps recorded by "
+                "Dune's curated Jupiter aggregator table during the latest "
+                "complete UTC day."
+            ),
+            caveat=(
+                "Wallet addresses are not people, and this measures Jupiter "
+                "Swap signers rather than users of a particular wallet app."
+            ),
+            series=users_series,
+        ),
+        metric(
+            metric_id="daily_jupiter_fee_payer_overlap",
+            label="Jupiter signer and fee-payer overlap",
+            unit="wallet addresses",
+            definition=(
+                "Jupiter Swap signer addresses that were also the successful "
+                "transaction fee payer on the same UTC day."
+            ),
+            caveat=(
+                "This is an address intersection, not a count of people; "
+                "sponsored or relayed transactions can fall outside it."
+            ),
+            series=overlap_series,
+        ),
+        metric(
+            metric_id="jupiter_swap_signer_7d_return_rate",
+            label="Jupiter Swap seven-day return rate",
+            unit="percent",
+            definition=(
+                "Share of the day's Jupiter Swap signer addresses also seen "
+                "at least once during the preceding seven complete UTC days."
+            ),
+            caveat=(
+                "Returning addresses are not necessarily returning people; "
+                "bots and one person using several wallets remain included."
+            ),
+            series=return_rate_series,
+        ),
+    ]
+    return {item["id"]: item for item in metrics}

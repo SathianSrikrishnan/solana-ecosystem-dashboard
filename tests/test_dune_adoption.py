@@ -36,6 +36,17 @@ class DuneAdoptionTests(unittest.TestCase):
 2026-07-30,160
 """
 
+    def _valid_jupiter_csv(self):
+        return """activity_date,unique_jupiter_swap_signers,jupiter_fee_payer_overlap,returning_jupiter_swap_signers
+2026-08-02,80,70,44
+2026-07-31,70,60,35
+2026-07-27,50,40,20
+2026-08-01,75,65,40
+2026-07-29,60,50,27
+2026-07-28,55,45,24
+2026-07-30,65,55,31
+"""
+
     def test_daily_fee_payer_adapter_module_exists(self):
         self.assertTrue(MODULE_PATH.exists(), "Dune adoption adapter is missing")
 
@@ -164,6 +175,74 @@ class DuneAdoptionTests(unittest.TestCase):
                         collected_at=self.collected_at,
                         source_url=self.source_url,
                     )
+
+    def test_jupiter_parser_builds_overlap_and_return_metrics(self):
+        metrics = dune_adoption.parse_daily_jupiter_swap_csv(
+            self._valid_jupiter_csv(),
+            collected_at=self.collected_at,
+            source_url=self.source_url,
+        )
+
+        self.assertEqual(
+            set(metrics),
+            {
+                "daily_unique_jupiter_swap_signers",
+                "daily_jupiter_fee_payer_overlap",
+                "jupiter_swap_signer_7d_return_rate",
+            },
+        )
+        users = metrics["daily_unique_jupiter_swap_signers"]
+        overlap = metrics["daily_jupiter_fee_payer_overlap"]
+        return_rate = metrics["jupiter_swap_signer_7d_return_rate"]
+        self.assertEqual(users["value"], 80)
+        self.assertEqual(overlap["value"], 70)
+        self.assertEqual(return_rate["value"], 55.0)
+        self.assertEqual(users["source_time"], "2026-08-02")
+        self.assertEqual(users["source"]["url"], self.source_url)
+        self.assertEqual(users["series"][0]["observed_at"], "2026-07-27")
+        self.assertEqual(overlap["unit"], "wallet addresses")
+        self.assertEqual(return_rate["unit"], "percent")
+        self.assertIn("not people", users["caveat"].lower())
+        self.assertIn("fee payer", overlap["definition"].lower())
+        self.assertIn("preceding seven", return_rate["definition"].lower())
+
+    def test_jupiter_parser_rejects_invalid_exports(self):
+        invalid_exports = (
+            "",
+            "activity_date,unique_jupiter_swap_signers\n",
+            self._valid_jupiter_csv().replace(
+                "2026-07-30,65,55,31", "2026-08-02,65,55,31"
+            ),
+            self._valid_jupiter_csv().replace(
+                "2026-07-30,65,55,31", "bad-date,65,55,31"
+            ),
+            self._valid_jupiter_csv().replace(
+                "2026-07-30,65,55,31", "2026-07-30,-1,0,0"
+            ),
+            self._valid_jupiter_csv().replace(
+                "2026-07-30,65,55,31", "2026-07-30,65,66,31"
+            ),
+            self._valid_jupiter_csv().replace(
+                "2026-07-30,65,55,31", "2026-07-30,65,55,66"
+            ),
+            self._valid_jupiter_csv().replace("2026-07-27,50,40,20\n", ""),
+        )
+        for csv_text in invalid_exports:
+            with self.subTest(csv_text=csv_text):
+                with self.assertRaises(ValueError):
+                    dune_adoption.parse_daily_jupiter_swap_csv(
+                        csv_text,
+                        collected_at=self.collected_at,
+                        source_url=self.source_url,
+                    )
+
+    def test_jupiter_parser_requires_timezone_aware_collection_time(self):
+        with self.assertRaisesRegex(ValueError, "timezone"):
+            dune_adoption.parse_daily_jupiter_swap_csv(
+                self._valid_jupiter_csv(),
+                collected_at="2026-08-03T12:00:00",
+                source_url=self.source_url,
+            )
 
 
 if __name__ == "__main__":

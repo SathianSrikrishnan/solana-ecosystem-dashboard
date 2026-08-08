@@ -65,3 +65,10 @@ Canonical local folder:
   input leaves prior reports untouched. The newest value is visibly labeled
   as wallet addresses rather than people. Dune usage was 3.892 included
   credits and $0 extra spend.
+- PR 2 (`dune-adoption`) - successful-signers rung completed locally
+  2026-08-08. Public Dune query <https://dune.com/queries/8264418> returns the
+  latest seven complete UTC days of distinct signer addresses on successful
+  non-vote transactions. The latest value is 3,628,019 addresses on
+  2026-08-07, versus 2,046,280 fee payers. Both measures explicitly say that
+  wallets are not people. The two refreshed queries used 9.84 included credits
+  plus less than 0.02 for exports, with $0 extra spend.

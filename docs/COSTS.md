@@ -30,3 +30,15 @@ enabled without explicit approval.
 - Total used for this slice: 3.892 credits; extra credits used: 0 ($0).
 
 No paid plan, payment method, API key, or auto-recharge was enabled.
+
+## Dune receipt - 2026-08-08
+
+- Account remained on the free trial; no payment method or paid plan was added.
+- Refreshed fee-payer query `8213434`: 3.37 included credits.
+- New successful-signers query `8264418`: 6.47 included credits.
+- Each seven-row CSV export: less than 0.01 included credits.
+- Extra credits used: 0; cash spend: $0.
+
+The successful-signers query scans the same seven complete UTC days but expands
+each transaction's signer list, so it costs more compute than the fee-payer
+query. We run it deliberately rather than polling or retrying it automatically.

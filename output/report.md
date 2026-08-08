@@ -1,6 +1,6 @@
 # Solana Ecosystem Report
 
-Generated: `2026-08-04T01:55:05Z`
+Generated: `2026-08-08T15:19:39Z`
 
 **Current reading:** The selected Solana RPC endpoint reports healthy.
 
@@ -35,6 +35,16 @@ Latest slot reported by the selected public RPC node.
 - Collected: `2026-07-28T13:43:19.325189Z`
 - Confidence: `high`
 - Important limitation: Different RPC nodes can be a few slots apart.
+
+### Daily unique successful fee payers: 2,046,280 wallet addresses
+
+Distinct primary signer (fee payer) addresses on successful non-vote Solana transactions during the latest complete UTC day.
+
+- Status: `ok`
+- Source: Dune / `solana.transactions / daily_unique_fee_payers.sql`
+- Collected: `2026-08-08T15:19:39Z`
+- Confidence: `high`
+- Important limitation: Wallet addresses are not people: one person or bot can control many addresses, and relayers may pay fees for others.
 
 ### Delinquent validators: 15 validators
 
@@ -96,15 +106,15 @@ Health response from the selected public RPC node.
 - Confidence: `high`
 - Important limitation: This checks one public RPC endpoint, not every validator.
 
-### Daily unique successful fee payers: 2,252,879 wallet addresses
+### Daily unique successful signers: 3,628,019 wallet addresses
 
-Distinct primary signer (fee payer) addresses on successful non-vote Solana transactions during the latest complete UTC day.
+Distinct signer addresses on successful non-vote Solana transactions during the latest complete UTC day.
 
 - Status: `ok`
-- Source: Dune / `solana.transactions / daily_unique_fee_payers.sql`
-- Collected: `2026-08-04T01:55:05Z`
+- Source: Dune / `solana.transactions.signers / daily_unique_successful_signers.sql`
+- Collected: `2026-08-08T15:19:39Z`
 - Confidence: `high`
-- Important limitation: Wallet addresses are not people: one person or bot can control many addresses, and relayers may pay fees for others.
+- Important limitation: Wallet addresses are not people: one person or bot can control many addresses, and one transaction may require several signers.
 
 ## How to read this
 

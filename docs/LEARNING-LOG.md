@@ -69,3 +69,15 @@ The distinction matters because one human or bot can control many addresses,
 while a relayer can pay for another user's transaction. The metric is a useful
 lower-level activity signal, and later signer, application, overlap, and
 retention views will add context rather than relabeling it as users.
+
+## 2026-08-08 - A signer count is broader than a fee-payer count
+
+The verified Dune series found 3,628,019 distinct successful signer addresses
+on 2026-08-07, compared with 2,046,280 distinct successful fee-payer addresses.
+That difference is plausible because every transaction has a fee payer but can
+also require additional signers.
+
+Neither number is a count of people. Comparing the two is useful because it
+shows how a definition changes the answer. Application-level users, overlap,
+retention, and careful automation signals are the next layers needed before we
+can responsibly discuss human participation.

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-04T01:55:05Z",
+  "generated_at": "2026-08-08T15:19:39Z",
   "metrics": {
     "active_validators": {
       "caveat": "A validator count does not describe how evenly stake is distributed.",
@@ -60,29 +60,13 @@
     },
     "daily_unique_successful_fee_payers": {
       "caveat": "Wallet addresses are not people: one person or bot can control many addresses, and relayers may pay fees for others.",
-      "collected_at": "2026-08-04T01:55:05Z",
+      "collected_at": "2026-08-08T15:19:39Z",
       "confidence": "high",
       "definition": "Distinct primary signer (fee payer) addresses on successful non-vote Solana transactions during the latest complete UTC day.",
       "id": "daily_unique_successful_fee_payers",
       "label": "Daily unique successful fee payers",
       "section": "adoption",
       "series": [
-        {
-          "observed_at": "2026-07-28",
-          "value": 2260069
-        },
-        {
-          "observed_at": "2026-07-29",
-          "value": 2225476
-        },
-        {
-          "observed_at": "2026-07-30",
-          "value": 2360439
-        },
-        {
-          "observed_at": "2026-07-31",
-          "value": 2146322
-        },
         {
           "observed_at": "2026-08-01",
           "value": 1899721
@@ -94,6 +78,22 @@
         {
           "observed_at": "2026-08-03",
           "value": 2252879
+        },
+        {
+          "observed_at": "2026-08-04",
+          "value": 2213893
+        },
+        {
+          "observed_at": "2026-08-05",
+          "value": 2135207
+        },
+        {
+          "observed_at": "2026-08-06",
+          "value": 2014997
+        },
+        {
+          "observed_at": "2026-08-07",
+          "value": 2046280
         }
       ],
       "source": {
@@ -101,10 +101,58 @@
         "name": "Dune",
         "url": "https://dune.com/queries/8213434"
       },
-      "source_time": "2026-08-03",
+      "source_time": "2026-08-07",
       "status": "ok",
       "unit": "wallet addresses",
-      "value": 2252879
+      "value": 2046280
+    },
+    "daily_unique_successful_signers": {
+      "caveat": "Wallet addresses are not people: one person or bot can control many addresses, and one transaction may require several signers.",
+      "collected_at": "2026-08-08T15:19:39Z",
+      "confidence": "high",
+      "definition": "Distinct signer addresses on successful non-vote Solana transactions during the latest complete UTC day.",
+      "id": "daily_unique_successful_signers",
+      "label": "Daily unique successful signers",
+      "section": "adoption",
+      "series": [
+        {
+          "observed_at": "2026-08-01",
+          "value": 3187305
+        },
+        {
+          "observed_at": "2026-08-02",
+          "value": 2962791
+        },
+        {
+          "observed_at": "2026-08-03",
+          "value": 3581743
+        },
+        {
+          "observed_at": "2026-08-04",
+          "value": 3594893
+        },
+        {
+          "observed_at": "2026-08-05",
+          "value": 3499093
+        },
+        {
+          "observed_at": "2026-08-06",
+          "value": 3408461
+        },
+        {
+          "observed_at": "2026-08-07",
+          "value": 3628019
+        }
+      ],
+      "source": {
+        "method": "solana.transactions.signers / daily_unique_successful_signers.sql",
+        "name": "Dune",
+        "url": "https://dune.com/queries/8264418"
+      },
+      "source_time": "2026-08-07",
+      "status": "ok",
+      "unit": "wallet addresses",
+      "value": 3628019
     },
     "delinquent_validators": {
       "caveat": "Temporary delinquency can recover and is not automatically malicious behavior.",

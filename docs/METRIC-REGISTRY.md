@@ -56,3 +56,21 @@ version `0.2.0`, shared by collectors, JSON, Markdown, and the interface.
 - likely human-controlled wallets.
 
 These are related measurements, not interchangeable truths.
+
+## Adoption metric: daily unique successful signers
+
+- `id`: `daily_unique_successful_signers`
+- Definition: distinct signer addresses on successful non-vote Solana
+  transactions during the latest complete UTC day.
+- Source: Dune `solana.transactions.signers`, implemented in
+  `queries/daily_unique_successful_signers.sql` and published at
+  <https://dune.com/queries/8264418>.
+- Window: the latest seven complete UTC days; the newest day is the displayed
+  value and all seven observations remain in `series`.
+- Relationship: successful signers include fee payers and may also include
+  co-signers, so the signer count must not be below the matching fee-payer
+  count.
+- Limitation: addresses are not people. One person or bot may control several
+  addresses, and one transaction may require several signers.
+- Collection path: manual CSV export plus the standard-library importer. The
+  no-key report remains usable without a Dune API credential.

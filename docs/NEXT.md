@@ -2,8 +2,8 @@
 
 ## Current phase
 
-PR 1 interface shell complete; PR 2's first verified Dune/adoption metric is
-now visible.
+PR 1 interface shell is complete. PR 2 now shows two verified rungs of the
+activity-identity ladder: successful fee payers and successful signers.
 
 ## Current build target
 
@@ -14,7 +14,7 @@ Verified foundation:
 - JSON, Markdown, and standalone dark HTML generation;
 - responsive overview, section navigation, source-health visibility, and
   explicit planned states for data slices that have not landed;
-- thirty-four passing foundation, contract, interface, query, adapter, and
+- thirty-nine passing foundation, contract, interface, query, adapter, and
   import-command tests;
 - a clean six-hour GitHub refresh workflow;
 - enforced metric schema `0.2.0` shared by collectors and interfaces.
@@ -33,10 +33,11 @@ Adoption identity using Jupiter:
 
 ## Next technical phase
 
-Add the next rung of the activity-identity ladder: daily unique successful
-signers, followed by Jupiter users and overlap. Preserve the same bounded
-query, provenance, failure, and wallet-not-people rules. Then add retention so
-the product distinguishes one-time addresses from recurring activity.
+Add the next rung of the activity-identity ladder: daily unique Jupiter users,
+followed by overlap with the network-wide populations. Preserve the same
+bounded query, provenance, failure, and wallet-not-people rules. Then add
+retention so the product distinguishes one-time addresses from recurring
+activity.
 
 ## Parallel learning track
 

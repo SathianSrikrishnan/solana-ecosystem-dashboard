@@ -233,3 +233,21 @@ overflow, and no console errors.
 git add data/dune output docs
 git commit -m "feat: publish verified successful signer metric"
 ```
+
+## Execution receipt - 2026-08-08
+
+- Public query: <https://dune.com/queries/8264418>
+- Complete UTC dates: 2026-08-01 through 2026-08-07
+- Latest signer value: 3,628,019 wallet addresses
+- Matching latest fee-payer value: 2,046,280 wallet addresses
+- Signer query: 6.47 included credits; export: less than 0.01 credits
+- Refreshed fee-payer query: 3.37 included credits; export: less than 0.01
+  credits
+- Extra spend: $0
+- Sanity check: signer count was greater than or equal to fee-payer count on
+  every matching day
+
+The query result and reviewed CSV were imported with collection time
+`2026-08-08T15:19:39Z`. The report labels both series as wallet addresses, not
+people, and explains why one successful transaction may contribute more than
+one signer.

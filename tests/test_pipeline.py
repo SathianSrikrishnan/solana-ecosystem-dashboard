@@ -25,6 +25,7 @@ class PipelineTests(unittest.TestCase):
             written = write_reports(snapshot, output_dir)
 
             self.assertEqual(snapshot["comparisons"], {})
+            self.assertEqual(len(snapshot["timeline"]), 7)
 
             self.assertEqual(
                 set(written),

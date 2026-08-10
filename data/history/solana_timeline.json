@@ -1,0 +1,72 @@
+[
+  {
+    "order": 1,
+    "period": "2017–2020",
+    "title": "A faster shared clock becomes a network",
+    "fact": "Proof of History was conceived in 2017; Solana's genesis block launched Mainnet Beta on March 16, 2020.",
+    "interpretation": "The original wager was that cheap, fast shared state could support applications at internet scale.",
+    "source_label": "Solana: 8 Innovations",
+    "source_url": "https://solana.com/de/news/8-innovations-that-make-solana-the-first-web-scale-blockchain",
+    "source_type": "primary"
+  },
+  {
+    "order": 2,
+    "period": "2021",
+    "title": "The first application boom",
+    "fact": "The Solana Foundation reported rapid growth in DeFi, NFTs, validators, and projects during 2021; its historical counts do not include a reproducible methodology.",
+    "interpretation": "Demand arrived quickly, making precise definitions of users, projects, and capital essential.",
+    "source_label": "Solana Foundation 2021 community update",
+    "source_url": "https://solana.com/news/december-2021-community-update",
+    "source_type": "primary"
+  },
+  {
+    "order": 3,
+    "period": "2022",
+    "title": "Ambition meets reliability",
+    "fact": "Solana launched payment and mobile experiments while official incident reports documented consensus-impacting network halts.",
+    "interpretation": "Throughput means little without dependable execution, so reliability belongs beside adoption.",
+    "source_label": "Solana Solstice 2022",
+    "source_url": "https://solana.com/news/solana-solstice-2022",
+    "source_type": "primary"
+  },
+  {
+    "order": 4,
+    "period": "2023",
+    "title": "Builders carry the recovery",
+    "fact": "The Foundation highlighted Helium's migration, state compression, Saga, DeFi recovery, and major commerce and infrastructure integrations.",
+    "interpretation": "The recovery case rests on retained builders and widening utility, not token price alone.",
+    "source_label": "Solana Foundation 2023 community review",
+    "source_url": "https://solana.com/en/news/solana-solstice-2023-community-review",
+    "source_type": "primary"
+  },
+  {
+    "order": 5,
+    "period": "2024",
+    "title": "Trading broadens into distribution",
+    "fact": "Foundation and developer reports documented growth across stablecoins, payments, mobile, DePIN, institutions, and new developers.",
+    "interpretation": "Solana began looking less like one trading venue and more like a general financial and consumer platform.",
+    "source_label": "State of Solana at Breakpoint 2024",
+    "source_url": "https://solana.com/news/state-of-solana-breakpoint-2024",
+    "source_type": "primary"
+  },
+  {
+    "order": 6,
+    "period": "2025",
+    "title": "Reliability and application economics",
+    "fact": "A Foundation network report cited nearly 16 months of uptime, multiple validator clients, substantial application revenue, and a voting-power Nakamoto coefficient of 20.",
+    "interpretation": "The next test became resilience: diverse software, distributed stake, and sustainable operators.",
+    "source_label": "Solana Network Health Report, June 2025",
+    "source_url": "https://solana.com/de/news/network-health-report-june-2025",
+    "source_type": "primary"
+  },
+  {
+    "order": 7,
+    "period": "2026",
+    "title": "Financial rails move to the foreground",
+    "fact": "Foundation ecosystem reports highlighted expanding stablecoin settlement and tokenized real-world assets; live values require their underlying datasets.",
+    "interpretation": "The thesis now is convergence: crypto-native markets meeting payments, tokenized assets, and institutional distribution.",
+    "source_label": "Solana Ecosystem Roundup, June 2026",
+    "source_url": "https://solana.com/pl/news/solana-ecosystem-roundup-june-2026",
+    "source_type": "primary"
+  }
+]

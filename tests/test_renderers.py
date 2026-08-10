@@ -254,6 +254,30 @@ class RendererTests(unittest.TestCase):
         self.assertIn('href="#main-content"', rendered)
         self.assertIn("@media (max-width: 680px)", rendered)
 
+    def test_html_renders_a_compact_sourced_seven_era_history(self):
+        self.snapshot["timeline"] = [
+            {
+                "order": index,
+                "period": str(2019 + index),
+                "title": f"Era {index}",
+                "fact": f"Fact {index}",
+                "interpretation": f"Interpretation {index}",
+                "source_label": f"Source {index}",
+                "source_url": f"https://example.com/{index}",
+                "source_type": "primary",
+            }
+            for index in range(1, 8)
+        ]
+
+        rendered = render_html(self.snapshot)
+
+        self.assertIn('id="history"', rendered)
+        self.assertEqual(rendered.count('class="era"'), 7)
+        self.assertIn("Why now?", rendered)
+        self.assertIn("Verified historical fact", rendered)
+        self.assertIn("Observatory interpretation", rendered)
+        self.assertIn('href="https://example.com/7"', rendered)
+
     def test_html_uses_distinctive_local_typography_and_respects_reduced_motion(self):
         rendered = render_html(self.snapshot)
 

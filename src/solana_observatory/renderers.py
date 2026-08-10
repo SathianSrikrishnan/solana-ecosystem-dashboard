@@ -299,6 +299,38 @@ def _analysis_panel(snapshot: dict[str, Any]) -> str:
     )
 
 
+def _timeline_panel(timeline: list[dict[str, Any]]) -> str:
+    if not timeline:
+        return ""
+    eras = "\n".join(
+        """
+        <article class="era">
+          <div class="era-marker"><span>{order:02d}</span><strong>{period}</strong></div>
+          <div><h3>{title}</h3><p><span>Verified historical fact</span>{fact}</p></div>
+          <div><p><span>Observatory interpretation</span>{interpretation}</p><a href="{source_url}">{source_label} ↗</a></div>
+        </article>
+        """.format(
+            order=era["order"],
+            period=html.escape(era["period"]),
+            title=html.escape(era["title"]),
+            fact=html.escape(era["fact"]),
+            interpretation=html.escape(era["interpretation"]),
+            source_url=html.escape(era["source_url"], quote=True),
+            source_label=html.escape(era["source_label"]),
+        )
+        for era in timeline
+    )
+    return """
+    <section class="dashboard-section history" id="history">
+      <div class="section-heading">
+        <div><span class="section-index">07</span><div><p class="section-question">Why now?</p><h2>Seven eras of Solana</h2></div></div>
+        <p>From a performance experiment to a test of global financial infrastructure. Facts and interpretation remain separate.</p>
+      </div>
+      <div class="history-rail">{eras}</div>
+    </section>
+    """.format(eras=eras)
+
+
 def render_html(snapshot: dict[str, Any]) -> str:
     metrics = snapshot["metrics"]
     comparisons = snapshot.get("comparisons") or build_comparisons(metrics)
@@ -366,6 +398,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
     embedded_snapshot = json.dumps(snapshot).replace("</", "<\\/")
     dashboard_sections = "\n".join(section_markup)
     analysis_panel = _analysis_panel(snapshot)
+    timeline_panel = _timeline_panel(snapshot.get("timeline", []))
 
     document = """<!doctype html>
 <html lang="en">
@@ -489,6 +522,15 @@ def render_html(snapshot: dict[str, Any]) -> str:
     code {{ color: var(--violet); }}
     .empty-state {{ padding: 30px; border: 1px dashed var(--line); color: var(--muted); }}
     .empty-state p {{ margin: 10px 0 0; }}
+    .history-rail {{ border-top: 1px solid var(--line); }}
+    .era {{ display: grid; grid-template-columns: 150px 1fr 1fr; gap: 28px; padding: 26px 0; border-bottom: 1px solid var(--line); }}
+    .era-marker {{ display: grid; align-content: start; gap: 4px; font-family: "Cascadia Mono", Consolas, monospace; }}
+    .era-marker span {{ color: var(--green); font-size: .7rem; }}
+    .era-marker strong {{ font-size: 1.1rem; }}
+    .era h3 {{ margin-bottom: 8px; font-size: 1.15rem; }}
+    .era p {{ margin-bottom: 8px; color: var(--muted); font-size: .84rem; }}
+    .era p span {{ display: block; margin-bottom: 4px; color: var(--text); font-size: .68rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }}
+    .era a {{ color: var(--violet); font-size: .76rem; }}
     .methods-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }}
     .methods-card, .interpretation {{
       padding: 26px;
@@ -518,7 +560,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
     @media (max-width: 680px) {{
       main, .header-inner {{ width: min(100% - 24px, 1180px); }}
       main {{ padding-top: 48px; }}
-      .reading, .section-heading, .methods-grid {{ grid-template-columns: 1fr; }}
+      .reading, .section-heading, .methods-grid, .era {{ grid-template-columns: 1fr; }}
       .source-health {{ padding: 20px 0 0; border: 0; border-top: 1px solid var(--line); }}
       .signal-grid, .metric-grid {{ grid-template-columns: 1fr; }}
       .dashboard-section {{ padding-top: 58px; }}
@@ -542,6 +584,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
         <a href="#validators">Validators</a>
         <a href="#ecosystem">Ecosystem</a>
         <a href="#financial-rails">Financial rails</a>
+        <a href="#history">History</a>
         <a href="#methods">Methods</a>
       </nav>
     </div>
@@ -574,9 +617,11 @@ def render_html(snapshot: dict[str, Any]) -> str:
 
     {dashboard_sections}
 
+    {timeline_panel}
+
     <section class="dashboard-section" id="methods">
       <div class="section-heading">
-        <div><span class="section-index">07</span><h2>Methods</h2></div>
+        <div><span class="section-index">08</span><h2>Methods</h2></div>
         <p>How to read this report without mistaking a useful metric for the whole truth.</p>
       </div>
       <div class="methods-grid">
@@ -606,6 +651,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
         signal_markup=signal_markup,
         analysis_panel=analysis_panel,
         dashboard_sections=dashboard_sections,
+        timeline_panel=timeline_panel,
         embedded_snapshot=embedded_snapshot,
     )
     return "\n".join(line.rstrip() for line in rendered.splitlines()) + "\n"

@@ -334,6 +334,38 @@ def _timeline_panel(timeline: list[dict[str, Any]]) -> str:
     """.format(eras=eras)
 
 
+def _activity_lens(metrics: dict[str, dict[str, Any]]) -> str:
+    signers = metrics.get("daily_unique_successful_signers", {}).get("value")
+    jupiter = metrics.get("daily_unique_jupiter_swap_signers", {}).get("value")
+    return_rate = metrics.get("jupiter_swap_signer_7d_return_rate", {}).get("value")
+    if not isinstance(signers, (int, float)) or signers <= 0:
+        return ""
+    jupiter_share = (
+        None
+        if not isinstance(jupiter, (int, float))
+        else jupiter / signers * 100
+    )
+    return """
+      <aside class="identity-lens">
+        <div><span class="eyebrow">Identity and automation lens</span><h3>We cannot classify bots yet.</h3></div>
+        <div class="identity-facts">
+          <p><strong>{jupiter_share}</strong><span>Jupiter share of successful signers</span></p>
+          <p><strong>{return_rate}</strong><span>Returning Jupiter signer rate</span></p>
+        </div>
+        <p><strong>Evidence still needed:</strong> transaction frequency, timing regularity, program breadth, funding relationships, and repeated instruction patterns. Addresses can be people, bots, custodians, or several wallets controlled by one person.</p>
+      </aside>
+    """.format(
+        jupiter_share=(
+            "Not available" if jupiter_share is None else f"{jupiter_share:.1f}%"
+        ),
+        return_rate=(
+            "Not available"
+            if not isinstance(return_rate, (int, float))
+            else f"{return_rate:.1f}%"
+        ),
+    )
+
+
 def render_html(snapshot: dict[str, Any]) -> str:
     metrics = snapshot["metrics"]
     comparisons = snapshot.get("comparisons") or build_comparisons(metrics)
@@ -355,6 +387,8 @@ def render_html(snapshot: dict[str, Any]) -> str:
                 _metric_card(metric_id, metric, comparisons.get(metric_id))
                 for metric_id, metric in section_metrics
             ) + "</div>"
+            if section == "adoption":
+                content += _activity_lens(metrics)
         else:
             content = """
               <div class="empty-state">
@@ -534,6 +568,22 @@ def render_html(snapshot: dict[str, Any]) -> str:
     .era p {{ margin-bottom: 8px; color: var(--muted); font-size: .84rem; }}
     .era p span {{ display: block; margin-bottom: 4px; color: var(--text); font-size: .68rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }}
     .era a {{ color: var(--violet); font-size: .76rem; }}
+    .learn-intro {{ max-width: 760px; margin-bottom: 24px; color: var(--muted); }}
+    .learn-guide {{ border-top: 1px solid var(--line); }}
+    .learn-guide details {{ padding: 18px 0; border-bottom: 1px solid var(--line); font-size: .92rem; }}
+    .learn-guide summary {{ display: flex; align-items: baseline; justify-content: space-between; gap: 20px; font-family: Bahnschrift, "Franklin Gothic Medium", sans-serif; font-size: 1.15rem; }}
+    .learn-guide summary::after {{ content: "+"; color: var(--green); font-family: "Cascadia Mono", Consolas, monospace; }}
+    .learn-guide details[open] summary::after {{ content: "−"; }}
+    .learn-guide details > div {{ max-width: 780px; padding-top: 14px; color: var(--muted); }}
+    .learn-guide strong {{ color: var(--text); }}
+    .identity-lens {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px; padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }}
+    .identity-lens h3 {{ margin: 8px 0 0; font-size: 1.5rem; }}
+    .identity-lens > p {{ grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: .82rem; }}
+    .identity-facts {{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }}
+    .identity-facts p {{ margin: 0; }}
+    .identity-facts strong, .identity-facts span {{ display: block; }}
+    .identity-facts strong {{ font-family: Bahnschrift, "Franklin Gothic Medium", sans-serif; font-size: 1.6rem; }}
+    .identity-facts span {{ color: var(--muted); font-size: .72rem; }}
     .methods-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }}
     .methods-card, .interpretation {{
       padding: 26px;
@@ -563,7 +613,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
     @media (max-width: 680px) {{
       main, .header-inner {{ width: min(100% - 24px, 1180px); }}
       main {{ padding-top: 48px; }}
-      .reading, .section-heading, .methods-grid, .era {{ grid-template-columns: 1fr; }}
+      .reading, .section-heading, .methods-grid, .era, .identity-lens {{ grid-template-columns: 1fr; }}
       .source-health {{ padding: 20px 0 0; border: 0; border-top: 1px solid var(--line); }}
       .signal-grid, .metric-grid {{ grid-template-columns: 1fr; }}
       .dashboard-section {{ padding-top: 58px; }}
@@ -588,6 +638,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
         <a href="#ecosystem">Ecosystem</a>
         <a href="#financial-rails">Financial rails</a>
         <a href="#history">History</a>
+        <a href="#learn">Learn</a>
         <a href="#methods">Methods</a>
       </nav>
     </div>
@@ -622,9 +673,35 @@ def render_html(snapshot: dict[str, Any]) -> str:
 
     {timeline_panel}
 
+    <section class="dashboard-section" id="learn">
+      <div class="section-heading">
+        <div><span class="section-index">08</span><div><p class="section-question">New to the observatory?</p><h2>Learn the instrument</h2></div></div>
+        <p>A short field guide to the dashboard, the network, and the project behind it.</p>
+      </div>
+      <p class="learn-intro">Start with the six questions. Open a metric only when you want its definition, interpretive risk, or source. A reporting badge describes the data feed; it is not a verdict on Solana.</p>
+      <div class="learn-guide">
+        <details open>
+          <summary>How do I use this dashboard?</summary>
+          <div>Read the six overview signals, then follow the section that changed. Compare the latest seven complete days with the prior seven, inspect companion metrics, and check the evidence before drawing a conclusion.</div>
+        </details>
+        <details>
+          <summary>How do I learn the concepts?</summary>
+          <div>Begin with Network, Adoption, and Economy. Then study Validators and Financial Rails. Each card explains what the metric measures, why it matters, and what can fool you; the history rail shows how these questions emerged.</div>
+        </details>
+        <details>
+          <summary>Why might Solana matter?</summary>
+          <div>Solana combines low transaction costs, fast execution, and an accessible builder experience with active markets, stablecoins, payments, and tokenized assets. The observatory tests that financial-rails thesis without hiding reliability, concentration, speculation, or automation risks.</div>
+        </details>
+        <details>
+          <summary>Why was this built?</summary>
+          <div>Sathian built the observatory to replace borrowed conviction with inspectable evidence while learning Solana. That learning also informs Tooth Fairy Network, a separate mainnet project for family time capsules and long-term value. Physical books and expanded incentive features are planned, not presented here as shipped.</div>
+        </details>
+      </div>
+    </section>
+
     <section class="dashboard-section" id="methods">
       <div class="section-heading">
-        <div><span class="section-index">08</span><h2>Methods</h2></div>
+        <div><span class="section-index">09</span><h2>Methods</h2></div>
         <p>How to read this report without mistaking a useful metric for the whole truth.</p>
       </div>
       <div class="methods-grid">

@@ -152,6 +152,7 @@ class EconomyParserTests(unittest.TestCase):
         self.assertEqual(len(tvl_metric["series"]), 14)
         self.assertEqual(tvl_metric["series"][0]["observed_at"], "2026-07-25")
         self.assertEqual(stable_metric["unit"], "USD")
+        self.assertEqual(stable_metric["section"], "financial_rails")
         self.assertEqual(dex_metric["section"], "economy")
         self.assertEqual(tvl_metric["source"]["name"], "DeFiLlama")
         self.assertIn("historicalChainTvl", tvl_metric["source"]["method"])

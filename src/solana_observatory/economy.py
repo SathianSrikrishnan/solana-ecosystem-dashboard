@@ -141,10 +141,11 @@ def _defillama_metric(
     collected_at: str,
     caveat: str,
     series: list[dict[str, Any]],
+    section: str = "economy",
 ) -> dict[str, Any]:
     return {
         "id": metric_id,
-        "section": "economy",
+        "section": section,
         "label": label,
         "value": series[-1]["value"],
         "unit": "USD",
@@ -254,6 +255,7 @@ def parse_defillama_stablecoins(
             "that every token is backed by cash."
         ),
         series=series,
+        section="financial_rails",
     )
 
 

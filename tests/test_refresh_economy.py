@@ -102,9 +102,12 @@ class RefreshEconomyTests(unittest.TestCase):
                 {
                     "sol_price_usd",
                     "solana_defi_tvl_usd",
-                    "solana_stablecoin_value_usd",
                     "solana_dex_volume_usd",
                 },
+            )
+            self.assertEqual(
+                report["metrics"]["solana_stablecoin_value_usd"]["section"],
+                "financial_rails",
             )
             markdown = (output_dir / "report.md").read_text(encoding="utf-8")
             html = (output_dir / "index.html").read_text(encoding="utf-8")

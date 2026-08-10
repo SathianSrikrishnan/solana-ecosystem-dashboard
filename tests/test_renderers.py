@@ -296,6 +296,44 @@ class RendererTests(unittest.TestCase):
         self.assertIn("Observatory interpretation", rendered)
         self.assertIn('href="https://example.com/7"', rendered)
 
+    def test_html_includes_a_beginner_learn_and_project_guide(self):
+        rendered = render_html(self.snapshot)
+
+        self.assertIn('href="#learn"', rendered)
+        self.assertIn('id="learn"', rendered)
+        self.assertIn("How do I use this dashboard?", rendered)
+        self.assertIn("How do I learn the concepts?", rendered)
+        self.assertIn("Why might Solana matter?", rendered)
+        self.assertIn("Why was this built?", rendered)
+        self.assertIn("Tooth Fairy Network", rendered)
+        self.assertIn("planned", rendered.lower())
+        self.assertIn("Start with the six questions", rendered)
+
+    def test_html_shows_an_honest_identity_and_automation_lens(self):
+        base = self.snapshot["metrics"]["active_validators"]
+        for metric_id, label, value in (
+            ("daily_unique_successful_signers", "Successful signers", 1000),
+            ("daily_unique_jupiter_swap_signers", "Jupiter swap signers", 100),
+            ("jupiter_swap_signer_7d_return_rate", "Jupiter return rate", 25.0),
+        ):
+            self.snapshot["metrics"][metric_id] = {
+                **base,
+                "id": metric_id,
+                "section": "adoption",
+                "label": label,
+                "value": value,
+                "unit": "percent" if "rate" in metric_id else "wallet addresses",
+            }
+
+        rendered = render_html(self.snapshot)
+
+        self.assertIn("Identity and automation lens", rendered)
+        self.assertIn("Jupiter share of successful signers", rendered)
+        self.assertIn("10.0%", rendered)
+        self.assertIn("Returning Jupiter signer rate", rendered)
+        self.assertIn("We cannot classify bots yet", rendered)
+        self.assertIn("Evidence still needed", rendered)
+
     def test_html_uses_distinctive_local_typography_and_respects_reduced_motion(self):
         rendered = render_html(self.snapshot)
 

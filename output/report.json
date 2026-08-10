@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-08T16:09:03.167075Z",
+  "generated_at": "2026-08-10T10:05:07.171029Z",
   "metrics": {
     "active_validators": {
       "caveat": "A validator count does not describe how evenly stake is distributed.",
-      "collected_at": "2026-07-28T13:43:19.325189Z",
+      "collected_at": "2026-08-10T10:05:00.128941Z",
       "confidence": "high",
       "definition": "Vote accounts currently classified as active by the RPC response.",
       "id": "active_validators",
@@ -18,11 +18,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "validators",
-      "value": 692
+      "value": 690,
+      "why_it_matters": "Active vote accounts show how many validators are currently participating, before considering stake concentration."
     },
     "block_height": {
       "caveat": "This is network progress, not a measure of user adoption.",
-      "collected_at": "2026-07-28T13:43:19.325189Z",
+      "collected_at": "2026-08-10T10:05:00.128941Z",
       "confidence": "high",
       "definition": "Current block height reported by the selected RPC node.",
       "id": "block_height",
@@ -37,11 +38,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "block",
-      "value": 413812365
+      "value": 416434991,
+      "why_it_matters": "Block height is a second progress marker that helps detect a stalled or lagging data source."
     },
     "current_slot": {
       "caveat": "Different RPC nodes can be a few slots apart.",
-      "collected_at": "2026-07-28T13:43:19.325189Z",
+      "collected_at": "2026-08-10T10:05:00.128941Z",
       "confidence": "high",
       "definition": "Latest slot reported by the selected public RPC node.",
       "id": "current_slot",
@@ -56,7 +58,8 @@
       "source_time": null,
       "status": "ok",
       "unit": "slot",
-      "value": 435753787
+      "value": 438381182,
+      "why_it_matters": "A rising slot confirms that this observer sees the chain continuing to advance."
     },
     "daily_jupiter_fee_payer_overlap": {
       "caveat": "This is an address intersection, not a count of people; sponsored or relayed transactions can fall outside it.",
@@ -104,7 +107,8 @@
       "source_time": "2026-08-07",
       "status": "ok",
       "unit": "wallet addresses",
-      "value": 26816
+      "value": 26816,
+      "why_it_matters": "The overlap reveals how often the visible application signer also pays the transaction fee."
     },
     "daily_unique_jupiter_swap_signers": {
       "caveat": "Wallet addresses are not people, and this measures Jupiter Swap signers rather than users of a particular wallet app.",
@@ -152,7 +156,8 @@
       "source_time": "2026-08-07",
       "status": "ok",
       "unit": "wallet addresses",
-      "value": 26816
+      "value": 26816,
+      "why_it_matters": "It shows the scale of intended swap activity through one of Solana's major application routes."
     },
     "daily_unique_successful_fee_payers": {
       "caveat": "Wallet addresses are not people: one person or bot can control many addresses, and relayers may pay fees for others.",
@@ -200,7 +205,8 @@
       "source_time": "2026-08-07",
       "status": "ok",
       "unit": "wallet addresses",
-      "value": 2046280
+      "value": 2046280,
+      "why_it_matters": "Fee payers approximate how many distinct addresses initiated successful activity and paid for execution."
     },
     "daily_unique_successful_signers": {
       "caveat": "Wallet addresses are not people: one person or bot can control many addresses, and one transaction may require several signers.",
@@ -248,11 +254,12 @@
       "source_time": "2026-08-07",
       "status": "ok",
       "unit": "wallet addresses",
-      "value": 3628019
+      "value": 3628019,
+      "why_it_matters": "Successful signers capture a broader set of participating addresses than fee payers alone."
     },
     "delinquent_validators": {
       "caveat": "Temporary delinquency can recover and is not automatically malicious behavior.",
-      "collected_at": "2026-07-28T13:43:19.325189Z",
+      "collected_at": "2026-08-10T10:05:00.128941Z",
       "confidence": "high",
       "definition": "Vote accounts currently classified as delinquent by the RPC response.",
       "id": "delinquent_validators",
@@ -267,11 +274,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "validators",
-      "value": 15
+      "value": 8,
+      "why_it_matters": "Delinquency is an early operational signal that part of the validator set is falling behind."
     },
     "epoch_progress": {
       "caveat": "Epoch progress describes validator timing, not economic growth.",
-      "collected_at": "2026-07-28T13:43:19.325189Z",
+      "collected_at": "2026-08-10T10:05:00.128941Z",
       "confidence": "high",
       "definition": "Share of the current epoch's slots already completed.",
       "id": "epoch_progress",
@@ -286,11 +294,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "percent",
-      "value": 68.93
+      "value": 77.13,
+      "why_it_matters": "Epoch progress provides timing context for validator rewards, stake activation, and network operations."
     },
     "estimated_non_vote_tps": {
       "caveat": "Non-vote transactions can still include bots and automated programs.",
-      "collected_at": "2026-07-28T13:43:19.325189Z",
+      "collected_at": "2026-08-10T10:05:00.128941Z",
       "confidence": "high",
       "definition": "Non-vote transactions in the latest RPC performance sample divided by sample seconds.",
       "id": "estimated_non_vote_tps",
@@ -305,11 +314,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "transactions/second",
-      "value": 2081.32
+      "value": 1383.62,
+      "why_it_matters": "This is the closest live RPC measure of application and user transaction throughput."
     },
     "estimated_slot_time": {
       "caveat": "This is a short recent estimate and can move between samples.",
-      "collected_at": "2026-07-28T13:43:19.325189Z",
+      "collected_at": "2026-08-10T10:05:00.128941Z",
       "confidence": "high",
       "definition": "Latest performance sample duration divided by slots produced.",
       "id": "estimated_slot_time",
@@ -324,11 +334,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "seconds",
-      "value": 0.441
+      "value": 0.423,
+      "why_it_matters": "Slot time indicates how quickly the chain is advancing in the most recent sample."
     },
     "estimated_tps": {
       "caveat": "Includes validator votes, so it is not the same as user activity.",
-      "collected_at": "2026-07-28T13:43:19.325189Z",
+      "collected_at": "2026-08-10T10:05:00.128941Z",
       "confidence": "high",
       "definition": "All transactions in the latest RPC performance sample divided by sample seconds.",
       "id": "estimated_tps",
@@ -343,7 +354,8 @@
       "source_time": null,
       "status": "ok",
       "unit": "transactions/second",
-      "value": 3670.5
+      "value": 2994.98,
+      "why_it_matters": "Total throughput shows network load, but must be separated from user activity because it includes validator votes."
     },
     "jupiter_swap_signer_7d_return_rate": {
       "caveat": "Returning addresses are not necessarily returning people; bots and one person using several wallets remain included.",
@@ -391,11 +403,12 @@
       "source_time": "2026-08-07",
       "status": "ok",
       "unit": "percent",
-      "value": 26.43
+      "value": 26.43,
+      "why_it_matters": "Return rate distinguishes repeat use from one-time address activity."
     },
     "rpc_health": {
       "caveat": "This checks one public RPC endpoint, not every validator.",
-      "collected_at": "2026-07-28T13:43:19.325189Z",
+      "collected_at": "2026-08-10T10:05:00.128941Z",
       "confidence": "high",
       "definition": "Health response from the selected public RPC node.",
       "id": "rpc_health",
@@ -410,11 +423,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "status",
-      "value": "ok"
+      "value": "ok",
+      "why_it_matters": "It is the first check that the dashboard's live network data path is responding normally."
     },
     "sol_price_usd": {
       "caveat": "Market price is volatile context, not evidence that network or application usage is growing.",
-      "collected_at": "2026-08-08T16:09:03.167075Z",
+      "collected_at": "2026-08-10T10:05:07.171029Z",
       "confidence": "high",
       "definition": "CoinGecko's aggregated market price for one SOL in USD.",
       "id": "sol_price_usd",
@@ -426,28 +440,21 @@
         "name": "CoinGecko",
         "url": "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd&include_24hr_change=true&include_last_updated_at=true"
       },
-      "source_time": "2026-08-08T16:07:00Z",
+      "source_time": "2026-08-10T10:03:20Z",
       "status": "ok",
       "unit": "USD",
-      "value": 76.32
+      "value": 76.57,
+      "why_it_matters": "Price supplies market context for SOL-denominated capital and validator economics."
     },
     "solana_defi_tvl_usd": {
       "caveat": "TVL depends on protocol coverage and methodology and can double-count economic exposure through composable assets.",
-      "collected_at": "2026-08-08T16:09:03.167075Z",
+      "collected_at": "2026-08-10T10:05:07.171029Z",
       "confidence": "high",
       "definition": "USD value locked in Solana DeFi protocols tracked by DeFiLlama on the latest complete UTC day.",
       "id": "solana_defi_tvl_usd",
       "label": "Solana DeFi TVL",
       "section": "economy",
       "series": [
-        {
-          "observed_at": "2026-07-25",
-          "value": 4776297727.0
-        },
-        {
-          "observed_at": "2026-07-26",
-          "value": 4826686052.0
-        },
         {
           "observed_at": "2026-07-27",
           "value": 4905396243.0
@@ -495,6 +502,14 @@
         {
           "observed_at": "2026-08-07",
           "value": 4707203417.0
+        },
+        {
+          "observed_at": "2026-08-08",
+          "value": 4733573525.0
+        },
+        {
+          "observed_at": "2026-08-09",
+          "value": 4792264217.0
         }
       ],
       "source": {
@@ -502,14 +517,15 @@
         "name": "DeFiLlama",
         "url": "https://api.llama.fi/v2/historicalChainTvl/Solana"
       },
-      "source_time": "2026-08-07",
+      "source_time": "2026-08-09",
       "status": "ok",
       "unit": "USD",
-      "value": 4707203417.0
+      "value": 4792264217.0,
+      "why_it_matters": "TVL shows how much capital is deposited in tracked Solana DeFi protocols."
     },
     "solana_dex_volume_usd": {
       "caveat": "Routing can touch several pools, and provider adapter and deduplication coverage determine the reported total.",
-      "collected_at": "2026-08-08T16:09:03.167075Z",
+      "collected_at": "2026-08-10T10:05:07.171029Z",
       "confidence": "high",
       "definition": "Aggregate Solana spot DEX volume tracked by DeFiLlama on the latest complete UTC day.",
       "id": "solana_dex_volume_usd",
@@ -517,60 +533,60 @@
       "section": "economy",
       "series": [
         {
-          "observed_at": "2026-07-25",
-          "value": 1057484172.9
-        },
-        {
-          "observed_at": "2026-07-26",
-          "value": 1198930649.83
-        },
-        {
           "observed_at": "2026-07-27",
-          "value": 1841467135.14
+          "value": 1841326721.14
         },
         {
           "observed_at": "2026-07-28",
-          "value": 1736687117.15
+          "value": 1736584597.15
         },
         {
           "observed_at": "2026-07-29",
-          "value": 1969497273.23
+          "value": 1969313151.23
         },
         {
           "observed_at": "2026-07-30",
-          "value": 1579737257.25
+          "value": 1579651526.25
         },
         {
           "observed_at": "2026-07-31",
-          "value": 1699396656.08
+          "value": 1699349711.08
         },
         {
           "observed_at": "2026-08-01",
-          "value": 1306465331.65
+          "value": 1306429242.65
         },
         {
           "observed_at": "2026-08-02",
-          "value": 1348438391.96
+          "value": 1348331209.96
         },
         {
           "observed_at": "2026-08-03",
-          "value": 1712543781.88
+          "value": 1712393241.88
         },
         {
           "observed_at": "2026-08-04",
-          "value": 1747556147.93
+          "value": 1747500916.93
         },
         {
           "observed_at": "2026-08-05",
-          "value": 1636927091.91
+          "value": 1636774684.91
         },
         {
           "observed_at": "2026-08-06",
-          "value": 1379094026.18
+          "value": 1378953158.18
         },
         {
           "observed_at": "2026-08-07",
-          "value": 1362519430.02
+          "value": 1361283964.02
+        },
+        {
+          "observed_at": "2026-08-08",
+          "value": 1493144029.54
+        },
+        {
+          "observed_at": "2026-08-09",
+          "value": 1223391334.98
         }
       ],
       "source": {
@@ -578,28 +594,21 @@
         "name": "DeFiLlama",
         "url": "https://api.llama.fi/overview/dexs/Solana?excludeTotalDataChartBreakdown=true&dataType=dailyVolume"
       },
-      "source_time": "2026-08-07",
+      "source_time": "2026-08-09",
       "status": "ok",
       "unit": "USD",
-      "value": 1362519430.02
+      "value": 1223391334.98,
+      "why_it_matters": "DEX volume shows how much spot exchange activity occurred across tracked Solana venues."
     },
     "solana_stablecoin_value_usd": {
       "caveat": "Circulating stablecoin value is not payment volume or proof that every token is backed by cash.",
-      "collected_at": "2026-08-08T16:09:03.167075Z",
+      "collected_at": "2026-08-10T10:05:07.171029Z",
       "confidence": "high",
       "definition": "USD value of circulating stablecoins on Solana across DeFiLlama's peg buckets on the latest complete UTC day.",
       "id": "solana_stablecoin_value_usd",
       "label": "Solana stablecoin circulating value",
       "section": "economy",
       "series": [
-        {
-          "observed_at": "2026-07-25",
-          "value": 17095279369.0
-        },
-        {
-          "observed_at": "2026-07-26",
-          "value": 17019015025.0
-        },
         {
           "observed_at": "2026-07-27",
           "value": 16935093774.0
@@ -647,6 +656,14 @@
         {
           "observed_at": "2026-08-07",
           "value": 16252010540.0
+        },
+        {
+          "observed_at": "2026-08-08",
+          "value": 16242352487.0
+        },
+        {
+          "observed_at": "2026-08-09",
+          "value": 16255726011.0
         }
       ],
       "source": {
@@ -654,13 +671,14 @@
         "name": "DeFiLlama",
         "url": "https://stablecoins.llama.fi/stablecoincharts/Solana"
       },
-      "source_time": "2026-08-07",
+      "source_time": "2026-08-09",
       "status": "ok",
       "unit": "USD",
-      "value": 16252010540.0
+      "value": 16255726011.0,
+      "why_it_matters": "Stablecoin value shows the dollar-like liquidity available for trading, saving, and settlement on Solana."
     }
   },
-  "schema_version": "0.2.0",
+  "schema_version": "0.3.0",
   "summary": {
     "headline": "The selected Solana RPC endpoint reports healthy.",
     "status": "healthy"

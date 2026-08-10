@@ -28,7 +28,33 @@ SECTION_DETAILS = {
         "Ecosystem",
         "Selected upgrades, announcements, and application movements.",
     ),
+    "financial_rails": (
+        "Financial rails",
+        "Tokenized assets, stablecoin settlement, payments, and liquidity.",
+    ),
 }
+
+SECTION_QUESTIONS = {
+    "network": "Is Solana working?",
+    "adoption": "Are people and applications returning?",
+    "economy": "Is useful economic activity growing?",
+    "validators": "Is the network resilient and decentralized?",
+    "ecosystem": "Is Solana continuing to compound?",
+    "financial_rails": "Is Solana becoming real financial infrastructure?",
+}
+
+EXPECTED_EVIDENCE = {
+    "network": "success rate, typical fees, and incident history",
+    "adoption": "new and returning addresses, retention, app mix, and automation",
+    "economy": "capital flows, app fees and revenue, chain fees, and REV",
+    "validators": "stake concentration, vote participation, and client diversity",
+    "ecosystem": "developer retention, active applications, upgrades, and incidents",
+    "financial_rails": "RWA value, issuers, holders, liquidity, and identifiable payments",
+}
+
+
+def _section_anchor(section: str) -> str:
+    return section.replace("_", "-")
 
 
 def render_json(snapshot: dict[str, Any]) -> str:
@@ -65,6 +91,8 @@ def render_markdown(snapshot: dict[str, Any]) -> str:
                 "",
                 metric["definition"],
                 "",
+                f"**Why it matters:** {metric['why_it_matters']}",
+                "",
                 f"- Status: `{metric['status']}`",
                 f"- Source: {metric['source']['name']} / `{metric['source']['method']}`",
                 f"- Collected: `{metric['collected_at']}`",
@@ -97,14 +125,15 @@ def _metric_card(metric_id: str, metric: dict[str, Any]) -> str:
           <span class="metric-value">{value}</span>
           <span class="metric-unit">{unit}</span>
         </div>
-        <p class="definition">{definition}</p>
+        <p class="definition"><strong>What this measures:</strong> {definition}</p>
         <details>
-          <summary>Definition, source, and limitation</summary>
+          <summary>Why it matters · risks · evidence</summary>
           <div class="evidence">
-            <p><strong>Source:</strong> <a href="{source_url}">{source}</a> / <code>{method}</code></p>
+            <p><strong>Why it matters:</strong> {why_it_matters}</p>
+            <p><strong>What could fool you:</strong> {caveat}</p>
+            <p><strong>See the evidence:</strong> <a href="{source_url}">{source}</a> / <code>{method}</code></p>
             <p><strong>Collected:</strong> {collected_at}</p>
             <p><strong>Confidence:</strong> {confidence}</p>
-            <p><strong>Important limitation:</strong> {caveat}</p>
           </div>
         </details>
       </article>
@@ -115,6 +144,7 @@ def _metric_card(metric_id: str, metric: dict[str, Any]) -> str:
         value=html.escape(_display_value(metric)),
         unit=html.escape(metric["unit"]),
         definition=html.escape(metric["definition"]),
+        why_it_matters=html.escape(metric["why_it_matters"]),
         source=html.escape(metric["source"]["name"]),
         source_url=html.escape(metric["source"]["url"], quote=True),
         method=html.escape(metric["source"]["method"]),
@@ -224,51 +254,39 @@ def render_html(snapshot: dict[str, Any]) -> str:
               <div class="empty-state">
                 <span class="status status-planned">Data adapter planned</span>
                 <p>This section will activate when its verified data slice lands.</p>
+                <p><strong>Expected evidence:</strong> {expected_evidence}.</p>
               </div>
-            """
+            """.format(expected_evidence=EXPECTED_EVIDENCE[section])
         section_markup.append(
             """
-            <section class="dashboard-section" id="{section}">
+            <section class="dashboard-section" id="{anchor}">
               <div class="section-heading">
                 <div>
                   <span class="section-index">{index:02d}</span>
-                  <h2>{title}</h2>
+                  <div><p class="section-question">{question}</p><h2>{title}</h2></div>
                 </div>
                 <p>{description}</p>
               </div>
               {content}
             </section>
             """.format(
-                section=section,
+                anchor=_section_anchor(section),
                 index=index,
                 title=title,
+                question=SECTION_QUESTIONS[section],
                 description=description,
                 content=content,
             )
         )
 
-    network_metric = metrics.get("rpc_health")
-    adoption_metric = next(
-        (metric for _, metric in grouped_metrics["adoption"]), None
-    )
-    economy_metric = next(
-        (metric for _, metric in grouped_metrics["economy"]), None
-    )
     signal_markup = "\n".join(
-        (
-            _signal_card(
-                "Is the network functioning properly?",
-                network_metric,
-            ),
-            _signal_card(
-                "Is application and wallet activity growing or returning?",
-                adoption_metric,
-            ),
-            _signal_card(
-                "Is meaningful economic activity increasing?",
-                economy_metric,
+        _signal_card(
+            SECTION_QUESTIONS[section],
+            metrics.get("rpc_health") if section == "network" else next(
+                (metric for _, metric in grouped_metrics[section]), None
             ),
         )
+        for section in SECTION_DETAILS
     )
     reporting_count = sum(
         metric["status"] == "ok" for metric in metrics.values()
@@ -373,6 +391,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
     .section-heading {{ display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: end; margin-bottom: 22px; }}
     .section-heading > div {{ display: flex; align-items: baseline; gap: 16px; }}
     .section-heading h2 {{ margin: 0; font-size: 2rem; letter-spacing: -.04em; }}
+    .section-question {{ margin: 0 0 3px; color: var(--green); font-size: .82rem; font-weight: 700; }}
     .section-heading p {{ max-width: 520px; margin: 0; color: var(--muted); }}
     .metric-card {{
       min-width: 0;
@@ -445,6 +464,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
         <a href="#economy">Economy</a>
         <a href="#validators">Validators</a>
         <a href="#ecosystem">Ecosystem</a>
+        <a href="#financial-rails">Financial rails</a>
         <a href="#methods">Methods</a>
       </nav>
     </div>
@@ -453,7 +473,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
     <section id="overview">
       <div class="eyebrow">Verified facts · direct RPC</div>
       <h1>Solana,<br>without the fog.</h1>
-      <p class="lede">A source-visible view of network health, adoption, economics, validators, and ecosystem change. Wallets and transactions are measurements—not people.</p>
+      <p class="lede">Six connected questions reveal whether Solana is working, attracting durable use, producing economic value, staying resilient, compounding its ecosystem, and becoming financial infrastructure. Wallets and transactions are measurements—not people.</p>
       <div class="hero-meta">
         <span><strong>Snapshot</strong> {generated_at}</span>
         <span><strong>Contract</strong> {schema_version}</span>
@@ -479,7 +499,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
 
     <section class="dashboard-section" id="methods">
       <div class="section-heading">
-        <div><span class="section-index">06</span><h2>Methods</h2></div>
+        <div><span class="section-index">07</span><h2>Methods</h2></div>
         <p>How to read this report without mistaking a useful metric for the whole truth.</p>
       </div>
       <div class="methods-grid">

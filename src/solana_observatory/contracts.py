@@ -33,6 +33,7 @@ VALID_SECTIONS = {
     "economy",
     "validators",
     "ecosystem",
+    "financial_rails",
 }
 VALID_STATUSES = {"ok", "stale", "unavailable", "error"}
 VALID_CONFIDENCE = {"high", "medium", "experimental"}

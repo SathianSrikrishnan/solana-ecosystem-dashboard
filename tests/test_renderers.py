@@ -107,6 +107,7 @@ class RendererTests(unittest.TestCase):
             "economy",
             "validators",
             "ecosystem",
+            "financial-rails",
             "methods",
         ):
             self.assertIn(f'href="#{section}"', rendered)
@@ -114,22 +115,30 @@ class RendererTests(unittest.TestCase):
 
         self.assertIn('aria-label="Dashboard sections"', rendered)
 
-    def test_html_opens_with_three_product_questions(self):
+    def test_html_opens_with_six_product_questions(self):
         rendered = render_html(self.snapshot)
 
-        self.assertIn("Is the network functioning properly?", rendered)
+        self.assertIn("Is Solana working?", rendered)
         self.assertIn(
-            "Is application and wallet activity growing or returning?",
+            "Are people and applications returning?",
             rendered,
         )
-        self.assertIn("Is meaningful economic activity increasing?", rendered)
+        self.assertIn("Is useful economic activity growing?", rendered)
+        self.assertIn(
+            "Is the network resilient and decentralized?", rendered
+        )
+        self.assertIn("Is Solana continuing to compound?", rendered)
+        self.assertIn(
+            "Is Solana becoming real financial infrastructure?", rendered
+        )
 
-    def test_html_opens_with_three_balanced_signal_states(self):
+    def test_html_opens_with_six_balanced_signal_states(self):
         rendered = render_html(self.snapshot)
 
-        self.assertEqual(rendered.count('class="signal-card"'), 3)
+        self.assertEqual(rendered.count('class="signal-card"'), 6)
         self.assertIn("RPC health", rendered)
-        self.assertEqual(rendered.count("Awaiting verified data"), 2)
+        self.assertIn("Active validators", rendered)
+        self.assertEqual(rendered.count("Awaiting verified data"), 4)
         self.assertIn("3 of 3 metrics reporting", rendered)
 
     def test_html_groups_metrics_and_marks_unpopulated_sections_as_upcoming(self):
@@ -145,7 +154,19 @@ class RendererTests(unittest.TestCase):
             validators_start,
             rendered.index('data-metric="active_validators"'),
         )
-        self.assertEqual(rendered.count("Data adapter planned"), 3)
+        self.assertEqual(rendered.count("Data adapter planned"), 4)
+        self.assertIn("Expected evidence:", rendered)
+
+    def test_html_explains_measurement_value_and_interpretive_risk(self):
+        rendered = render_html(self.snapshot)
+
+        self.assertIn("What this measures", rendered)
+        self.assertIn("Why it matters", rendered)
+        self.assertIn("What could fool you", rendered)
+        self.assertIn("See the evidence", rendered)
+        self.assertIn(
+            "It confirms the selected data path responds.", rendered
+        )
 
     def test_html_keeps_evidence_and_interpretation_visually_separate(self):
         rendered = render_html(self.snapshot)

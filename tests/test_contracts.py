@@ -51,6 +51,39 @@ class ContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "schema version"):
             validate_snapshot(snapshot)
 
+    def test_contract_accepts_financial_rails_metrics(self):
+        snapshot = build_network_snapshot(
+            {
+                "getHealth": "ok",
+                "getSlot": 355_000_000,
+                "getBlockHeight": 330_000_000,
+                "getEpochInfo": {
+                    "epoch": 812,
+                    "slotIndex": 100,
+                    "slotsInEpoch": 400,
+                },
+                "getRecentPerformanceSamples": [
+                    {
+                        "numTransactions": 120_000,
+                        "numNonVoteTransactions": 30_000,
+                        "numSlots": 150,
+                        "samplePeriodSecs": 60,
+                    }
+                ],
+                "getVoteAccounts": {"current": [], "delinquent": []},
+            },
+            "2026-08-10T12:00:00Z",
+        )
+        metric = dict(snapshot["metrics"]["rpc_health"])
+        metric.update(
+            id="rwa_value",
+            section="financial_rails",
+            label="Tokenized asset value",
+        )
+        snapshot["metrics"] = {"rwa_value": metric}
+
+        validate_snapshot(snapshot)
+
     def test_network_snapshot_satisfies_shared_metric_contract(self):
         snapshot = build_network_snapshot(
             {

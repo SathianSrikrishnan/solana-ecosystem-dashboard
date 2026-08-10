@@ -2,7 +2,8 @@
   "name": "solana-observatory-release-qa",
   "private": true,
   "scripts": {
-    "test:a11y": "node tests/accessibility.mjs"
+    "test:a11y": "node tests/accessibility.mjs",
+    "test:visual": "node tests/visual_qa.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.12.1",

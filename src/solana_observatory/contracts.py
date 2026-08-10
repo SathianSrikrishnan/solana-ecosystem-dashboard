@@ -126,6 +126,30 @@ def validate_snapshot(snapshot: dict[str, Any]) -> None:
                 f"Metric {metric_key} source must include name, method, and url"
             )
 
+    leaderboard = snapshot.get("validator_leaderboard")
+    if leaderboard is not None:
+        if not isinstance(leaderboard, dict) or not {
+            "collected_at", "source", "caveat", "records"
+        }.issubset(leaderboard):
+            raise ValueError("Validator leaderboard is missing required fields")
+        if not isinstance(leaderboard["records"], list) or len(leaderboard["records"]) > 10:
+            raise ValueError("Validator leaderboard records must be a top-ten list")
+        source = leaderboard["source"]
+        if not isinstance(source, dict) or not {"name", "method", "url"}.issubset(source):
+            raise ValueError("Validator leaderboard source is invalid")
+        for expected_rank, record in enumerate(leaderboard["records"], start=1):
+            if not isinstance(record, dict) or not {
+                "rank", "vote_pubkey", "activated_stake_sol", "stake_share_pct",
+                "commission_pct", "status"
+            }.issubset(record):
+                raise ValueError("Validator leaderboard record is missing fields")
+            if record["rank"] != expected_rank:
+                raise ValueError("Validator leaderboard rank must be sequential")
+            if not isinstance(record["vote_pubkey"], str) or not record["vote_pubkey"]:
+                raise ValueError("Validator leaderboard vote pubkey is invalid")
+            if record["status"] not in {"current", "delinquent"}:
+                raise ValueError("Validator leaderboard status is invalid")
+
     comparisons = snapshot.get("comparisons", {})
     if not isinstance(comparisons, dict):
         raise ValueError("Snapshot comparisons must be a dictionary")

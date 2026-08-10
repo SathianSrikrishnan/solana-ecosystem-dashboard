@@ -13,8 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from solana_observatory.dune_adoption import (
-    parse_daily_fee_payers_csv, parse_daily_jupiter_swap_csv,
-    parse_daily_successful_signers_csv,
+    mark_dune_metrics_stale, parse_daily_fee_payers_csv,
+    parse_daily_jupiter_swap_csv, parse_daily_successful_signers_csv,
 )
 from solana_observatory.dune_client import fetch_query_csv
 from solana_observatory.pipeline import write_reports
@@ -42,7 +42,10 @@ def main() -> int:
         written = write_reports(snapshot, args.output)
     except (OSError, ValueError, json.JSONDecodeError) as error:
         print(f"Dune refresh failed without replacing verified data: {error}", file=sys.stderr)
-        return 1
+        if "snapshot" in locals() and mark_dune_metrics_stale(snapshot, reason=str(error)):
+            written = write_reports(snapshot, args.output)
+            for path in written: print(path)
+        return 0
     for path in written: print(path)
     return 0
 

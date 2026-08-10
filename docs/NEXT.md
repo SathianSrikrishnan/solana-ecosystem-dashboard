@@ -13,7 +13,7 @@ dashboard is now organized as a layered observatory around six health questions.
 - JSON, Markdown, and standalone dark HTML generation;
 - live Network, Adoption, Economy, and Validator measurements;
 - honest planned states for authenticated RWA and identifiable-payment evidence;
-- 106 passing foundation, contract, interface, query, adapter, and
+- 112 passing foundation, contract, interface, query, adapter, and
   import-command tests;
 - a clean six-hour GitHub refresh workflow;
 - enforced metric schema `0.3.0`, including a beginner-readable
@@ -35,7 +35,9 @@ dashboard is now organized as a layered observatory around six health questions.
 - deterministic seven-day comparisons with exact current and prior windows;
 - a sourced seven-era history rail with facts separated from interpretation;
 - live validator stake, concentration, superminority, commission, and vote
-  participation measurements;
+  participation measurements plus a ranked top-ten vote-account table;
+- accessible inline sparklines for supported time series and a visible
+  deterministic anomaly-review queue;
 - scheduled refreshes preserve already-verified dashboard sections.
 - a Learn/About surface and an honest identity-and-automation lens;
 - neutral cyan data-reporting badges; green/yellow/red are reserved for
@@ -46,9 +48,11 @@ dashboard is now organized as a layered observatory around six health questions.
 ## Next technical phase
 
 The GitHub Pages dashboard and refresh-to-deploy path are live and verified.
-Activate the authenticated Dune adapter by adding `DUNE_API_KEY` as a GitHub
-Actions secret, then complete the short demo and submission form. RWA.xyz
-remains an optional authenticated adapter.
+`DUNE_API_KEY` is configured. The remaining Dune action is to set a zero-dollar
+extra-credit limit and a conservative per-query cap, then explicitly approve a
+bounded execution of the three saved queries; stored results currently end on
+2026-08-07 and are labeled stale when they fail freshness validation. RWA.xyz
+remains unavailable unless API access and redistribution rights are granted.
 Identifiable payment volume remains deferred until a repeatable attribution
 source exists. Bot classification remains a named evidence gap until address-
 level frequency, timing, program breadth, funding, and instruction-pattern

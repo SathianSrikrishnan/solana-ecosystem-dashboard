@@ -304,6 +304,77 @@ class RendererTests(unittest.TestCase):
         markdown = render_markdown(self.snapshot)
         self.assertIn("7-day average change: `+25.0%`", markdown)
 
+    def test_html_renders_accessible_sparklines_for_existing_numeric_series(self):
+        self.snapshot["metrics"]["estimated_non_vote_tps"]["series"] = [
+            {"observed_at": f"2026-08-{day:02d}", "value": value}
+            for day, value in enumerate((100, 125, 90, 150), start=1)
+        ]
+
+        rendered = render_html(self.snapshot)
+
+        self.assertIn('data-sparkline="estimated_non_vote_tps"', rendered)
+        self.assertIn('role="img"', rendered)
+        self.assertIn("4 observations", rendered)
+        self.assertIn("100.00 → 150.00", rendered)
+
+    def test_html_and_markdown_render_ranked_validator_depth(self):
+        self.snapshot["validator_leaderboard"] = {
+            "collected_at": "2026-08-10T12:00:00Z",
+            "source": {"name": "Solana JSON-RPC", "method": "getVoteAccounts", "url": "https://api.mainnet-beta.solana.com"},
+            "caveat": "Vote accounts are not operators.",
+            "records": [
+                {"rank": 1, "vote_pubkey": "ValidatorVotePubkeyOne", "activated_stake_sol": 1250000.0, "stake_share_pct": 2.5, "commission_pct": 5.0, "status": "current"},
+                {"rank": 2, "vote_pubkey": "ValidatorVotePubkeyTwo", "activated_stake_sol": 900000.0, "stake_share_pct": 1.8, "commission_pct": 7.0, "status": "current"},
+            ],
+        }
+
+        html_output = render_html(self.snapshot)
+        markdown_output = render_markdown(self.snapshot)
+
+        self.assertIn('id="validator-leaderboard"', html_output)
+        self.assertIn('class="table-scroll" tabindex="0"', html_output)
+        self.assertIn('aria-label="Top vote accounts table"', html_output)
+        self.assertIn("Top vote accounts by activated stake", html_output)
+        self.assertIn("ValidatorVotePubkeyOne", html_output)
+        self.assertIn("1,250,000.00", html_output)
+        self.assertIn("## Top vote accounts by activated stake", markdown_output)
+        self.assertIn("ValidatorVotePubkeyTwo", markdown_output)
+
+    def test_html_makes_anomaly_monitoring_visible_without_a_health_verdict(self):
+        self.snapshot["anomalies"] = {
+            "estimated_non_vote_tps": {
+                "metric_id": "estimated_non_vote_tps",
+                "status": "notable",
+                "direction": "decreased",
+                "observed_change_pct": -31.0,
+                "threshold_pct": 25.0,
+                "previous_window": [],
+                "current_window": [],
+                "known_gap": None,
+                "caveat": "A notable movement is not a health verdict.",
+            },
+            "rpc_health": {
+                "metric_id": "rpc_health",
+                "status": "unavailable",
+                "direction": "unknown",
+                "observed_change_pct": None,
+                "threshold_pct": 10.0,
+                "previous_window": [],
+                "current_window": [],
+                "known_gap": "No numeric comparison.",
+                "caveat": "Unavailable evidence is not an anomaly.",
+            },
+        }
+
+        rendered = render_html(self.snapshot)
+
+        self.assertIn('id="anomaly-monitor"', rendered)
+        self.assertIn("1 notable", rendered)
+        self.assertIn("1 unavailable", rendered)
+        self.assertIn("Estimated non-vote TPS", rendered)
+        self.assertIn("threshold 25.0%", rendered)
+        self.assertIn("not a health verdict", rendered)
+
     def test_html_includes_mobile_layout_and_accessible_skip_link(self):
         rendered = render_html(self.snapshot)
 

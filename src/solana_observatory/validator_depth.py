@@ -93,6 +93,35 @@ def calculate_validator_depth(vote_accounts: dict[str, Any]) -> dict[str, Any]:
     credited_stake = sum(
         stake for account, stake in current if _has_recent_vote_credits(account)
     )
+    ranked_accounts = sorted(
+        (
+            (account, stake, status)
+            for status, accounts in (("current", current), ("delinquent", delinquent))
+            for account, stake in accounts
+        ),
+        key=lambda item: (-item[1], item[0]["votePubkey"]),
+    )[:10]
+    leaderboard = []
+    for rank, (account, stake, status) in enumerate(ranked_accounts, start=1):
+        commission = account.get("commission")
+        valid_commission = (
+            isinstance(commission, (int, float))
+            and not isinstance(commission, bool)
+            and math.isfinite(commission)
+            and 0 <= commission <= 100
+        )
+        leaderboard.append(
+            {
+                "rank": rank,
+                "vote_pubkey": account["votePubkey"],
+                "activated_stake_sol": round(stake / LAMPORTS_PER_SOL, 2),
+                "stake_share_pct": (
+                    None if total_stake == 0 else round(stake / total_stake * 100, 2)
+                ),
+                "commission_pct": float(commission) if valid_commission else None,
+                "status": status,
+            }
+        )
     return {
         "active_stake_sol": round(active_stake / LAMPORTS_PER_SOL, 2),
         "delinquent_stake_sol": round(delinquent_stake / LAMPORTS_PER_SOL, 2),
@@ -111,4 +140,5 @@ def calculate_validator_depth(vote_accounts: dict[str, Any]) -> dict[str, Any]:
         "ignored_invalid_accounts": ignored_invalid,
         "ignored_duplicate_accounts": ignored_duplicates,
         "valid_accounts": len(current) + len(delinquent),
+        "leaderboard": leaderboard,
     }

@@ -125,7 +125,7 @@ benchmarks where good and bad direction can be defended.
 ### 2026-08-10 — Keep the article short and defer it
 
 The article will be drafted only after the dashboard is feature-complete. It
-will target 650–900 words and frame Solana through low cost, ease of learning,
+will target 325-450 words and frame Solana through low cost, ease of learning,
 ease of building, maturation beyond its scam/meme-coin reputation, and its
 potential as financial rails. Tooth Fairy Network is the concrete build story;
 future product features remain labeled as planned.
@@ -140,3 +140,14 @@ from transfer volume, and raw transfers are never labeled as payments.
 RWA.xyz stays an optional authenticated adapter. Identifiable payment volume
 stays visibly unavailable until a repeatable attribution source with a clear
 coverage boundary exists.
+
+### 2026-08-10 - Do not scrape RWA.xyz or hide stale Dune results
+
+RWA.xyz's no-key API rejects requests, while full API and redistribution rights
+require an enterprise agreement. The release will keep the RWA card explicitly
+unavailable rather than scraping a public page or relabeling dated press-release
+figures as live data.
+
+Dune stored results must cover the latest seven complete UTC days. When they do
+not, the scheduled pipeline preserves their provenance but marks only the Dune
+metrics stale. Query execution remains bounded and credit-gated.

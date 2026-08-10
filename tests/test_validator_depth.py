@@ -36,6 +36,43 @@ class ValidatorDepthTests(unittest.TestCase):
         self.assertEqual(result["vote_credit_coverage_pct"], 66.67)
         self.assertEqual(result["ignored_invalid_accounts"], 1)
         self.assertEqual(result["ignored_duplicate_accounts"], 1)
+        self.assertEqual(
+            result["leaderboard"],
+            [
+                {
+                    "rank": 1,
+                    "vote_pubkey": "a",
+                    "activated_stake_sol": 40.0,
+                    "stake_share_pct": 40.0,
+                    "commission_pct": 5.0,
+                    "status": "current",
+                },
+                {
+                    "rank": 2,
+                    "vote_pubkey": "b",
+                    "activated_stake_sol": 30.0,
+                    "stake_share_pct": 30.0,
+                    "commission_pct": 10.0,
+                    "status": "current",
+                },
+                {
+                    "rank": 3,
+                    "vote_pubkey": "c",
+                    "activated_stake_sol": 20.0,
+                    "stake_share_pct": 20.0,
+                    "commission_pct": 15.0,
+                    "status": "current",
+                },
+                {
+                    "rank": 4,
+                    "vote_pubkey": "d",
+                    "activated_stake_sol": 10.0,
+                    "stake_share_pct": 10.0,
+                    "commission_pct": 20.0,
+                    "status": "delinquent",
+                },
+            ],
+        )
 
     def test_zero_stake_returns_unavailable_ratios(self):
         result = calculate_validator_depth(

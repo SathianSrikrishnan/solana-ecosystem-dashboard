@@ -15,6 +15,8 @@
 - [x] Median transaction-fee estimate with precise limitations.
 - [x] TPS, slot-time, delinquency, and SOL-price anomaly monitors.
 - [x] Official Solana RSS, Alpenglow, and SIMD-0525 tracking.
+- [x] Ranked top-ten vote-account table with explicit operator-identity caveat.
+- [x] Accessible sparklines and a visible deterministic anomaly-review queue.
 - [x] GitHub Pages deployment workflow.
 - [x] Submission-ready README covering setup, sources, automation, anomalies,
       interpretation, and known gaps.
@@ -23,8 +25,10 @@
 
 - [x] Paste the exact Superteam bounty listing URL for requirement verification.
 - [x] Choose/approve GitHub Pages hosting for the bounty.
-- [ ] Configure `DUNE_API_KEY` as a repository secret to activate authenticated
-      Dune extraction. The no-key workflow safely preserves verified data.
+- [x] Configure `DUNE_API_KEY` as a repository secret for authenticated Dune
+      stored-result retrieval.
+- [ ] Set Dune's extra-credit limit to $0 and a conservative per-query cap,
+      then approve one bounded execution of the three saved queries.
 - [ ] Decide whether to add an optional model-backed briefing with a hard cost
       cap or submit with the deterministic briefing.
 - [ ] Confirm the public byline and short builder bio.

@@ -22,7 +22,7 @@ failure remains visible instead of becoming zero.
 ## Run it locally
 
 Python 3.11+ is the only production dependency. Node is used only for the
-repeatable Axe accessibility test.
+repeatable Axe accessibility and visual QA checks.
 
 ```powershell
 # Source / context:
@@ -39,6 +39,7 @@ python scripts\refresh_updates.py --snapshot output\report.json --output output
 python scripts\refresh_dune.py --snapshot output\report.json --output output
 npm ci
 npm run test:a11y
+npm run test:visual
 ```
 
 Open `output/index.html` after the refresh completes.
@@ -48,7 +49,7 @@ Open `output/index.html` after the refresh completes.
 | Source | What it supplies | Access and failure behavior |
 |---|---|---|
 | Solana JSON-RPC | health, slots, blocks, epoch, TPS, slot time, recent fees, validators and stake | Public/no-key; refreshed first |
-| Dune | successful fee payers/signers, Jupiter signers, overlap and return rate | Optional `DUNE_API_KEY`; last verified data is preserved when absent |
+| Dune | successful fee payers/signers, Jupiter signers, overlap and return rate | Optional `DUNE_API_KEY`; stale stored results are labeled instead of presented as current |
 | DeFiLlama | TVL, stablecoins, DEX volume, chain/app fees, app revenue and tracked Jito tips | Public/no-key; sources fail independently |
 | CoinGecko | SOL price and 24-hour movement | Public/no-key; bounded request |
 | Solana RSS and upgrade pages | current official news, Alpenglow roadmap | Public/no-key; editorial source is explicitly labeled |
@@ -65,7 +66,8 @@ manually. It:
 
 1. runs the Python tests;
 2. refreshes RPC, economy, ecosystem, official-news and upgrade data;
-3. refreshes Dune data when `DUNE_API_KEY` is configured;
+3. attempts a Dune stored-result refresh when `DUNE_API_KEY` is configured and
+   visibly marks only those metrics stale when freshness validation fails;
 4. runs desktop and mobile Axe checks;
 5. commits changed report outputs.
 
@@ -84,8 +86,10 @@ cd "C:\Users\sathi\Projects\solana-ecosystem-dashboard"
 gh secret set DUNE_API_KEY
 ```
 
-The workflow retrieves the latest stored results; executing the queries on Dune
-can consume credits and remains a separate, explicitly approved schedule.
+The repository secret is configured. The workflow retrieves the latest stored
+results, but those results currently end on 2026-08-07 and do not satisfy the
+latest-complete-day contract. Executing the queries can consume Dune credits
+and remains a separate, explicitly approved action after billing caps are set.
 
 ## Anomaly detection
 
@@ -102,6 +106,12 @@ with the preceding seven and flag absolute movement of at least 15%. Thresholds
 are code-visible, tests cover both sides, and insufficient evidence is reported
 as unavailable rather than anomalous.
 
+The overview exposes the review queue, and supported metric series include
+compact accessible sparklines. Validators include a live top-ten vote-account
+table alongside concentration, delinquency, commission, and superminority
+measurements. Vote accounts are ranked without claiming they are distinct
+operators.
+
 ## How to interpret it
 
 Start with the six overview questions. A green reporting badge means the source
@@ -112,10 +122,11 @@ records but cannot identify causes.
 
 ## Known boundaries
 
-- Dune auto-refresh needs a secret; the public no-key core remains usable.
-- RWA.xyz requires authenticated access, so tokenized-asset value is not
-  backfilled from press releases. This is especially important because RWAs and
-  tokenized equities are central to the financial-rails thesis.
+- Dune authentication is configured, but fresh query execution is credit-gated;
+  stale results are preserved as evidence and visibly labeled.
+- RWA.xyz's no-key API returns unauthorized, and full API plus redistribution
+  rights require an enterprise agreement. Tokenized-asset value is therefore
+  not scraped or backfilled from press releases.
 - Raw stablecoin transfer volume is not presented as payment volume.
 - Official news is one editorial feed, not total community sentiment.
 

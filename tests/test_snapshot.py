@@ -171,6 +171,13 @@ class SnapshotTests(unittest.TestCase):
             metrics["top_10_stake_share_pct"]["caveat"].lower(),
         )
 
+        leaderboard = build_network_snapshot(
+            rpc_results, "2026-08-10T12:00:00Z"
+        )["validator_leaderboard"]
+        self.assertEqual([row["vote_pubkey"] for row in leaderboard["records"]], ["a", "b"])
+        self.assertEqual(leaderboard["source"]["method"], "getVoteAccounts")
+        self.assertIn("not operators", leaderboard["caveat"].lower())
+
 
 if __name__ == "__main__":
     unittest.main()

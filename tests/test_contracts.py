@@ -119,6 +119,24 @@ class ContractTests(unittest.TestCase):
         self.assertIsNone(metric["source_time"])
         self.assertEqual(metric["series"], [])
 
+    def test_contract_validates_validator_leaderboard_records(self):
+        snapshot = build_network_snapshot(
+            {
+                "getHealth": "ok",
+                "getSlot": 1,
+                "getBlockHeight": 1,
+                "getEpochInfo": {"epoch": 1, "slotIndex": 1, "slotsInEpoch": 2},
+                "getRecentPerformanceSamples": [{"numTransactions": 10, "numNonVoteTransactions": 5, "numSlots": 2, "samplePeriodSecs": 1}],
+                "getVoteAccounts": {"current": [{"votePubkey": "one", "activatedStake": 1_000_000_000, "commission": 5}], "delinquent": []},
+            },
+            "2026-08-10T12:00:00Z",
+        )
+
+        validate_snapshot(snapshot)
+        snapshot["validator_leaderboard"]["records"][0]["rank"] = 2
+        with self.assertRaisesRegex(ValueError, "rank"):
+            validate_snapshot(snapshot)
+
     def test_contract_rejects_a_metric_without_provenance(self):
         snapshot = {
             "schema_version": "0.3.0",

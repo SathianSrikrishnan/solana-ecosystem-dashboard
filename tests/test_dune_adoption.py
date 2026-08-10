@@ -100,6 +100,25 @@ class DuneAdoptionTests(unittest.TestCase):
                 source_url=self.source_url,
             )
 
+    def test_failed_automatic_refresh_marks_only_dune_metrics_stale(self):
+        dune_metric = dune_adoption.parse_daily_fee_payers_csv(
+            self._valid_csv(),
+            collected_at=self.collected_at,
+            source_url=self.source_url,
+        )
+        other_metric = {**dune_metric, "id": "other", "source": {"name": "Other"}}
+        snapshot = {"metrics": {dune_metric["id"]: dune_metric, "other": other_metric}}
+
+        changed = dune_adoption.mark_dune_metrics_stale(
+            snapshot,
+            reason="latest result is missing complete UTC days",
+        )
+
+        self.assertEqual(changed, 1)
+        self.assertEqual(dune_metric["status"], "stale")
+        self.assertIn("missing complete UTC days", dune_metric["caveat"])
+        self.assertEqual(other_metric["status"], "ok")
+
     def test_parser_rejects_empty_or_incomplete_csv(self):
         for csv_text in (
             "",

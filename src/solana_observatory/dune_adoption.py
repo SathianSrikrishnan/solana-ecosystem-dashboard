@@ -9,6 +9,21 @@ from io import StringIO
 from typing import Any
 
 
+def mark_dune_metrics_stale(snapshot: dict[str, Any], *, reason: str) -> int:
+    """Keep verified values but expose a failed automatic Dune refresh."""
+
+    changed = 0
+    for metric in snapshot.get("metrics", {}).values():
+        if metric.get("source", {}).get("name") != "Dune":
+            continue
+        metric["status"] = "stale"
+        note = f" Automatic refresh note: {reason}."
+        if note not in metric["caveat"]:
+            metric["caveat"] += note
+        changed += 1
+    return changed
+
+
 def _validate_context(collected_at: str, source_url: str) -> datetime:
     try:
         collected_time = datetime.fromisoformat(

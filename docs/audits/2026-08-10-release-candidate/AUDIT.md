@@ -20,6 +20,9 @@ focus, responsive reflow, zoom-safe markup, and explicit evidence limits.
 5. `05-overview-mobile.png` - mobile entry and source-health stack.
 6. `06-economy-mobile.png` - mobile single-column metric flow.
 7. `07-ecosystem-desktop.png` - application breadth, releases, and developer gaps.
+8. `12-final-overview.png` - final six-signal overview, source health, and scan hierarchy.
+9. `13-final-validators.png` - validator measurements and top-ten vote-account table.
+10. `14-final-mobile.png` - final mobile overview, briefing, and anomaly queue.
 
 The rejected `01-desktop-full.png` is not evidence; the browser incorrectly
 stitched the sticky header during a full-page capture.
@@ -37,10 +40,15 @@ stitched the sticky header during a full-page capture.
 - Desktop navigation no longer scrolls itself when an anchor is selected.
 - Mobile reflows to one column without horizontal page overflow.
 - Axe reports no WCAG 2.1 A/AA violations at 1280x720 and 390x844.
+- Accessible inline sparklines add direction without a charting dependency.
+- The anomaly queue is visible on the judging surface without turning a
+  threshold crossing into a health verdict.
+- The validator leaderboard adds inspectable depth while explicitly avoiding
+  the unsupported claim that one vote account equals one operator.
 
 ## UX risks
 
-- Thirty-eight metrics still create a long page. The six-signal overview must
+- Forty-five metrics still create a long page. The six-signal overview must
   remain the default judging surface; the detail sections are supporting proof.
 - Four documented gaps can be misread as broken sources. The release copy now
   labels them as gaps and prefers a live section signal where one exists.

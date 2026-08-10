@@ -70,6 +70,8 @@ def merge_network_snapshot(
         },
     }
     merged["metrics"].update(fresh_snapshot["metrics"])
+    if "validator_leaderboard" in fresh_snapshot:
+        merged["validator_leaderboard"] = fresh_snapshot["validator_leaderboard"]
     return merged
 
 
@@ -437,4 +439,17 @@ def build_network_snapshot(
         "generated_at": collected_at,
         "summary": {"status": summary_status, "headline": headline},
         "metrics": metrics,
+        "validator_leaderboard": {
+            "collected_at": collected_at,
+            "source": {
+                "name": "Solana JSON-RPC",
+                "method": "getVoteAccounts",
+                "url": RPC_URL,
+            },
+            "caveat": (
+                "Ranks are vote accounts, not operators; one organization may "
+                "control multiple accounts and ownership is not inferred."
+            ),
+            "records": validator_depth["leaderboard"],
+        },
     }

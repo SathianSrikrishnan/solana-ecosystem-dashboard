@@ -139,6 +139,142 @@ def _comparison_markup(comparison: dict[str, Any] | None) -> str:
     )
 
 
+def _sparkline_markup(metric_id: str, metric: dict[str, Any]) -> str:
+    series = metric.get("series")
+    if not isinstance(series, list) or len(series) < 4:
+        return ""
+    values = [point.get("value") for point in series if isinstance(point, dict)]
+    if len(values) != len(series) or any(
+        isinstance(value, bool) or not isinstance(value, (int, float))
+        for value in values
+    ):
+        return ""
+    width, height, padding = 240, 54, 3
+    low, high = min(values), max(values)
+    span = high - low
+    points = []
+    for index, value in enumerate(values):
+        x = padding + index * (width - 2 * padding) / (len(values) - 1)
+        y = height / 2 if span == 0 else padding + (high - value) * (height - 2 * padding) / span
+        points.append(f"{x:.1f},{y:.1f}")
+    first, latest = values[0], values[-1]
+    description = (
+        f"{metric['label']} trend across {len(values)} observations, "
+        f"from {first:,.2f} to {latest:,.2f} {metric['unit']}."
+    )
+    return """
+        <figure class="sparkline" data-sparkline="{metric_id}">
+          <svg viewBox="0 0 {width} {height}" role="img" aria-label="{description}">
+            <line x1="{padding}" y1="{middle}" x2="{right}" y2="{middle}" class="spark-guide"></line>
+            <polyline points="{points}" class="spark-path"></polyline>
+          </svg>
+          <figcaption><span>{count} observations</span><strong>{first} → {latest}</strong></figcaption>
+        </figure>
+    """.format(
+        metric_id=html.escape(metric_id),
+        width=width,
+        height=height,
+        padding=padding,
+        middle=height / 2,
+        right=width - padding,
+        points=" ".join(points),
+        description=html.escape(description, quote=True),
+        count=len(values),
+        first=f"{first:,.2f}",
+        latest=f"{latest:,.2f}",
+    )
+
+
+def _validator_leaderboard_markup(leaderboard: dict[str, Any] | None) -> str:
+    if not isinstance(leaderboard, dict) or not leaderboard.get("records"):
+        return ""
+    rows = []
+    for record in leaderboard["records"]:
+        commission = record.get("commission_pct")
+        share = record.get("stake_share_pct")
+        rows.append(
+            """
+              <tr>
+                <td>{rank}</td><td><code>{vote_pubkey}</code></td>
+                <td>{stake:,.2f}</td><td>{share}</td><td>{commission}</td><td>{status}</td>
+              </tr>
+            """.format(
+                rank=record["rank"],
+                vote_pubkey=html.escape(record["vote_pubkey"]),
+                stake=record["activated_stake_sol"],
+                share="—" if share is None else f"{share:.2f}%",
+                commission="—" if commission is None else f"{commission:.2f}%",
+                status=html.escape(record["status"]),
+            )
+        )
+    return """
+      <section class="leaderboard" id="validator-leaderboard" aria-labelledby="validator-leaderboard-title">
+        <div class="leaderboard-heading">
+          <div><span class="eyebrow">Validator depth</span><h3 id="validator-leaderboard-title">Top vote accounts by activated stake</h3></div>
+          <p>{caveat}</p>
+        </div>
+        <div class="table-scroll" tabindex="0" aria-label="Top vote accounts table"><table>
+          <thead><tr><th>Rank</th><th>Vote account</th><th>Stake (SOL)</th><th>Share</th><th>Commission</th><th>Status</th></tr></thead>
+          <tbody>{rows}</tbody>
+        </table></div>
+        <p class="table-source">Source: <a href="{source_url}">{source_name}</a> / <code>{method}</code> · collected {collected_at}</p>
+      </section>
+    """.format(
+        caveat=html.escape(leaderboard["caveat"]),
+        rows="".join(rows),
+        source_url=html.escape(leaderboard["source"]["url"], quote=True),
+        source_name=html.escape(leaderboard["source"]["name"]),
+        method=html.escape(leaderboard["source"]["method"]),
+        collected_at=html.escape(leaderboard["collected_at"]),
+    )
+
+
+def _anomaly_monitor(snapshot: dict[str, Any]) -> str:
+    anomalies = snapshot.get("anomalies", {})
+    if not isinstance(anomalies, dict):
+        anomalies = {}
+    counts = {
+        status: sum(record.get("status") == status for record in anomalies.values())
+        for status in ("notable", "within_range", "unavailable")
+    }
+    notable_rows = []
+    for metric_id, record in anomalies.items():
+        if record.get("status") != "notable":
+            continue
+        metric = snapshot["metrics"].get(metric_id, {})
+        observed = record.get("observed_change_pct")
+        threshold = record.get("threshold_pct")
+        notable_rows.append(
+            "<li><strong>{label}</strong><span>{observed:+.1f}% · threshold {threshold:.1f}%</span></li>".format(
+                label=html.escape(metric.get("label", metric_id)),
+                observed=observed,
+                threshold=threshold,
+            )
+        )
+    detail = (
+        "<ul>" + "".join(notable_rows) + "</ul>"
+        if notable_rows
+        else "<p>No monitored movement crossed its configured review threshold.</p>"
+    )
+    return """
+      <aside class="anomaly-monitor" id="anomaly-monitor" aria-labelledby="anomaly-monitor-title">
+        <div class="monitor-heading"><span class="eyebrow">Deterministic review queue</span><h2 id="anomaly-monitor-title">Anomaly monitor</h2></div>
+        <div class="monitor-counts">
+          <span aria-label="{notable} notable"><strong>{notable}</strong> notable</span>
+          <span aria-label="{within} within range"><strong>{within}</strong> within range</span>
+          <span aria-label="{unavailable} unavailable"><strong>{unavailable}</strong> unavailable</span>
+        </div>
+        {detail}
+        <small>A threshold crossing is a review prompt, not a health verdict.</small>
+      </aside>
+    """.format(
+        notable=counts["notable"],
+        within=counts["within_range"],
+        unavailable=counts["unavailable"],
+        detail=detail,
+    )
+
+
 def render_markdown(snapshot: dict[str, Any]) -> str:
     lines = [
         "# Solana Ecosystem Report",
@@ -187,6 +323,31 @@ def render_markdown(snapshot: dict[str, Any]) -> str:
                 ]
             )
 
+    leaderboard = snapshot.get("validator_leaderboard")
+    if isinstance(leaderboard, dict) and leaderboard.get("records"):
+        lines.extend(
+            [
+                "## Top vote accounts by activated stake",
+                "",
+                "| Rank | Vote account | Stake (SOL) | Share | Commission | Status |",
+                "|---:|---|---:|---:|---:|---|",
+            ]
+        )
+        for record in leaderboard["records"]:
+            share = record.get("stake_share_pct")
+            commission = record.get("commission_pct")
+            lines.append(
+                "| {rank} | `{vote}` | {stake:,.2f} | {share} | {commission} | {status} |".format(
+                    rank=record["rank"],
+                    vote=record["vote_pubkey"],
+                    stake=record["activated_stake_sol"],
+                    share="—" if share is None else f"{share:.2f}%",
+                    commission="—" if commission is None else f"{commission:.2f}%",
+                    status=record["status"],
+                )
+            )
+        lines.extend(["", f"**Important limitation:** {leaderboard['caveat']}", ""])
+
     lines.extend(
         [
             "## How to read this",
@@ -214,6 +375,7 @@ def _metric_card(
           <span class="metric-value">{value}</span>
           <span class="metric-unit">{unit}</span>
         </div>
+        {sparkline}
         {comparison}
         <p class="definition"><strong>What this measures:</strong> {definition}</p>
         <details>
@@ -236,6 +398,7 @@ def _metric_card(
         value=html.escape(_compact_display_value(metric)),
         exact_value=html.escape(_display_value(metric)),
         unit=html.escape(metric["unit"]),
+        sparkline=_sparkline_markup(metric_id, metric),
         comparison=_comparison_markup(comparison),
         definition=html.escape(metric["definition"]),
         why_it_matters=html.escape(metric["why_it_matters"]),
@@ -414,6 +577,10 @@ def render_html(snapshot: dict[str, Any]) -> str:
             ) + "</div>"
             if section == "adoption":
                 content += _activity_lens(metrics)
+            if section == "validators":
+                content += _validator_leaderboard_markup(
+                    snapshot.get("validator_leaderboard")
+                )
         else:
             content = """
               <div class="empty-state">
@@ -470,6 +637,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
     embedded_snapshot = json.dumps(snapshot).replace("</", "<\\/")
     dashboard_sections = "\n".join(section_markup)
     analysis_panel = _analysis_panel(snapshot)
+    anomaly_monitor = _anomaly_monitor(snapshot)
     timeline_panel = _timeline_panel(snapshot.get("timeline", []))
 
     document = """<!doctype html>
@@ -570,6 +738,16 @@ def render_html(snapshot: dict[str, Any]) -> str:
     .analysis-panel p {{ color: var(--muted); }}
     .analysis-meta {{ display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--muted); font-size: .78rem; }}
     .analysis-meta strong {{ color: var(--text); }}
+    .anomaly-monitor {{ display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px 28px; margin-top: 12px; padding: 24px; border: 1px solid var(--line); background: rgba(16,22,28,.72); }}
+    .monitor-heading h2 {{ margin: 6px 0 0; font-size: 1.5rem; }}
+    .monitor-counts {{ display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }}
+    .monitor-counts span {{ padding-left: 12px; border-left: 1px solid var(--line); color: var(--muted); font-size: .72rem; }}
+    .monitor-counts strong {{ display: block; color: var(--text); font: 1.5rem/1 Bahnschrift, sans-serif; }}
+    .anomaly-monitor ul, .anomaly-monitor > p {{ grid-column: 1 / -1; margin: 0; color: var(--muted); }}
+    .anomaly-monitor ul {{ display: grid; gap: 6px; padding: 0; list-style: none; }}
+    .anomaly-monitor li {{ display: flex; justify-content: space-between; gap: 16px; }}
+    .anomaly-monitor li span {{ color: var(--amber); font-family: "Cascadia Mono", Consolas, monospace; }}
+    .anomaly-monitor small {{ grid-column: 1 / -1; color: var(--muted); }}
     .dashboard-section {{ padding: 74px 0 10px; scroll-margin-top: 62px; }}
     .section-heading {{ display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: end; margin-bottom: 22px; }}
     .section-heading > div {{ display: flex; align-items: baseline; gap: 16px; }}
@@ -587,6 +765,12 @@ def render_html(snapshot: dict[str, Any]) -> str:
     .metric-reading {{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }}
     .metric-value {{ font-size: 2.1rem; font-weight: 760; font-variant-numeric: tabular-nums; letter-spacing: -.045em; }}
     .metric-unit {{ color: var(--violet); font-size: .78rem; }}
+    .sparkline {{ margin: 16px 0 0; padding-top: 12px; border-top: 1px solid var(--line); }}
+    .sparkline svg {{ display: block; width: 100%; height: 54px; overflow: visible; }}
+    .spark-guide {{ stroke: var(--line); stroke-width: 1; }}
+    .spark-path {{ fill: none; stroke: var(--cyan); stroke-width: 2; vector-effect: non-scaling-stroke; }}
+    .sparkline figcaption {{ display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .7rem; }}
+    .sparkline figcaption strong {{ color: var(--text); font-family: "Cascadia Mono", Consolas, monospace; }}
     .comparison {{ display: grid; gap: 2px; margin: 16px 0 0; padding: 12px 0 0; border-top: 1px solid var(--line); }}
     .comparison strong {{ color: var(--text); font-size: .88rem; }}
     .comparison span, .comparison small {{ color: var(--muted); font-size: .72rem; }}
@@ -603,6 +787,17 @@ def render_html(snapshot: dict[str, Any]) -> str:
     code {{ color: var(--violet); }}
     .empty-state {{ padding: 30px; border: 1px dashed var(--line); color: var(--muted); }}
     .empty-state p {{ margin: 10px 0 0; }}
+    .leaderboard {{ margin-top: 18px; padding: 24px; border: 1px solid var(--line); background: rgba(16,22,28,.72); }}
+    .leaderboard-heading {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: end; margin-bottom: 18px; }}
+    .leaderboard-heading h3 {{ margin: 6px 0 0; font-size: 1.35rem; }}
+    .leaderboard-heading p, .table-source {{ margin: 0; color: var(--muted); font-size: .78rem; }}
+    .table-scroll {{ overflow-x: auto; }}
+    table {{ width: 100%; border-collapse: collapse; font-size: .78rem; }}
+    th, td {{ padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }}
+    th {{ color: var(--muted); font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; }}
+    th:nth-child(2), td:nth-child(2), th:last-child, td:last-child {{ text-align: left; }}
+    td code {{ color: var(--text); }}
+    .table-source {{ margin-top: 14px; }}
     .history-rail {{ border-top: 1px solid var(--line); }}
     .era {{ display: grid; grid-template-columns: 150px 1fr 1fr; gap: 28px; padding: 26px 0; border-bottom: 1px solid var(--line); }}
     .era-marker {{ display: grid; align-content: start; gap: 4px; font-family: "Cascadia Mono", Consolas, monospace; }}
@@ -658,7 +853,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
     @media (max-width: 680px) {{
       main, .header-inner {{ width: min(100% - 24px, 1180px); }}
       main {{ padding-top: 48px; }}
-      .reading, .section-heading, .methods-grid, .era, .identity-lens {{ grid-template-columns: 1fr; }}
+      .reading, .section-heading, .methods-grid, .era, .identity-lens, .leaderboard-heading, .anomaly-monitor {{ grid-template-columns: 1fr; }}
       .source-health {{ padding: 20px 0 0; border: 0; border-top: 1px solid var(--line); }}
       .signal-grid, .metric-grid {{ grid-template-columns: 1fr; }}
       .dashboard-section {{ padding-top: 58px; }}
@@ -712,6 +907,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
       </section>
       <div class="signal-grid">{signal_markup}</div>
       {analysis_panel}
+      {anomaly_monitor}
     </section>
 
     {dashboard_sections}
@@ -777,6 +973,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
         gap_label=gap_label,
         signal_markup=signal_markup,
         analysis_panel=analysis_panel,
+        anomaly_monitor=anomaly_monitor,
         dashboard_sections=dashboard_sections,
         timeline_panel=timeline_panel,
         embedded_snapshot=embedded_snapshot,

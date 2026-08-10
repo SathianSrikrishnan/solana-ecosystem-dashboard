@@ -13,7 +13,7 @@ dashboard is now organized as a layered observatory around six health questions.
 - JSON, Markdown, and standalone dark HTML generation;
 - live Network, Adoption, Economy, and Validator measurements;
 - honest planned states for authenticated RWA and identifiable-payment evidence;
-- ninety passing foundation, contract, interface, query, adapter, and
+- 101 passing foundation, contract, interface, query, adapter, and
   import-command tests;
 - a clean six-hour GitHub refresh workflow;
 - enforced metric schema `0.3.0`, including a beginner-readable
@@ -40,11 +40,13 @@ dashboard is now organized as a layered observatory around six health questions.
 - a Learn/About surface and an honest identity-and-automation lens;
 - neutral cyan data-reporting badges; green/yellow/red are reserved for
   defensible health thresholds.
+- live protocol/category breadth and Agave release signals in Ecosystem;
+- automated Axe checks at desktop and mobile widths.
 
 ## Next technical phase
 
-Run final browser/accessibility QA, choose hosting, and prepare the bounty
-submission evidence. RWA.xyz remains an optional authenticated adapter.
+Choose hosting, verify the exact bounty listing, and prepare the deployed demo.
+RWA.xyz remains an optional authenticated adapter.
 Identifiable payment volume remains deferred until a repeatable attribution
 source exists. Bot classification remains a named evidence gap until address-
 level frequency, timing, program breadth, funding, and instruction-pattern

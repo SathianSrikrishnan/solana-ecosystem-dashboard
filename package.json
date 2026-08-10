@@ -1,0 +1,11 @@
+{
+  "name": "solana-observatory-release-qa",
+  "private": true,
+  "scripts": {
+    "test:a11y": "node tests/accessibility.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "playwright": "1.62.1"
+  }
+}

@@ -23,6 +23,11 @@ We build vertical slices. Each slice contains:
 | 6 | `anomaly-intelligence` | Deterministic anomalies and grounded AI explanation | PRs 2–5 |
 | 7 | `release` | Final design, hosting, clean setup proof, demo, submission | All verified slices |
 
+Release-candidate status on 2026-08-10: PR 1-6 behavior is integrated on the
+`codex/economy` branch. Release QA, Axe monitoring, screenshots, submission
+draft, and content brief are complete locally. Hosting, a deployed demo, and
+the final submission still require Sathian's approval.
+
 ## Parallelization rule
 
 PRs 1 and 2 can begin together after the interface/data contract is locked.

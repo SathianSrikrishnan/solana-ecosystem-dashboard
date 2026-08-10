@@ -139,7 +139,46 @@ class RendererTests(unittest.TestCase):
         self.assertIn("RPC health", rendered)
         self.assertIn("Active validators", rendered)
         self.assertEqual(rendered.count("Awaiting verified data"), 4)
-        self.assertIn("3 of 3 metrics reporting", rendered)
+        self.assertIn("3 live · 0 documented gaps", rendered)
+
+    def test_overview_prefers_a_reporting_signal_over_a_documented_gap(self):
+        base = self.snapshot["metrics"]["active_validators"]
+        self.snapshot["metrics"]["payments_gap"] = {
+            **base,
+            "id": "payments_gap",
+            "section": "financial_rails",
+            "label": "Identifiable payment volume",
+            "value": None,
+            "unit": "USD",
+            "status": "unavailable",
+        }
+        self.snapshot["metrics"]["stablecoin_supply"] = {
+            **base,
+            "id": "stablecoin_supply",
+            "section": "financial_rails",
+            "label": "Stablecoin circulating value",
+            "value": 16_250_000_000,
+            "unit": "USD",
+            "status": "ok",
+        }
+
+        rendered = render_html(self.snapshot)
+        question_start = rendered.index("Is Solana becoming real financial infrastructure?")
+        signal_end = rendered.index("</article>", question_start)
+        signal = rendered[question_start:signal_end]
+
+        self.assertIn("Stablecoin circulating value", signal)
+        self.assertIn("16.25B", signal)
+        self.assertNotIn("Identifiable payment volume", signal)
+
+    def test_source_health_separates_live_metrics_from_documented_gaps(self):
+        self.snapshot["metrics"]["rpc_health"]["value"] = None
+        self.snapshot["metrics"]["rpc_health"]["status"] = "unavailable"
+
+        rendered = render_html(self.snapshot)
+
+        self.assertIn("2 live · 1 documented gap", rendered)
+        self.assertIn("Gaps remain visible", rendered)
 
     def test_html_groups_metrics_and_marks_unpopulated_sections_as_upcoming(self):
         rendered = render_html(self.snapshot)
@@ -225,7 +264,7 @@ class RendererTests(unittest.TestCase):
 
         self.assertIn('data-status="unavailable"', rendered)
         self.assertIn("Not available", rendered)
-        self.assertIn("2 of 3 metrics reporting", rendered)
+        self.assertIn("2 live · 1 documented gap", rendered)
         self.assertNotIn(">None<", rendered)
 
     def test_html_separates_source_reliability_from_directional_comparison(self):
@@ -348,6 +387,34 @@ class RendererTests(unittest.TestCase):
         self.assertIn(".status-ok { color: var(--cyan); }", rendered)
         self.assertIn(".status-error { color: var(--red); }", rendered)
         self.assertIn(".status-stale", rendered)
+
+    def test_html_compacts_large_scan_values_but_preserves_exact_evidence(self):
+        self.snapshot["metrics"]["active_validators"]["value"] = 434005084.36
+        self.snapshot["metrics"]["active_validators"]["unit"] = "SOL"
+
+        rendered = render_html(self.snapshot)
+
+        self.assertIn('<span class="metric-value">434.01M</span>', rendered)
+        self.assertIn("<strong>Exact value:</strong> 434,005,084.36 SOL", rendered)
+        self.assertIn('<div class="signal-value">434.01M</div>', rendered)
+
+    def test_html_formats_snapshot_time_for_humans(self):
+        rendered = render_html(self.snapshot)
+
+        self.assertIn("Jul 27, 2026 · 22:00 UTC", rendered)
+        self.assertNotIn("Snapshot</strong> 2026-07-27T22:00:00Z", rendered)
+
+    def test_html_has_release_accessibility_and_navigation_guards(self):
+        rendered = render_html(self.snapshot)
+
+        self.assertIn('<meta name="theme-color" content="#070a0e">', rendered)
+        self.assertIn('class="brand-mark" aria-hidden="true"', rendered)
+        self.assertIn(":focus-visible", rendered)
+        self.assertIn("touch-action: manipulation", rendered)
+        self.assertIn("overflow-x: hidden", rendered)
+        self.assertIn("nav { display: flex;", rendered)
+        self.assertIn("overflow-x: visible", rendered)
+        self.assertIn("#overview { scroll-margin-top:", rendered)
 
     def test_html_has_no_trailing_whitespace(self):
         rendered = render_html(self.snapshot)

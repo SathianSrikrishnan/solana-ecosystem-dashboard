@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import html
 import json
-from datetime import date
+from datetime import date, datetime, timezone
 from typing import Any
 
 from .comparisons import build_comparisons
@@ -73,6 +73,29 @@ def _display_value(metric: dict[str, Any]) -> str:
     if isinstance(value, int):
         return f"{value:,}"
     return str(value)
+
+
+def _compact_display_value(metric: dict[str, Any]) -> str:
+    value = metric["value"]
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return _display_value(metric)
+    magnitude = abs(value)
+    if magnitude >= 1_000_000_000:
+        return f"{value / 1_000_000_000:.2f}B"
+    if magnitude >= 1_000_000:
+        return f"{value / 1_000_000:.2f}M"
+    return _display_value(metric)
+
+
+def _display_timestamp(value: str) -> str:
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return value
+    if parsed.tzinfo is None:
+        return value
+    utc_value = parsed.astimezone(timezone.utc)
+    return f"{utc_value.strftime('%b')} {utc_value.day}, {utc_value.year} · {utc_value:%H:%M} UTC"
 
 
 def _status_label(status: str) -> str:
@@ -196,6 +219,7 @@ def _metric_card(
         <details>
           <summary>Why it matters · risks · evidence</summary>
           <div class="evidence">
+            <p><strong>Exact value:</strong> {exact_value} {unit}</p>
             <p><strong>Why it matters:</strong> {why_it_matters}</p>
             <p><strong>What could fool you:</strong> {caveat}</p>
             <p><strong>See the evidence:</strong> <a href="{source_url}">{source}</a> / <code>{method}</code></p>
@@ -209,7 +233,8 @@ def _metric_card(
         label=html.escape(metric["label"]),
         status=html.escape(metric["status"]),
         status_label=html.escape(_status_label(metric["status"])),
-        value=html.escape(_display_value(metric)),
+        value=html.escape(_compact_display_value(metric)),
+        exact_value=html.escape(_display_value(metric)),
         unit=html.escape(metric["unit"]),
         comparison=_comparison_markup(comparison),
         definition=html.escape(metric["definition"]),
@@ -235,7 +260,7 @@ def _signal_card(
     else:
         status = metric["status"]
         label = metric["label"]
-        value = _display_value(metric)
+        value = _compact_display_value(metric)
         unit = metric["unit"]
 
     return """
@@ -423,7 +448,15 @@ def render_html(snapshot: dict[str, Any]) -> str:
         _signal_card(
             SECTION_QUESTIONS[section],
             metrics.get("rpc_health") if section == "network" else next(
-                (metric for _, metric in grouped_metrics[section]), None
+                (
+                    metric
+                    for _, metric in grouped_metrics[section]
+                    if metric.get("status") == "ok"
+                ),
+                next(
+                    (metric for _, metric in grouped_metrics[section]),
+                    None,
+                ),
             ),
         )
         for section in SECTION_DETAILS
@@ -432,6 +465,8 @@ def render_html(snapshot: dict[str, Any]) -> str:
         metric["status"] == "ok" for metric in metrics.values()
     )
     metric_count = len(metrics)
+    gap_count = metric_count - reporting_count
+    gap_label = "gap" if gap_count == 1 else "gaps"
     embedded_snapshot = json.dumps(snapshot).replace("</", "<\\/")
     dashboard_sections = "\n".join(section_markup)
     analysis_panel = _analysis_panel(snapshot)
@@ -443,6 +478,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A source-visible Solana ecosystem observatory.">
+  <meta name="theme-color" content="#070a0e">
   <title>Solana Ecosystem Dashboard</title>
   <style>
     :root {{
@@ -463,6 +499,8 @@ def render_html(snapshot: dict[str, Any]) -> str:
     html {{ scroll-behavior: smooth; }}
     body {{
       margin: 0;
+      overflow-x: hidden;
+      touch-action: manipulation;
       background:
         linear-gradient(rgba(77,240,168,.025) 1px, transparent 1px),
         linear-gradient(90deg, rgba(77,240,168,.025) 1px, transparent 1px),
@@ -473,16 +511,18 @@ def render_html(snapshot: dict[str, Any]) -> str:
       font: 16px/1.55 "Segoe UI Variable", "Trebuchet MS", sans-serif;
     }}
     a {{ color: inherit; }}
+    a:focus-visible, summary:focus-visible {{ outline: 2px solid var(--green); outline-offset: 4px; }}
     .skip-link {{ position: fixed; left: 16px; top: -80px; z-index: 10; padding: 10px 14px; background: var(--green); color: var(--bg); }}
     .skip-link:focus {{ top: 12px; }}
     .site-header {{ position: sticky; top: 0; z-index: 5; border-bottom: 1px solid var(--line); background: rgba(7,10,14,.88); backdrop-filter: blur(18px); }}
     .header-inner {{ width: min(1180px, calc(100% - 32px)); margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 68px; }}
     .brand {{ display: flex; align-items: center; gap: 10px; font-weight: 760; text-decoration: none; }}
     .brand-mark {{ width: 12px; height: 12px; border: 2px solid var(--green); transform: rotate(45deg); }}
-    nav {{ display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }}
-    nav a {{ padding: 8px 10px; color: var(--muted); font-size: .78rem; text-decoration: none; white-space: nowrap; }}
+    nav {{ display: flex; gap: 4px; overflow-x: visible; scrollbar-width: none; }}
+    nav a {{ padding: 8px 7px; color: var(--muted); font-size: .74rem; text-decoration: none; white-space: nowrap; }}
     nav a:hover, nav a:focus-visible {{ color: var(--text); }}
     main {{ width: min(1180px, calc(100% - 32px)); margin: auto; padding: 70px 0 100px; }}
+    #overview {{ scroll-margin-top: 80px; }}
     .eyebrow, .fact-label, .section-index {{
       color: var(--green);
       font-family: "Cascadia Mono", Consolas, monospace;
@@ -518,7 +558,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
       border: 1px solid var(--line);
       background: rgba(16,22,28,.72);
     }}
-    .signal-value {{ margin-top: 28px; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 780; letter-spacing: -.05em; }}
+    .signal-value {{ margin-top: 28px; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 780; font-variant-numeric: tabular-nums; letter-spacing: -.05em; }}
     .analysis-panel {{
       margin-top: 20px;
       padding: 26px;
@@ -545,7 +585,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
     .metric-topline {{ display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .78rem; }}
     .metric-card h3 {{ min-height: 48px; margin: 22px 0 6px; font-size: 1rem; }}
     .metric-reading {{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }}
-    .metric-value {{ font-size: 2.1rem; font-weight: 760; letter-spacing: -.045em; }}
+    .metric-value {{ font-size: 2.1rem; font-weight: 760; font-variant-numeric: tabular-nums; letter-spacing: -.045em; }}
     .metric-unit {{ color: var(--violet); font-size: .78rem; }}
     .comparison {{ display: grid; gap: 2px; margin: 16px 0 0; padding: 12px 0 0; border-top: 1px solid var(--line); }}
     .comparison strong {{ color: var(--text); font-size: .88rem; }}
@@ -612,7 +652,8 @@ def render_html(snapshot: dict[str, Any]) -> str:
     @media (max-width: 900px) {{
       .signal-grid, .metric-grid {{ grid-template-columns: repeat(2, minmax(0,1fr)); }}
       .header-inner {{ align-items: flex-start; flex-direction: column; padding: 14px 0 10px; }}
-      nav {{ width: 100%; }}
+      nav {{ width: 100%; overflow-x: auto; }}
+      #overview {{ scroll-margin-top: 116px; }}
     }}
     @media (max-width: 680px) {{
       main, .header-inner {{ width: min(100% - 24px, 1180px); }}
@@ -632,7 +673,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
   <a class="skip-link" href="#main-content">Skip to dashboard</a>
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="#overview"><span class="brand-mark"></span> Solana Observatory</a>
+      <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true"></span> Solana Observatory</a>
       <nav aria-label="Dashboard sections">
         <a href="#overview">Overview</a>
         <a href="#network">Network</a>
@@ -665,8 +706,8 @@ def render_html(snapshot: dict[str, Any]) -> str:
         </div>
         <div class="source-health">
           <span class="eyebrow">Source health</span>
-          <strong>{reporting_count} of {metric_count} metrics reporting</strong>
-          <span>Failures remain visible instead of blanking the report.</span>
+          <strong>{reporting_count} live · {gap_count} documented {gap_label}</strong>
+          <span>Gaps remain visible instead of blanking the report.</span>
         </div>
       </section>
       <div class="signal-grid">{signal_markup}</div>
@@ -727,11 +768,13 @@ def render_html(snapshot: dict[str, Any]) -> str:
 </html>
 """
     rendered = document.format(
-        generated_at=html.escape(snapshot["generated_at"]),
+        generated_at=html.escape(_display_timestamp(snapshot["generated_at"])),
         schema_version=html.escape(snapshot["schema_version"]),
         headline=html.escape(snapshot["summary"]["headline"]),
         reporting_count=reporting_count,
         metric_count=metric_count,
+        gap_count=gap_count,
+        gap_label=gap_label,
         signal_markup=signal_markup,
         analysis_panel=analysis_panel,
         dashboard_sections=dashboard_sections,

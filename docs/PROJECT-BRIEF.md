@@ -55,13 +55,13 @@ Submission deadline: 2026-08-17 at 23:59 America/Toronto.
 
 ## Current product milestone
 
-PR 1 provides the responsive interface shell over normalized schema `0.2.0`
-data. The overview exposes three bounded headline signals, source health, and
-the current reading. Network and validator facts are grouped into their own
-sections; adoption, economy, and ecosystem remain explicit planned states until
-their verified adapters land. The shell also defines the automatic briefing's
-grounded and unavailable states while keeping interpretation visually separate
-from deterministic facts. The generation adapter remains deferred to PR 6.
+The release candidate uses normalized schema `0.3.0` and 38 metrics across
+Network, Adoption, Economy, Validators, Ecosystem, and Financial Rails. Thirty-
+four metrics report live; four important gaps remain explicit because their
+dependable sources require authentication or a stronger attribution contract.
+The product includes deterministic comparisons, anomaly review, an evidence-
+bound briefing, a sourced seven-era history, mobile/desktop QA, and automated
+Axe checks. Deployment and bounty submission still require Sathian's approval.
 
 ## Builder learning goals
 

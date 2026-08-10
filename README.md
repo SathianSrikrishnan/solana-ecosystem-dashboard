@@ -11,7 +11,7 @@ Auto-Updating Report & Interactive Dashboard** bounty.
 
 ## Product promise
 
-Help a curious Solana builder answer three questions:
+Help a curious Solana builder answer three layers of questions:
 
 1. What is happening now?
 2. What changed?
@@ -39,7 +39,14 @@ cd "C:\Users\sathi\Projects\solana-ecosystem-dashboard"
 # Commands:
 python -m unittest discover -s tests -v
 python scripts\generate.py
+python scripts\refresh_economy.py --snapshot output\report.json --output output
+python scripts\refresh_ecosystem.py --snapshot output\report.json --output output
+npm ci
+npm run test:a11y
 ```
+
+The Python standard-library pipeline remains the production core. Node is used
+only for repeatable Axe accessibility testing at desktop and mobile widths.
 
 Start with the [big-picture map](docs/BIG-PICTURE-MAP.md), then check
 [the interface architecture](docs/INTERFACE-ARCHITECTURE.md),

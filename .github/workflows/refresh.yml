@@ -26,6 +26,17 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install accessibility test dependencies
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
       - name: Run tests
         run: python -m unittest discover -s tests -v
 
@@ -34,6 +45,17 @@ jobs:
 
       - name: Refresh economy metrics
         run: python scripts/refresh_economy.py --snapshot output/report.json --output output
+
+      - name: Refresh ecosystem metrics
+        run: python scripts/refresh_ecosystem.py --snapshot output/report.json --output output
+
+      - name: Run Axe accessibility checks
+        shell: bash
+        run: |
+          python -m http.server 8766 --directory output &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          A11Y_URL=http://127.0.0.1:8766/index.html npm run test:a11y
 
       - name: Commit changed reports
         shell: bash

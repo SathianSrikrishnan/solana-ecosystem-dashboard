@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import html
 import json
+from datetime import date
 from typing import Any
+
+from .comparisons import build_comparisons
 
 
 SECTION_DETAILS = {
@@ -72,6 +75,47 @@ def _display_value(metric: dict[str, Any]) -> str:
     return str(value)
 
 
+def _status_label(status: str) -> str:
+    return {
+        "ok": "Data reporting",
+        "stale": "Data stale",
+        "unavailable": "Data unavailable",
+        "error": "Source failed",
+        "planned": "Planned",
+    }.get(status, status)
+
+
+def _short_date(value: str) -> str:
+    observed = date.fromisoformat(value)
+    return f"{observed.strftime('%b')} {observed.day:02d}"
+
+
+def _comparison_markup(comparison: dict[str, Any] | None) -> str:
+    if not comparison or comparison.get("status") != "ok":
+        return ""
+    percent_change = comparison.get("percent_change")
+    if percent_change is None:
+        change = "percent change unavailable (zero baseline)"
+    else:
+        change = f"{percent_change:+.1f}%"
+    previous = comparison["previous_window"]
+    current = comparison["current_window"]
+    return """
+        <div class="comparison" data-direction="{direction}">
+          <strong>7-day average {change}</strong>
+          <span>{previous_start}–{previous_end} vs {current_start}–{current_end}</span>
+          <small>Direction is not a health verdict.</small>
+        </div>
+    """.format(
+        direction=html.escape(comparison["direction"]),
+        change=html.escape(change),
+        previous_start=_short_date(previous[0]),
+        previous_end=_short_date(previous[1]),
+        current_start=_short_date(current[0]),
+        current_end=_short_date(current[1]),
+    )
+
+
 def render_markdown(snapshot: dict[str, Any]) -> str:
     lines = [
         "# Solana Ecosystem Report",
@@ -84,7 +128,10 @@ def render_markdown(snapshot: dict[str, Any]) -> str:
         "",
     ]
 
-    for metric in snapshot["metrics"].values():
+    comparisons = snapshot.get("comparisons") or build_comparisons(
+        snapshot["metrics"]
+    )
+    for metric_id, metric in snapshot["metrics"].items():
         lines.extend(
             [
                 f"### {metric['label']}: {_display_value(metric)} {metric['unit']}",
@@ -101,6 +148,21 @@ def render_markdown(snapshot: dict[str, Any]) -> str:
                 "",
             ]
         )
+        comparison = comparisons.get(metric_id)
+        if comparison and comparison.get("status") == "ok":
+            percent = comparison.get("percent_change")
+            change = (
+                "unavailable (zero baseline)"
+                if percent is None
+                else f"{percent:+.1f}%"
+            )
+            lines.extend(
+                [
+                    f"- 7-day average change: `{change}`",
+                    "- Direction is not a health verdict.",
+                    "",
+                ]
+            )
 
     lines.extend(
         [
@@ -113,18 +175,23 @@ def render_markdown(snapshot: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def _metric_card(metric_id: str, metric: dict[str, Any]) -> str:
+def _metric_card(
+    metric_id: str,
+    metric: dict[str, Any],
+    comparison: dict[str, Any] | None = None,
+) -> str:
     return """
       <article class="metric-card" data-metric="{metric_id}" data-status="{status}">
         <div class="metric-topline">
           <span class="fact-label">Verified measurement</span>
-          <span class="status status-{status}">{status}</span>
+          <span class="status status-{status}">{status_label}</span>
         </div>
         <h3>{label}</h3>
         <div class="metric-reading">
           <span class="metric-value">{value}</span>
           <span class="metric-unit">{unit}</span>
         </div>
+        {comparison}
         <p class="definition"><strong>What this measures:</strong> {definition}</p>
         <details>
           <summary>Why it matters · risks · evidence</summary>
@@ -141,8 +208,10 @@ def _metric_card(metric_id: str, metric: dict[str, Any]) -> str:
         metric_id=html.escape(metric_id),
         label=html.escape(metric["label"]),
         status=html.escape(metric["status"]),
+        status_label=html.escape(_status_label(metric["status"])),
         value=html.escape(_display_value(metric)),
         unit=html.escape(metric["unit"]),
+        comparison=_comparison_markup(comparison),
         definition=html.escape(metric["definition"]),
         why_it_matters=html.escape(metric["why_it_matters"]),
         source=html.escape(metric["source"]["name"]),
@@ -173,7 +242,7 @@ def _signal_card(
       <article class="signal-card">
         <div class="metric-topline">
           <span>{question}</span>
-          <span class="status status-{status}">{status}</span>
+          <span class="status status-{status}">{status_label}</span>
         </div>
         <h3>{label}</h3>
         <div class="signal-value">{value}</div>
@@ -183,6 +252,7 @@ def _signal_card(
         question=html.escape(question),
         label=html.escape(label),
         status=html.escape(status),
+        status_label=html.escape(_status_label(status)),
         value=html.escape(value),
         unit=html.escape(unit),
     )
@@ -231,6 +301,7 @@ def _analysis_panel(snapshot: dict[str, Any]) -> str:
 
 def render_html(snapshot: dict[str, Any]) -> str:
     metrics = snapshot["metrics"]
+    comparisons = snapshot.get("comparisons") or build_comparisons(metrics)
     grouped_metrics = {
         section: [
             (metric_id, metric)
@@ -246,7 +317,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
         section_metrics = grouped_metrics[section]
         if section_metrics:
             content = '<div class="metric-grid">' + "\n".join(
-                _metric_card(metric_id, metric)
+                _metric_card(metric_id, metric, comparisons.get(metric_id))
                 for metric_id, metric in section_metrics
             ) + "</div>"
         else:
@@ -404,6 +475,12 @@ def render_html(snapshot: dict[str, Any]) -> str:
     .metric-reading {{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }}
     .metric-value {{ font-size: 2.1rem; font-weight: 760; letter-spacing: -.045em; }}
     .metric-unit {{ color: var(--violet); font-size: .78rem; }}
+    .comparison {{ display: grid; gap: 2px; margin: 16px 0 0; padding: 12px 0 0; border-top: 1px solid var(--line); }}
+    .comparison strong {{ color: var(--text); font-size: .88rem; }}
+    .comparison span, .comparison small {{ color: var(--muted); font-size: .72rem; }}
+    .comparison[data-direction="increased"] strong::before {{ content: "↑ "; color: var(--violet); }}
+    .comparison[data-direction="decreased"] strong::before {{ content: "↓ "; color: var(--violet); }}
+    .comparison[data-direction="flat"] strong::before {{ content: "→ "; color: var(--muted); }}
     .definition {{ min-height: 64px; margin: 18px 0; color: var(--muted); font-size: .86rem; }}
     .status {{ color: var(--green); text-transform: uppercase; letter-spacing: .08em; }}
     .status-unavailable, .status-error, .status-stale {{ color: var(--amber); }}

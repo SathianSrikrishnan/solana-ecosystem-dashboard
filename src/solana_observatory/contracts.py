@@ -38,6 +38,19 @@ VALID_SECTIONS = {
 VALID_STATUSES = {"ok", "stale", "unavailable", "error"}
 VALID_CONFIDENCE = {"high", "medium", "experimental"}
 CURRENT_SCHEMA_VERSION = "0.3.0"
+REQUIRED_COMPARISON_FIELDS = {
+    "metric_id",
+    "status",
+    "grain",
+    "current_average",
+    "previous_average",
+    "absolute_change",
+    "percent_change",
+    "direction",
+    "previous_window",
+    "current_window",
+    "reason",
+}
 
 
 def validate_snapshot(snapshot: dict[str, Any]) -> None:
@@ -92,5 +105,39 @@ def validate_snapshot(snapshot: dict[str, Any]) -> None:
         }.issubset(source):
             raise ValueError(
                 f"Metric {metric_key} source must include name, method, and url"
+            )
+
+    comparisons = snapshot.get("comparisons", {})
+    if not isinstance(comparisons, dict):
+        raise ValueError("Snapshot comparisons must be a dictionary")
+    for comparison_key, comparison in comparisons.items():
+        if comparison_key not in snapshot["metrics"]:
+            raise ValueError(
+                f"Comparison {comparison_key} references an unknown metric"
+            )
+        if not isinstance(comparison, dict):
+            raise ValueError(f"Comparison {comparison_key} must be a dictionary")
+        missing_fields = REQUIRED_COMPARISON_FIELDS - comparison.keys()
+        if missing_fields:
+            fields = ", ".join(sorted(missing_fields))
+            raise ValueError(
+                f"Comparison {comparison_key} is missing required fields: {fields}"
+            )
+        if comparison["metric_id"] != comparison_key:
+            raise ValueError(
+                f"Comparison metric id must match its key {comparison_key}"
+            )
+        if comparison["status"] not in {"ok", "unavailable"}:
+            raise ValueError(
+                f"Comparison {comparison_key} has unknown status"
+            )
+        if comparison["direction"] not in {
+            "increased",
+            "decreased",
+            "flat",
+            "unknown",
+        }:
+            raise ValueError(
+                f"Comparison {comparison_key} has unknown direction"
             )
 

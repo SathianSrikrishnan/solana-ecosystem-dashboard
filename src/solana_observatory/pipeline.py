@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from .comparisons import build_comparisons
 from .contracts import validate_snapshot
 from .renderers import render_html, render_json, render_markdown
 
@@ -12,6 +13,7 @@ from .renderers import render_html, render_json, render_markdown
 def write_reports(
     snapshot: dict[str, Any], output_dir: Path
 ) -> list[Path]:
+    snapshot["comparisons"] = build_comparisons(snapshot["metrics"])
     validate_snapshot(snapshot)
     output_dir.mkdir(parents=True, exist_ok=True)
     outputs = {

@@ -210,6 +210,43 @@ class RendererTests(unittest.TestCase):
         self.assertIn("2 of 3 metrics reporting", rendered)
         self.assertNotIn(">None<", rendered)
 
+    def test_html_separates_source_reliability_from_directional_comparison(self):
+        first_day = __import__("datetime").date(2026, 7, 27)
+        self.snapshot["metrics"]["estimated_non_vote_tps"]["series"] = [
+            {
+                "observed_at": str(first_day + __import__("datetime").timedelta(days=index)),
+                "value": value,
+            }
+            for index, value in enumerate([100] * 7 + [125] * 7)
+        ]
+
+        rendered = render_html(self.snapshot)
+
+        self.assertIn("Data reporting", rendered)
+        self.assertIn("7-day average +25.0%", rendered)
+        self.assertIn("Jul 27–Aug 02", rendered)
+        self.assertIn("Aug 03–Aug 09", rendered)
+        self.assertIn("Direction is not a health verdict", rendered)
+        self.assertNotIn('status-ok">ok</span>', rendered)
+
+        self.snapshot["comparisons"] = {
+            "estimated_non_vote_tps": {
+                "metric_id": "estimated_non_vote_tps",
+                "status": "ok",
+                "grain": "daily",
+                "current_average": 125.0,
+                "previous_average": 100.0,
+                "absolute_change": 25.0,
+                "percent_change": 25.0,
+                "direction": "increased",
+                "previous_window": ["2026-07-27", "2026-08-02"],
+                "current_window": ["2026-08-03", "2026-08-09"],
+                "reason": None,
+            }
+        }
+        markdown = render_markdown(self.snapshot)
+        self.assertIn("7-day average change: `+25.0%`", markdown)
+
     def test_html_includes_mobile_layout_and_accessible_skip_link(self):
         rendered = render_html(self.snapshot)
 

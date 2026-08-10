@@ -166,6 +166,37 @@ class ContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "must match its dictionary key"):
             validate_snapshot(snapshot)
 
+    def test_contract_rejects_comparisons_without_metric_evidence(self):
+        snapshot = build_network_snapshot(
+            {
+                "getHealth": "ok",
+                "getSlot": 355_000_000,
+                "getBlockHeight": 330_000_000,
+                "getEpochInfo": {"epoch": 812, "slotIndex": 100, "slotsInEpoch": 400},
+                "getRecentPerformanceSamples": [{"numTransactions": 120_000, "numNonVoteTransactions": 30_000, "numSlots": 150, "samplePeriodSecs": 60}],
+                "getVoteAccounts": {"current": [], "delinquent": []},
+            },
+            "2026-08-10T12:00:00Z",
+        )
+        snapshot["comparisons"] = {
+            "invented_metric": {
+                "metric_id": "invented_metric",
+                "status": "ok",
+                "grain": "daily",
+                "current_average": 2.0,
+                "previous_average": 1.0,
+                "absolute_change": 1.0,
+                "percent_change": 100.0,
+                "direction": "increased",
+                "previous_window": ["2026-07-27", "2026-08-02"],
+                "current_window": ["2026-08-03", "2026-08-09"],
+                "reason": None,
+            }
+        }
+
+        with self.assertRaisesRegex(ValueError, "unknown metric"):
+            validate_snapshot(snapshot)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -24,6 +24,8 @@ class PipelineTests(unittest.TestCase):
             output_dir = Path(temp_dir)
             written = write_reports(snapshot, output_dir)
 
+            self.assertEqual(snapshot["comparisons"], {})
+
             self.assertEqual(
                 set(written),
                 {

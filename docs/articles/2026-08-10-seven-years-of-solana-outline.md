@@ -1,5 +1,24 @@
 # Seven Years of Solana — Article Outline and Visual Strategy
 
+## Revised direction — approved 2026-08-10
+
+- Defer drafting until the dashboard is feature-complete.
+- Target 650–900 words; compress the seven eras into one fast passage.
+- Lead with the practical thesis: low transaction cost, ease of learning, and
+  ease of building make Solana a credible candidate for future financial rails.
+- Address the meme-coin/scam reputation honestly as part of a maturing,
+  still-Wild-West ecosystem rather than pretending the problem does not exist.
+- Explain how building the observatory changed Sathian from curious outsider to
+  genuine fan while letting readers inspect the evidence themselves.
+- Connect the thesis to Tooth Fairy Network as a real mainnet build: a deployed
+  contract and funds used for Sathian's children and participating friends and
+  family. Label physical books, time-capsule products, and long-term-growth
+  incentives as planned features until shipped.
+- The live dashboard is the enduring product; the article is its concise front
+  door. A Learn/About surface will answer how to use it, how to learn the
+  concepts, and why Solana may matter.
+- "Fort Kobhi" was a transcription error and must not appear in the draft.
+
 ## Working thesis
 
 I was interested in Solana as a future financial rail, but I was still running

@@ -13,7 +13,7 @@ observatory around six health questions.
 - JSON, Markdown, and standalone dark HTML generation;
 - live Network, Adoption, Economy, and Validator measurements;
 - honest planned states for Ecosystem and Financial Rails evidence;
-- sixty-five passing foundation, contract, interface, query, adapter, and
+- seventy-seven passing foundation, contract, interface, query, adapter, and
   import-command tests;
 - a clean six-hour GitHub refresh workflow;
 - enforced metric schema `0.3.0`, including a beginner-readable
@@ -30,18 +30,27 @@ observatory around six health questions.
 - adoption cohorts and Jupiter activity imported from verified Dune results;
 - independent visible failure states and metric-level evidence drawers;
 - fourteen-day daily series for the three DeFiLlama metrics;
+- deterministic seven-day comparisons with exact current and prior windows;
+- a sourced seven-era history rail with facts separated from interpretation;
+- live validator stake, concentration, superminority, commission, and vote
+  participation measurements;
 - scheduled refreshes preserve already-verified dashboard sections.
 
 ## Next technical phase
 
-Review the visible six-question shell. Then add contextual comparisons and the
-seven-era timeline, followed by validator depth. Research and build fees/REV
-and tokenized-asset adapters only where definitions and access are reproducible.
-Bot classification remains later work built on verified base populations.
+Review the comparison, timeline, and validator layers. Then research and build
+fees/REV and tokenized-asset adapters only where definitions and access are
+reproducible. Bot classification follows on verified base populations, then
+deterministic anomalies and grounded automatic explanations.
 
-The seven-era article outline uses the same primary-source research spine.
-Drafting waits for clarification of the phrase "Fort Kobhi" and one personal
-opening scene from Sathian.
+Before release, add a short Learn/About surface answering how to use the
+dashboard, how to learn the concepts, why Solana may matter, and how this work
+connects to the separate Tooth Fairy Network project. Keep promotional claims
+out of metric cards.
+
+The article is deferred until the dashboard is feature-complete. Its revised
+target is 650–900 words: a concise low-cost builder and financial-rails thesis,
+a compressed seven-era arc, and a factual connection to Tooth Fairy Network.
 
 ## Parallel learning track
 

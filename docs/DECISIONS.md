@@ -114,3 +114,18 @@ and payments are first-class rather than being buried inside DeFi TVL.
 The dashboard and article share evidence but not purpose: the dashboard is a
 living deterministic diagnostic, while the article is Sathian's authored
 account of learning Solana by building the instrument panel.
+
+### 2026-08-10 — Separate data reliability from network meaning
+
+An `ok` collector status means data is reporting; it is not a green verdict on
+Solana. Seven-day comparison arrows remain direction-neutral. Green, yellow,
+and red conclusions are reserved for metrics with explicit, documented
+benchmarks where good and bad direction can be defended.
+
+### 2026-08-10 — Keep the article short and defer it
+
+The article will be drafted only after the dashboard is feature-complete. It
+will target 650–900 words and frame Solana through low cost, ease of learning,
+ease of building, maturation beyond its scam/meme-coin reputation, and its
+potential as financial rails. Tooth Fairy Network is the concrete build story;
+future product features remain labeled as planned.

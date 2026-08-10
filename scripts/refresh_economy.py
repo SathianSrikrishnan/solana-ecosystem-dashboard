@@ -293,6 +293,8 @@ def refresh_economy(
     metrics = {}
     for source_name in ("price", "tvl", "stablecoins", "dex"):
         metric = _normalize_source(source_name, results[source_name], collected_at)
+        for companion in metric.pop("companion_metrics", []):
+            metrics[companion["id"]] = companion
         metrics[metric["id"]] = metric
     for source_name in ("chain_fees", "app_fees", "app_revenue"):
         metric = _normalize_fee_source(source_name, results[source_name], collected_at)

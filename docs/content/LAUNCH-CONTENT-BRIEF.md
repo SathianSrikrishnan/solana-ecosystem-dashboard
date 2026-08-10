@@ -4,23 +4,37 @@ Draft only. Publish after the dashboard URL and bounty submission are final.
 
 ## Article
 
-Target: 650-900 words.
+Target: 325-450 words. Short enough to finish in one sitting.
 
 Working title: **Seven Years of Solana: Building an Instrument Panel for the
 Next Financial Rails**
 
 Structure:
 
-1. I started skeptical: Solana looked like speed, memes, and noise.
-2. The builder test: low cost, fast feedback, accessible tools, and real apps.
-3. The seven-era arc: invention, boom, reliability stress, recovery,
-   distribution, resilience, financial rails.
-4. What the observatory measures—and why wallets, transfers, fees, and revenue
-   are not interchangeable.
-5. What remains unknowable without better attribution: people, bots, payments,
-   and retained developers.
-6. Why this matters to my own building path, including Tooth Fairy Network.
-7. Invitation: inspect the live dashboard and challenge the definitions.
+1. Open with the official Solana logo and one sentence: I started skeptical of
+   the memes and noise, then tested the network by building on it.
+2. Compress seven years into one paragraph: invention, boom, reliability
+   stress, recovery, and the move toward financial infrastructure.
+3. Explain the observatory in three sentences: low-cost public data, automatic
+   refreshes, and definitions that distinguish wallets, payments, fees, and
+   revenue.
+4. Bridge to Tooth Fairy Network: I already use a Solana mainnet contract to
+   help families create funded time capsules, and the dashboard is how I learn
+   the rails underneath what I am building.
+5. State the forward thesis: tokenized real-world assets—especially equities,
+   treasuries, funds, and other useful claims—may be where Solana's speed and
+   low costs become most legible outside crypto.
+6. Close with the live dashboard and an invitation to challenge the evidence.
+
+Visual placement:
+
+- Use the official horizontal Solana SVG from
+  <https://solana.com/src/img/branding/solanaLogo.svg>, following
+  <https://solana.com/branding> clear-space and contrast guidance.
+- Use the approved Tooth Fairy Network glow mark from the TFN brand system;
+  do not recreate it. Place it beside the bridge paragraph, not as a co-branded
+  lockup with Solana.
+- Include one dashboard overview image between the history and builder sections.
 
 ## LinkedIn post
 

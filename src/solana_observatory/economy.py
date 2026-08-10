@@ -50,7 +50,7 @@ def parse_coingecko_sol_price(
 
     solana = payload["solana"]
     price = _finite_number(solana.get("usd"), "SOL price", positive=True)
-    _finite_number(
+    change_24h = _finite_number(
         solana.get("usd_24h_change"), "SOL 24-hour change"
     )
     source_timestamp = solana.get("last_updated_at")
@@ -60,7 +60,7 @@ def parse_coingecko_sol_price(
     if source_time > collected_time:
         raise ValueError("CoinGecko source time cannot be in the future")
 
-    return {
+    metric = {
         "id": "sol_price_usd",
         "section": "economy",
         "label": "SOL price",
@@ -86,6 +86,29 @@ def parse_coingecko_sol_price(
         ),
         "series": [],
     }
+    metric["companion_metrics"] = [
+        {
+            "id": "sol_price_24h_change_pct",
+            "section": "economy",
+            "label": "SOL 24-hour price change",
+            "value": round(change_24h, 2),
+            "unit": "percent",
+            "status": "ok",
+            "definition": "CoinGecko's 24-hour percentage change for SOL/USD.",
+            "why_it_matters": "It supplies a bounded price-move signal for anomaly review.",
+            "source": {
+                "name": "CoinGecko",
+                "method": "simple/price?include_24hr_change=true",
+                "url": source_url,
+            },
+            "collected_at": collected_at,
+            "source_time": source_time.isoformat().replace("+00:00", "Z"),
+            "confidence": "high",
+            "caveat": "A price move does not explain network health or user adoption.",
+            "series": [],
+        }
+    ]
+    return metric
 
 
 def _complete_day_series(

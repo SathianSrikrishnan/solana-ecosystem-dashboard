@@ -62,6 +62,7 @@ class RpcClientTests(unittest.TestCase):
                 "getBlockHeight",
                 "getEpochInfo",
                 "getRecentPerformanceSamples",
+                "getRecentPrioritizationFees",
                 "getVoteAccounts",
             ],
         )

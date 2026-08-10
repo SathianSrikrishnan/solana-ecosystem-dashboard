@@ -26,6 +26,15 @@ class RefreshWorkflowTests(unittest.TestCase):
         self.assertIn("cancel-in-progress: false", workflow)
         self.assertIn("uses: actions/checkout@v7", workflow)
         self.assertIn("uses: actions/setup-python@v7", workflow)
+        self.assertIn("DUNE_API_KEY", workflow)
+        self.assertIn("python scripts/refresh_dune.py", workflow)
+
+    def test_pages_workflow_publishes_the_static_output(self):
+        workflow = (ROOT / ".github" / "workflows" / "pages.yml").read_text(encoding="utf-8")
+        self.assertIn("pages: write", workflow)
+        self.assertIn("id-token: write", workflow)
+        self.assertIn("path: output", workflow)
+        self.assertIn("actions/deploy-pages", workflow)
 
 
 if __name__ == "__main__":

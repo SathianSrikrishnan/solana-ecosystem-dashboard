@@ -109,6 +109,11 @@ class SnapshotTests(unittest.TestCase):
                     "samplePeriodSecs": 60,
                 }
             ],
+            "getRecentPrioritizationFees": [
+                {"slot": 1, "prioritizationFee": 0},
+                {"slot": 2, "prioritizationFee": 1000},
+                {"slot": 3, "prioritizationFee": 2000},
+            ],
             "getVoteAccounts": {
                 "current": [{"votePubkey": "one"}, {"votePubkey": "two"}],
                 "delinquent": [{"votePubkey": "three"}],
@@ -128,6 +133,10 @@ class SnapshotTests(unittest.TestCase):
         self.assertEqual(snapshot["metrics"]["active_validators"]["value"], 2)
         self.assertEqual(snapshot["metrics"]["delinquent_validators"]["value"], 1)
         self.assertEqual(
+            snapshot["metrics"]["estimated_median_transaction_fee_lamports"]["value"],
+            6000.0,
+        )
+        self.assertEqual(
             snapshot["metrics"]["estimated_tps"]["source"]["method"],
             "getRecentPerformanceSamples",
         )
@@ -143,6 +152,7 @@ class SnapshotTests(unittest.TestCase):
             "getBlockHeight": 1,
             "getEpochInfo": {"epoch": 1, "slotIndex": 1, "slotsInEpoch": 2},
             "getRecentPerformanceSamples": [{"numTransactions": 10, "numNonVoteTransactions": 5, "numSlots": 2, "samplePeriodSecs": 1}],
+            "getRecentPrioritizationFees": [{"slot": 1, "prioritizationFee": 0}],
             "getVoteAccounts": {
                 "current": [{"votePubkey": "a", "activatedStake": 2_000_000_000, "commission": 5, "epochCredits": [[1, 10, 5]]}],
                 "delinquent": [{"votePubkey": "b", "activatedStake": 1_000_000_000, "commission": 10, "epochCredits": []}],

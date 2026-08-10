@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from statistics import median
 from typing import Any
 
 from .validator_depth import calculate_validator_depth
@@ -117,7 +118,8 @@ def build_network_snapshot(
     """Build the first normalized snapshot from direct RPC method results."""
 
     epoch_info = rpc_results["getEpochInfo"]
-    performance = rpc_results["getRecentPerformanceSamples"][0]
+    performance_samples = rpc_results["getRecentPerformanceSamples"]
+    performance = performance_samples[0]
     vote_accounts = rpc_results["getVoteAccounts"]
     validator_depth = calculate_validator_depth(vote_accounts)
 
@@ -127,6 +129,38 @@ def build_network_snapshot(
         performance["numNonVoteTransactions"] / sample_period
     )
     estimated_slot_time = sample_period / performance["numSlots"]
+    prior_samples = performance_samples[1:]
+    prior_non_vote_tps = [
+        item["numNonVoteTransactions"] / item["samplePeriodSecs"]
+        for item in prior_samples
+        if item.get("samplePeriodSecs") and item.get("numSlots")
+    ]
+    prior_slot_times = [
+        item["samplePeriodSecs"] / item["numSlots"]
+        for item in prior_samples
+        if item.get("samplePeriodSecs") and item.get("numSlots")
+    ]
+    non_vote_tps_deviation = (
+        None
+        if not prior_non_vote_tps or median(prior_non_vote_tps) == 0
+        else (estimated_non_vote_tps / median(prior_non_vote_tps) - 1) * 100
+    )
+    slot_time_deviation = (
+        None
+        if not prior_slot_times or median(prior_slot_times) == 0
+        else (estimated_slot_time / median(prior_slot_times) - 1) * 100
+    )
+    priority_fees = [
+        item.get("prioritizationFee")
+        for item in rpc_results.get("getRecentPrioritizationFees", [])
+        if isinstance(item, dict)
+        and isinstance(item.get("prioritizationFee"), (int, float))
+        and not isinstance(item.get("prioritizationFee"), bool)
+        and item.get("prioritizationFee") >= 0
+    ]
+    estimated_median_fee = (
+        None if not priority_fees else 5000 + float(median(priority_fees))
+    )
     epoch_progress = (
         epoch_info["slotIndex"] / epoch_info["slotsInEpoch"] * 100
     )
@@ -236,6 +270,54 @@ def build_network_snapshot(
             method="getRecentPerformanceSamples",
             collected_at=collected_at,
             caveat="This is a short recent estimate and can move between samples.",
+        ),
+        "estimated_median_transaction_fee_lamports": _metric(
+            metric_id="estimated_median_transaction_fee_lamports",
+            section="economy",
+            label="Estimated median transaction fee",
+            value=estimated_median_fee,
+            unit="lamports",
+            definition=(
+                "One-signature base fee plus the median recent prioritization "
+                "fee reported by the selected RPC node."
+            ),
+            why_it_matters=(
+                "It provides a bounded, user-scale fee benchmark alongside "
+                "aggregate chain fees."
+            ),
+            method="getRecentPrioritizationFees + protocol base fee",
+            collected_at=collected_at,
+            caveat=(
+                "This is an estimate for a one-signature transaction using one "
+                "RPC node's recent cache, not the median fee of every executed transaction."
+            ),
+            confidence="medium",
+        ),
+        "estimated_non_vote_tps_vs_recent_median_pct": _metric(
+            metric_id="estimated_non_vote_tps_vs_recent_median_pct",
+            section="network",
+            label="Non-vote TPS vs recent sample median",
+            value=None if non_vote_tps_deviation is None else round(non_vote_tps_deviation, 2),
+            unit="percent",
+            definition="Latest non-vote TPS relative to the median of earlier RPC performance samples.",
+            why_it_matters="It detects short-run throughput drops or spikes without calling them good or bad.",
+            method="getRecentPerformanceSamples",
+            collected_at=collected_at,
+            caveat="The RPC sample window is short and non-vote transactions can include automation.",
+            confidence="medium",
+        ),
+        "estimated_slot_time_vs_recent_median_pct": _metric(
+            metric_id="estimated_slot_time_vs_recent_median_pct",
+            section="network",
+            label="Slot time vs recent sample median",
+            value=None if slot_time_deviation is None else round(slot_time_deviation, 2),
+            unit="percent",
+            definition="Latest estimated slot time relative to the median of earlier RPC performance samples.",
+            why_it_matters="It detects a short-run slowdown in chain progression.",
+            method="getRecentPerformanceSamples",
+            collected_at=collected_at,
+            caveat="This compares a bounded set of recent samples from one RPC endpoint.",
+            confidence="medium",
         ),
         "active_validators": _metric(
             metric_id="active_validators",

@@ -18,13 +18,16 @@ def build_grounded_briefing(snapshot: dict[str, Any]) -> dict[str, Any]:
     if notable:
         phrases = []
         for record in notable[:3]:
+            if record.get("kind") == "threshold":
+                phrases.append(record["message"])
+                continue
             metric = snapshot["metrics"].get(record["metric_id"], {})
             label = metric.get("label", record["metric_id"])
             phrases.append(
                 f"{label} {record['direction']} by "
                 f"{abs(record['observed_change_pct']):.1f}%"
             )
-        current_reading = "Notable seven-day movement: " + "; ".join(phrases) + "."
+        current_reading = "Notable evidence: " + "; ".join(phrases) + "."
     else:
         current_reading = (
             "No verified comparison crossed the current review threshold."

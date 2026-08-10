@@ -11,12 +11,20 @@
 - [x] Repeatable Axe WCAG 2.1 A/AA checks at desktop and mobile widths.
 - [x] Scheduled six-hour refresh pipeline with visible source degradation.
 - [x] Compact scan values with exact values preserved in evidence and JSON.
+- [x] Official bounty requirements mapped line by line.
+- [x] Median transaction-fee estimate with precise limitations.
+- [x] TPS, slot-time, delinquency, and SOL-price anomaly monitors.
+- [x] Official Solana RSS, Alpenglow, and SIMD-0525 tracking.
+- [x] GitHub Pages deployment workflow.
+- [x] Submission-ready README covering setup, sources, automation, anomalies,
+      interpretation, and known gaps.
 
 ## Requires Sathian's input or approval
 
-- [ ] Paste the exact Superteam bounty listing URL for requirement verification.
-- [ ] Choose/approve hosting. Recommendation: GitHub Pages for the bounty;
-      connect a custom domain later if useful.
+- [x] Paste the exact Superteam bounty listing URL for requirement verification.
+- [x] Choose/approve GitHub Pages hosting for the bounty.
+- [ ] Configure `DUNE_API_KEY` as a repository secret to activate authenticated
+      Dune extraction. The no-key workflow safely preserves verified data.
 - [ ] Decide whether to add an optional model-backed briefing with a hard cost
       cap or submit with the deterministic briefing.
 - [ ] Confirm the public byline and short builder bio.

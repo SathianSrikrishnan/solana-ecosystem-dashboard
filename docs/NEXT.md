@@ -13,7 +13,7 @@ dashboard is now organized as a layered observatory around six health questions.
 - JSON, Markdown, and standalone dark HTML generation;
 - live Network, Adoption, Economy, and Validator measurements;
 - honest planned states for authenticated RWA and identifiable-payment evidence;
-- 101 passing foundation, contract, interface, query, adapter, and
+- 106 passing foundation, contract, interface, query, adapter, and
   import-command tests;
 - a clean six-hour GitHub refresh workflow;
 - enforced metric schema `0.3.0`, including a beginner-readable

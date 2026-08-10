@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from .anomalies import build_anomalies
+from .anomalies import build_anomalies, build_threshold_anomalies
 from .briefing import build_grounded_briefing
 from .comparisons import build_comparisons
 from .contracts import validate_snapshot
@@ -17,7 +17,10 @@ def write_reports(
     snapshot: dict[str, Any], output_dir: Path
 ) -> list[Path]:
     snapshot["comparisons"] = build_comparisons(snapshot["metrics"])
-    snapshot["anomalies"] = build_anomalies(snapshot["comparisons"])
+    snapshot["anomalies"] = {
+        **build_anomalies(snapshot["comparisons"]),
+        **build_threshold_anomalies(snapshot["metrics"]),
+    }
     if "timeline" not in snapshot:
         timeline_path = (
             Path(__file__).resolve().parents[2]

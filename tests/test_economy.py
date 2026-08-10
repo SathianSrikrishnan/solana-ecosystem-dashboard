@@ -42,6 +42,11 @@ class EconomyParserTests(unittest.TestCase):
         self.assertEqual(metric["section"], "economy")
         self.assertEqual(metric["label"], "SOL price")
         self.assertEqual(metric["value"], 76.31)
+        self.assertEqual(
+            metric["companion_metrics"][0]["id"],
+            "sol_price_24h_change_pct",
+        )
+        self.assertEqual(metric["companion_metrics"][0]["value"], 3.26)
         self.assertEqual(metric["unit"], "USD")
         self.assertEqual(metric["status"], "ok")
         self.assertEqual(metric["source"]["name"], "CoinGecko")

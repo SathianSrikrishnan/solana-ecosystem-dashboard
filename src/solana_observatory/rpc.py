@@ -73,7 +73,8 @@ def collect_network_results(client: SolanaRpcClient) -> dict[str, Any]:
         ("getSlot", [{"commitment": "confirmed"}]),
         ("getBlockHeight", [{"commitment": "confirmed"}]),
         ("getEpochInfo", [{"commitment": "confirmed"}]),
-        ("getRecentPerformanceSamples", [1]),
+        ("getRecentPerformanceSamples", [60]),
+        ("getRecentPrioritizationFees", None),
         ("getVoteAccounts", [{"commitment": "confirmed"}]),
     ]
     return {method: client.call(method, params) for method, params in calls}

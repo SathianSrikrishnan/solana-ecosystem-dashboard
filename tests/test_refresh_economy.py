@@ -93,7 +93,7 @@ class RefreshEconomyTests(unittest.TestCase):
             },
         }
 
-    def test_successful_refresh_adds_eight_metrics_to_every_format(self):
+    def test_successful_refresh_adds_price_change_and_core_metrics_to_every_format(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             snapshot_path = root / "snapshot.json"
@@ -121,6 +121,7 @@ class RefreshEconomyTests(unittest.TestCase):
                 economy_ids,
                 {
                     "sol_price_usd",
+                    "sol_price_24h_change_pct",
                     "solana_defi_tvl_usd",
                     "solana_dex_volume_usd",
                     "solana_chain_fees_usd",

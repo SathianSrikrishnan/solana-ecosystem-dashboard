@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from solana_observatory.anomalies import build_anomalies
+from solana_observatory.anomalies import build_anomalies, build_threshold_anomalies
 
 
 class AnomalyTests(unittest.TestCase):
@@ -52,6 +52,22 @@ class AnomalyTests(unittest.TestCase):
         self.assertEqual(anomalies["daily_volume"]["status"], "within_range")
         self.assertEqual(anomalies["missing_metric"]["status"], "unavailable")
         self.assertEqual(anomalies["missing_metric"]["known_gap"], "Missing days")
+
+    def test_monitors_sponsor_named_operational_thresholds(self):
+        metrics = {
+            "estimated_non_vote_tps_vs_recent_median_pct": {"status": "ok", "value": -31.0},
+            "estimated_slot_time_vs_recent_median_pct": {"status": "ok", "value": 8.0},
+            "delinquent_stake_share_pct": {"status": "ok", "value": 6.2},
+            "sol_price_24h_change_pct": {"status": "ok", "value": 11.0},
+        }
+
+        alerts = build_threshold_anomalies(metrics)
+
+        self.assertEqual(alerts["estimated_non_vote_tps_vs_recent_median_pct"]["status"], "notable")
+        self.assertEqual(alerts["estimated_slot_time_vs_recent_median_pct"]["status"], "within_range")
+        self.assertEqual(alerts["delinquent_stake_share_pct"]["status"], "notable")
+        self.assertEqual(alerts["sol_price_24h_change_pct"]["status"], "notable")
+        self.assertIn("review threshold", alerts["sol_price_24h_change_pct"]["message"])
 
 
 if __name__ == "__main__":

@@ -151,3 +151,13 @@ figures as live data.
 Dune stored results must cover the latest seven complete UTC days. When they do
 not, the scheduled pipeline preserves their provenance but marks only the Dune
 metrics stale. Query execution remains bounded and credit-gated.
+
+### 2026-08-10 - Add a beginner layer without deleting the evidence layer
+
+The final release opens with a thirty-second path and a linked six-question
+map. It does not create a separate beginner mode or remove metric depth. The
+same interface must let a newcomer orient quickly and let a judge inspect the
+definition, source, freshness, confidence, and limitation behind a claim.
+
+The product promise is: "Six questions. One living system. Every claim
+inspectable."

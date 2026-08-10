@@ -57,7 +57,8 @@ Submission deadline: 2026-08-17 at 23:59 America/Toronto.
 
 The release candidate uses normalized schema `0.3.0` and 45 metrics across
 Network, Adoption, Economy, Validators, Ecosystem, and Financial Rails. Thirty-
-four metrics report live; four important gaps remain explicit because their
+six metrics report live, five preserved Dune metrics are stale, and four
+important gaps remain explicit because their
 dependable sources require authentication or a stronger attribution contract.
 The product includes deterministic comparisons, anomaly review, an evidence-
 bound briefing, a sourced seven-era history, mobile/desktop QA, and automated

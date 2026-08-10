@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { width: 1200px; height: 1200px; margin: 0; overflow: hidden; }
+    body { background: #070a0e; color: #f0f5f3; font-family: "Segoe UI Variable", "Trebuchet MS", sans-serif; }
+    .page { position: relative; width: 100%; height: 100%; padding: 64px 72px 54px; background-image: linear-gradient(rgba(77,240,168,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(77,240,168,.035) 1px, transparent 1px); background-size: 48px 48px; }
+    header { display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 14px; color: #14f195; font: 700 16px/1 "Cascadia Mono", Consolas, monospace; letter-spacing: .12em; }
+    .brand img { width: 34px; }
+    .tag { color: #96a6a1; font: 13px/1 "Cascadia Mono", Consolas, monospace; letter-spacing: .06em; }
+    h1 { width: 810px; margin: 54px 0 14px; font: 800 68px/.92 Bahnschrift, "Franklin Gothic Medium", sans-serif; letter-spacing: -.045em; }
+    .intro { width: 760px; margin: 0 0 36px; color: #96a6a1; font-size: 20px; line-height: 1.45; }
+    .layers { position: relative; display: grid; gap: 0; border-top: 1px solid #25312f; }
+    .layers::before { content: ""; position: absolute; left: 61px; top: 0; bottom: 0; width: 1px; background: #14f195; opacity: .65; }
+    .layer { display: grid; grid-template-columns: 125px 235px 1fr 285px; align-items: center; min-height: 112px; border-bottom: 1px solid #25312f; }
+    .num { position: relative; z-index: 1; width: 40px; height: 40px; display: grid; place-items: center; margin-left: 42px; border: 1px solid #14f195; background: #070a0e; color: #14f195; font: 700 13px/1 "Cascadia Mono", Consolas, monospace; transform: rotate(45deg); }
+    .num span { transform: rotate(-45deg); }
+    .name { font: 750 29px/1 Bahnschrift, "Franklin Gothic Medium", sans-serif; letter-spacing: -.025em; }
+    .question { padding-right: 26px; color: #c3ceca; font-size: 18px; line-height: 1.35; }
+    .evidence { color: #79c6d9; font: 13px/1.5 "Cascadia Mono", Consolas, monospace; }
+    footer { display: grid; grid-template-columns: 1.3fr 1fr; gap: 42px; margin-top: 34px; padding-top: 24px; border-top: 1px solid #25312f; }
+    footer strong { display: block; margin-bottom: 7px; color: #14f195; font: 700 13px/1 "Cascadia Mono", Consolas, monospace; letter-spacing: .08em; }
+    footer p { margin: 0; color: #96a6a1; font-size: 15px; line-height: 1.45; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="brand"><img src="solana-logomark.svg" alt=""> SOLANA OBSERVATORY</div>
+      <div class="tag">SOLANA, WITHOUT THE FOG.</div>
+    </header>
+    <h1>Six questions.<br>One living system.</h1>
+    <p class="intro">A beginner map for reading Solana from infrastructure to adoption, economic activity, resilience, ecosystem growth, and financial rails.</p>
+    <section class="layers">
+      <div class="layer"><div class="num"><span>01</span></div><div class="name">Network</div><div class="question">Is Solana working?</div><div class="evidence">TPS · SLOT TIME · FEES</div></div>
+      <div class="layer"><div class="num"><span>02</span></div><div class="name">Adoption</div><div class="question">Are addresses and applications returning?</div><div class="evidence">SIGNERS · FEE PAYERS · APP OVERLAP</div></div>
+      <div class="layer"><div class="num"><span>03</span></div><div class="name">Economy</div><div class="question">Is useful economic activity growing?</div><div class="evidence">FEES · REVENUE · TVL · DEX</div></div>
+      <div class="layer"><div class="num"><span>04</span></div><div class="name">Validators</div><div class="question">Is the network resilient and decentralized?</div><div class="evidence">STAKE · DELINQUENCY · CONCENTRATION</div></div>
+      <div class="layer"><div class="num"><span>05</span></div><div class="name">Ecosystem</div><div class="question">Is Solana continuing to compound?</div><div class="evidence">APPS · RELEASES · UPGRADES</div></div>
+      <div class="layer"><div class="num"><span>06</span></div><div class="name">Financial rails</div><div class="question">Is real financial infrastructure emerging?</div><div class="evidence">STABLECOINS · RWAs · PAYMENTS</div></div>
+    </section>
+    <footer>
+      <p><strong>HOW TO USE IT</strong>Read the current state, follow what changed, then inspect the evidence behind the metric.</p>
+      <p><strong>TRUST RULE</strong>A reporting status describes the data feed—not the health of Solana.</p>
+    </footer>
+  </main>
+</body>
+</html>

@@ -12,14 +12,19 @@ from typing import Any
 def mark_dune_metrics_stale(snapshot: dict[str, Any], *, reason: str) -> int:
     """Keep verified values but expose a failed automatic Dune refresh."""
 
+    _ = reason
+    public_note = (
+        " Automatic refresh note: The saved Dune result is preserved but "
+        "needs a fresh query execution."
+    )
     changed = 0
     for metric in snapshot.get("metrics", {}).values():
         if metric.get("source", {}).get("name") != "Dune":
             continue
         metric["status"] = "stale"
-        note = f" Automatic refresh note: {reason}."
-        if note not in metric["caveat"]:
-            metric["caveat"] += note
+        metric["caveat"] = metric["caveat"].partition(
+            " Automatic refresh note:"
+        )[0].rstrip() + public_note
         changed += 1
     return changed
 

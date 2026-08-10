@@ -108,3 +108,11 @@ verified snapshot, the live SOL price was $76.32 at 16:07 UTC; the 2026-08-07
 complete-day readings were $4.707 billion TVL, $16.252 billion circulating
 stablecoin value, and $1.363 billion DEX volume. These are four different
 measurements, not one verdict on the health of Solana.
+
+## 2026-08-10 - More metrics do not create a reason to return
+
+The dashboard can win initial trust through definitions, sources, freshness,
+limitations, and reproducible outputs. Repeat use needs a habit loop: what
+changed this week, an archive, alerts, or embeddable cards. Those distribution
+features are higher-leverage post-bounty work than adding weakly sourced
+metrics. For the release, readability and shareability are the correct scope.

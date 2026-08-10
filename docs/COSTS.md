@@ -58,3 +58,19 @@ query. We run it deliberately rather than polling or retrying it automatically.
   were not archived.
 
 Cash spend for this economy slice: $0.
+
+## Current Dune operating posture - 2026-08-10
+
+- Dune is optional and limited to five adoption measurements; it is not needed
+  for the network, economy, validator, ecosystem, price, or stablecoin layers.
+- No paid subscription or payment method is required for the current project.
+- The account has a 2,500-credit free allowance, a $0 extra-credit limit, and a
+  100-credit per-query cap. Recorded cash spend remains $0.
+- API query execution and API/CSV result retrieval consume credits. The scheduled
+  workflow therefore retrieves stored results but does not execute queries.
+- The stored result currently ends on 2026-08-07 and is visibly labeled stale.
+  A bounded pre-submission refresh remains a human approval decision.
+
+Official reference: [Dune API billing](https://docs.dune.com/api-reference/overview/billing),
+[pricing FAQ](https://docs.dune.com/learning/how-tos/pricing-faqs), and
+[how credits work](https://docs.dune.com/resources/credits-billing/how-credits-work).

@@ -13,7 +13,7 @@ dashboard is now organized as a layered observatory around six health questions.
 - JSON, Markdown, and standalone dark HTML generation;
 - live Network, Adoption, Economy, and Validator measurements;
 - honest planned states for authenticated RWA and identifiable-payment evidence;
-- 112 passing foundation, contract, interface, query, adapter, and
+- 116 passing foundation, contract, interface, query, adapter, and
   import-command tests;
 - a clean six-hour GitHub refresh workflow;
 - enforced metric schema `0.3.0`, including a beginner-readable
@@ -48,8 +48,8 @@ dashboard is now organized as a layered observatory around six health questions.
 ## Next technical phase
 
 The GitHub Pages dashboard and refresh-to-deploy path are live and verified.
-`DUNE_API_KEY` is configured. The remaining Dune action is to set a zero-dollar
-extra-credit limit and a conservative per-query cap, then explicitly approve a
+`DUNE_API_KEY` is configured, the extra-credit limit is $0, and the per-query
+cap is 100 credits. The remaining Dune decision is whether to approve one
 bounded execution of the three saved queries; stored results currently end on
 2026-08-07 and are labeled stale when they fail freshness validation. RWA.xyz
 remains unavailable unless API access and redistribution rights are granted.
@@ -61,6 +61,12 @@ features are reproducibly available.
 The dashboard is feature-complete for the release candidate. The article target
 is 325–450 words: a concise low-cost builder and financial-rails thesis, a
 compressed seven-era arc, and a factual connection to Tooth Fairy Network.
+
+The final readability release adds a thirty-second Start Here path, a linked
+six-question system map, exact-size share assets, social-preview metadata, and
+a short explanation of how the Observatory supports the family-product thesis.
+After submission, prioritize a weekly change brief, archive, opt-in alerts, and
+embeddable cards before adding more marginal metrics.
 
 ## Parallel learning track
 

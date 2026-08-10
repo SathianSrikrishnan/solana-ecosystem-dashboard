@@ -647,6 +647,16 @@ def render_html(snapshot: dict[str, Any]) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A source-visible Solana ecosystem observatory.">
   <meta name="theme-color" content="#070a0e">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Solana Observatory">
+  <meta property="og:description" content="Six questions. One living system. Every claim inspectable.">
+  <meta property="og:image" content="https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/solana-observatory-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Solana Observatory">
+  <meta name="twitter:description" content="Solana, without the fog.">
+  <meta name="twitter:image" content="https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/solana-observatory-cover.png">
   <title>Solana Ecosystem Dashboard</title>
   <style>
     :root {{
@@ -720,6 +730,22 @@ def render_html(snapshot: dict[str, Any]) -> str:
     .reading h2 {{ margin: 8px 0 0; font-size: clamp(1.5rem, 3vw, 2.4rem); line-height: 1.12; letter-spacing: -.035em; }}
     .source-health {{ align-self: end; padding-left: 24px; border-left: 1px solid var(--line); }}
     .source-health strong {{ display: block; font-size: 1.3rem; color: var(--green); }}
+    .orientation {{ display: grid; grid-template-columns: .8fr 1.2fr; gap: 28px; margin: 20px 0; padding: 26px; border: 1px solid var(--line); background: rgba(16,22,28,.72); }}
+    .orientation h2 {{ margin: 7px 0 10px; font-size: 1.6rem; letter-spacing: -.035em; }}
+    .orientation-copy > p {{ color: var(--muted); font-size: .9rem; }}
+    .start-steps {{ display: grid; gap: 9px; margin: 18px 0 0; padding: 0; list-style: none; }}
+    .start-steps li {{ padding-top: 9px; border-top: 1px solid var(--line); color: var(--text); font-size: .84rem; }}
+    .asset-link {{ display: inline-block; margin-top: 18px; color: var(--green); font-size: .78rem; text-underline-offset: 4px; }}
+    .system-map-wrap > p {{ margin-bottom: 14px; color: var(--muted); font-size: .8rem; }}
+    .system-map {{ display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }}
+    .system-link {{ min-height: 94px; padding: 12px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-decoration: none; }}
+    .system-link span, .system-link strong {{ display: block; }}
+    .system-link span {{ color: var(--green); font: .66rem/1.2 "Cascadia Mono", Consolas, monospace; letter-spacing: .08em; }}
+    .system-link strong {{ margin-top: 7px; font: 1rem/1.1 Bahnschrift, "Franklin Gothic Medium", sans-serif; }}
+    .system-link small {{ display: block; margin-top: 7px; color: var(--muted); font-size: .66rem; line-height: 1.3; }}
+    .system-link:hover, .system-link:focus-visible {{ background: rgba(77,240,168,.06); }}
+    .state-legend {{ grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 2px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: .72rem; }}
+    .state-legend strong {{ color: var(--text); }}
     .signal-grid, .metric-grid {{ display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }}
     .signal-card {{
       padding: 20px;
@@ -853,9 +879,11 @@ def render_html(snapshot: dict[str, Any]) -> str:
     @media (max-width: 680px) {{
       main, .header-inner {{ width: min(100% - 24px, 1180px); }}
       main {{ padding-top: 48px; }}
-      .reading, .section-heading, .methods-grid, .era, .identity-lens, .leaderboard-heading, .anomaly-monitor {{ grid-template-columns: 1fr; }}
+      .reading, .orientation, .section-heading, .methods-grid, .era, .identity-lens, .leaderboard-heading, .anomaly-monitor {{ grid-template-columns: 1fr; }}
       .source-health {{ padding: 20px 0 0; border: 0; border-top: 1px solid var(--line); }}
       .signal-grid, .metric-grid {{ grid-template-columns: 1fr; }}
+      .system-map {{ grid-template-columns: repeat(2, 1fr); }}
+      .state-legend {{ grid-template-columns: 1fr; }}
       .dashboard-section {{ padding-top: 58px; }}
     }}
     @media (prefers-reduced-motion: reduce) {{
@@ -905,6 +933,35 @@ def render_html(snapshot: dict[str, Any]) -> str:
           <span>Gaps remain visible instead of blanking the report.</span>
         </div>
       </section>
+      <section class="orientation" id="start-here" aria-labelledby="start-here-title">
+        <div class="orientation-copy">
+          <span class="eyebrow">Start here</span>
+          <h2 id="start-here-title">A thirty-second reading path</h2>
+          <p>This is an evidence map, not a score. Use it to find the question that changed, then inspect the measurement before deciding what it means.</p>
+          <ol class="start-steps">
+            <li><strong>1. Read the current state</strong> above.</li>
+            <li><strong>2. Follow what changed</strong> in the six signals.</li>
+            <li><strong>3. Inspect the evidence</strong> inside any metric.</li>
+          </ol>
+          <a class="asset-link" href="solana-six-question-map.png">Open the one-page guide &#8599;</a>
+        </div>
+        <div class="system-map-wrap">
+          <p><strong>Six questions. One living system.</strong> Choose the layer you want to understand.</p>
+          <div class="system-map" aria-label="Six-question dashboard map">
+            <a class="system-link" href="#network"><span>01</span><strong>Network</strong><small>Is Solana working?</small></a>
+            <a class="system-link" href="#adoption"><span>02</span><strong>Adoption</strong><small>Are addresses and apps returning?</small></a>
+            <a class="system-link" href="#economy"><span>03</span><strong>Economy</strong><small>Is useful activity growing?</small></a>
+            <a class="system-link" href="#validators"><span>04</span><strong>Validators</strong><small>Is the network resilient?</small></a>
+            <a class="system-link" href="#ecosystem"><span>05</span><strong>Ecosystem</strong><small>Is Solana compounding?</small></a>
+            <a class="system-link" href="#financial-rails"><span>06</span><strong>Financial rails</strong><small>Is real infrastructure emerging?</small></a>
+          </div>
+        </div>
+        <div class="state-legend" aria-label="Data state legend">
+          <span><strong>Reporting</strong> means the source returned valid data.</span>
+          <span><strong>Stale</strong> means the last verified value is preserved.</span>
+          <span><strong>Unavailable</strong> means no defensible live source is connected.</span>
+        </div>
+      </section>
       <div class="signal-grid">{signal_markup}</div>
       {analysis_panel}
       {anomaly_monitor}
@@ -936,6 +993,10 @@ def render_html(snapshot: dict[str, Any]) -> str:
         <details>
           <summary>Why was this built?</summary>
           <div>Sathian built the observatory to replace borrowed conviction with inspectable evidence while learning Solana. That learning also informs Tooth Fairy Network, a separate mainnet project for family time capsules and long-term value. Physical books and expanded incentive features are planned, not presented here as shipped.</div>
+        </details>
+        <details>
+          <summary>What does this have to do with families?</summary>
+          <div>Financial rails matter when they become dependable enough to support long-term promises. Tooth Fairy Network is Sathian's separate mainnet experiment in family time capsules and durable incentives. The Observatory is the evidence layer: it tests reliability, cost, adoption, and financial infrastructure instead of treating conviction as proof.</div>
         </details>
       </div>
     </section>

@@ -20,6 +20,9 @@
 - [x] GitHub Pages deployment workflow.
 - [x] Submission-ready README covering setup, sources, automation, anomalies,
       interpretation, and known gaps.
+- [x] Thirty-second beginner orientation and linked six-question system map.
+- [x] Exact-size 1200 x 630 cover and 1200 x 1200 beginner share card.
+- [x] Open Graph and Twitter preview metadata use the public cover.
 
 ## Requires Sathian's input or approval
 
@@ -27,8 +30,9 @@
 - [x] Choose/approve GitHub Pages hosting for the bounty.
 - [x] Configure `DUNE_API_KEY` as a repository secret for authenticated Dune
       stored-result retrieval.
-- [ ] Set Dune's extra-credit limit to $0 and a conservative per-query cap,
-      then approve one bounded execution of the three saved queries.
+- [x] Set Dune's extra-credit limit to $0 and a conservative per-query cap.
+- [ ] Approve one bounded execution of the three saved queries before submission,
+      or accept the visibly stale adoption slice.
 - [ ] Decide whether to add an optional model-backed briefing with a hard cost
       cap or submit with the deterministic briefing.
 - [ ] Confirm the public byline and short builder bio.
@@ -48,4 +52,5 @@
       successful or content-range response on 2026-08-10).
 - [ ] Record a 60-90 second product demo.
 - [x] Capture final desktop and mobile screenshots.
+- [x] Confirm the share images match exact target dimensions without clipping.
 - [ ] Verify the official requirements and character limits line by line.

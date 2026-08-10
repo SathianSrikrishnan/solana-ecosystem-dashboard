@@ -45,6 +45,7 @@ async function inspect(name, viewport, captures) {
 try {
   await inspect("desktop", { width: 1440, height: 1000 }, [
     ["#overview", "12-final-overview.png"],
+    ["#start-here", "15-final-start-here.png"],
     ["#validators", "13-final-validators.png"],
   ]);
   await inspect("mobile", { width: 360, height: 800 }, [

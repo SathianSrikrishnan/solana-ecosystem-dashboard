@@ -116,8 +116,33 @@ class DuneAdoptionTests(unittest.TestCase):
 
         self.assertEqual(changed, 1)
         self.assertEqual(dune_metric["status"], "stale")
-        self.assertIn("missing complete UTC days", dune_metric["caveat"])
+        self.assertIn(
+            "The saved Dune result is preserved but needs a fresh query execution.",
+            dune_metric["caveat"],
+        )
+        self.assertNotIn("missing complete UTC days", dune_metric["caveat"])
         self.assertEqual(other_metric["status"], "ok")
+
+    def test_repeated_refresh_failures_keep_one_public_stale_note(self):
+        dune_metric = dune_adoption.parse_daily_fee_payers_csv(
+            self._valid_csv(),
+            collected_at=self.collected_at,
+            source_url=self.source_url,
+        )
+        snapshot = {"metrics": {dune_metric["id"]: dune_metric}}
+
+        dune_adoption.mark_dune_metrics_stale(snapshot, reason="HTTP Error 401")
+        dune_adoption.mark_dune_metrics_stale(
+            snapshot,
+            reason="Dune CSV must contain the latest seven complete UTC days",
+        )
+
+        self.assertEqual(dune_metric["caveat"].count("Automatic refresh note:"), 1)
+        self.assertNotIn("HTTP Error 401", dune_metric["caveat"])
+        self.assertIn(
+            "The saved Dune result is preserved but needs a fresh query execution.",
+            dune_metric["caveat"],
+        )
 
     def test_parser_rejects_empty_or_incomplete_csv(self):
         for csv_text in (

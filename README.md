@@ -2,6 +2,8 @@
 
 Live dashboard: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/
 
+![Solana Observatory cover](output/solana-observatory-cover.png)
+
 A trustworthy, automatically updating view of Solana's network health,
 adoption, economics, validators, ecosystem changes, and financial rails.
 
@@ -13,6 +15,10 @@ Interactive Dashboard bounty](https://superteam.fun/earn/listing/develop-solana-
 - [`output/index.html`](output/index.html): standalone dark interactive dashboard
 - [`output/report.md`](output/report.md): human-readable report
 - [`output/report.json`](output/report.json): structured facts and provenance
+- [`output/solana-observatory-cover.png`](output/solana-observatory-cover.png):
+  1200 x 630 social preview
+- [`output/solana-six-question-map.png`](output/solana-six-question-map.png):
+  1200 x 1200 beginner guide
 
 The same validated snapshot drives all three formats. Every metric carries its
 definition, source, collection time, confidence, and a limitation. Wallets are
@@ -38,6 +44,8 @@ python scripts\refresh_ecosystem.py --snapshot output\report.json --output outpu
 python scripts\refresh_updates.py --snapshot output\report.json --output output
 python scripts\refresh_dune.py --snapshot output\report.json --output output
 npm ci
+npm run test:social
+npm run build:social
 npm run test:a11y
 npm run test:visual
 ```
@@ -91,6 +99,34 @@ results, but those results currently end on 2026-08-07 and do not satisfy the
 latest-complete-day contract. Executing the queries can consume Dune credits
 and remains a separate, explicitly approved action after billing caps are set.
 
+### What Dune does—and does not do
+
+Dune is the adoption microscope, not the dashboard's foundation. It supplies
+five historical measurements that public Solana RPC cannot answer efficiently:
+successful fee payers, successful signers, Jupiter swap signers, Jupiter/signers
+overlap, and seven-day return cohorts. Network, economy, validator, ecosystem,
+price, and stablecoin measurements continue without Dune.
+
+This project does not require a paid Dune subscription. The account receipt in
+[`docs/COSTS.md`](docs/COSTS.md) records a free allowance, a $0 extra-credit
+limit, and $0 cash spend. Dune API executions and CSV/API result retrieval do
+consume credits; therefore the current workflow preserves and labels the last
+verified result instead of spending credits automatically. Dune's current
+[billing documentation](https://docs.dune.com/api-reference/overview/billing)
+and [credit guide](https://docs.dune.com/resources/credits-billing/how-credits-work)
+explain that behavior.
+
+## Bounty proof at a glance
+
+| Sponsor expectation | Inspectable proof |
+|---|---|
+| Auto-updating report | Six-hour GitHub Actions workflow with visible source degradation |
+| Interactive dashboard | Public GitHub Pages demo, evidence drawers, section navigation and sparklines |
+| Core ecosystem coverage | Six linked layers and 45 source-carrying metric records |
+| Anomaly detection | Deterministic TPS, slot-time, validator-delinquency, SOL-price and economic checks |
+| Reproducibility | One validated JSON contract generates HTML and Markdown; tests and setup are public |
+| Beginner usability | Thirty-second reading path, six-question map, plain-English definitions and risks |
+
 ## Anomaly detection
 
 Deterministic rules flag evidence for review without calling movement good or
@@ -132,4 +168,5 @@ records but cannot identify causes.
 
 For architecture and research, see [the big-picture map](docs/BIG-PICTURE-MAP.md),
 [metric registry](docs/METRIC-REGISTRY.md), [release checklist](docs/RELEASE-CHECKLIST.md),
-and [official bounty audit](docs/research/2026-08-10-SUPERTEAM-BOUNTY-REQUIREMENTS-AUDIT.md).
+[final usefulness and gap map](docs/PRODUCT-USEFULNESS-AND-FINAL-GAPS.md), and
+[official bounty audit](docs/research/2026-08-10-SUPERTEAM-BOUNTY-REQUIREMENTS-AUDIT.md).

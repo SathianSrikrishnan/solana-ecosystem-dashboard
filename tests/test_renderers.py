@@ -132,6 +132,49 @@ class RendererTests(unittest.TestCase):
             "Is Solana becoming real financial infrastructure?", rendered
         )
 
+    def test_html_starts_with_a_three_step_beginner_orientation(self):
+        rendered = render_html(self.snapshot)
+
+        self.assertIn('id="start-here"', rendered)
+        self.assertIn("Start here", rendered)
+        self.assertIn("1. Read the current state", rendered)
+        self.assertIn("2. Follow what changed", rendered)
+        self.assertIn("3. Inspect the evidence", rendered)
+        self.assertIn('href="solana-six-question-map.png"', rendered)
+        self.assertIn("Open the one-page guide", rendered)
+        self.assertIn("<strong>Reporting</strong> means the source returned valid data", rendered)
+        self.assertIn("<strong>Stale</strong> means the last verified value is preserved", rendered)
+        self.assertIn(
+            "<strong>Unavailable</strong> means no defensible live source is connected",
+            rendered,
+        )
+
+    def test_html_connects_the_six_questions_in_one_system_map(self):
+        rendered = render_html(self.snapshot)
+
+        self.assertIn('class="system-map"', rendered)
+        for section in (
+            "network",
+            "adoption",
+            "economy",
+            "validators",
+            "ecosystem",
+            "financial-rails",
+        ):
+            self.assertIn(f'href="#{section}"', rendered)
+        self.assertIn("Six questions. One living system.", rendered)
+
+    def test_html_publishes_exact_social_preview_metadata(self):
+        rendered = render_html(self.snapshot)
+
+        self.assertIn('property="og:title" content="Solana Observatory"', rendered)
+        self.assertIn(
+            'property="og:image" content="https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/solana-observatory-cover.png"',
+            rendered,
+        )
+        self.assertIn('name="twitter:card" content="summary_large_image"', rendered)
+        self.assertIn('name="twitter:image"', rendered)
+
     def test_html_opens_with_six_balanced_signal_states(self):
         rendered = render_html(self.snapshot)
 
@@ -415,6 +458,8 @@ class RendererTests(unittest.TestCase):
         self.assertIn("How do I learn the concepts?", rendered)
         self.assertIn("Why might Solana matter?", rendered)
         self.assertIn("Why was this built?", rendered)
+        self.assertIn("What does this have to do with families?", rendered)
+        self.assertIn("long-term promises", rendered)
         self.assertIn("Tooth Fairy Network", rendered)
         self.assertIn("planned", rendered.lower())
         self.assertIn("Start with the six questions", rendered)

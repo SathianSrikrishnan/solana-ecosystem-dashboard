@@ -3,6 +3,8 @@
 Status: release candidate; public links are verified and final byline/demo remain.
 
 - Live dashboard: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/
+- Social cover: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/solana-observatory-cover.png
+- One-page guide: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/solana-six-question-map.png
 - Public repository: https://github.com/SathianSrikrishnan/solana-ecosystem-dashboard
 - Official bounty: https://superteam.fun/earn/listing/develop-solana-ecosystem-auto-updating-report-and-interactive-dashboard
 
@@ -31,6 +33,17 @@ called people; transfers are not called payments; missing evidence stays visible
   from one validated contract.
 - Honest degradation: one failed source cannot blank or silently corrupt the report.
 
+## Proof against the brief
+
+| Requirement | Public proof |
+|---|---|
+| Auto-updating | Six-hour workflow, independently degrading collectors, visible freshness |
+| Interactive | Hosted dashboard with navigation, evidence drawers, sparklines and validator table |
+| Comprehensive | Network, adoption, economy, validators, ecosystem and financial rails |
+| Explainable | Definition, source, collection time, confidence and limitation per metric |
+| Reproducible | JSON, Markdown and HTML generated from the same validated snapshot |
+| Beginner-readable | Start Here path plus a shareable six-question system map |
+
 ## Reproducibility
 
 ```powershell
@@ -49,17 +62,17 @@ npx playwright install chromium
 npm run test:a11y
 ```
 
-## Demo script (75 seconds)
+## Demo outline (75 seconds)
 
-1. **0-10s:** “Most dashboards show activity. This one shows what the activity
+1. **0–10s:** “Most dashboards show activity. This one shows what the activity
    means—and what it cannot prove.”
-2. **10-25s:** Show the six questions and automatic evidence briefing.
-3. **25-40s:** Open Economy; compare app fees, app revenue, chain fees, and REV.
-4. **40-52s:** Open one evidence drawer: definition, source, freshness, caveat.
-5. **52-62s:** Show Financial Rails and explain why transfers are not payments.
-6. **62-75s:** Show JSON/Markdown outputs and the six-hour refresh workflow.
+2. **10–25s:** Show Start Here, the six questions, and the evidence briefing.
+3. **25–40s:** Open Economy; compare app fees, app revenue, chain fees, and REV.
+4. **40–52s:** Open one evidence drawer: definition, source, freshness, caveat.
+5. **52–62s:** Show Financial Rails and explain why transfers are not payments.
+6. **62–75s:** Show JSON/Markdown outputs and the six-hour refresh workflow.
 
 ## Final fields still needed
 
-- Sathian's public byline and 1-2 sentence builder bio.
-- Final screenshots/demo URL.
+- Sathian's public byline and 1–2 sentence builder bio.
+- Final demo URL.

@@ -5,21 +5,21 @@ Target: 70–80 seconds. Record the live dashboard at 1080p with the browser at
 
 ## Spoken script and screen direction
 
-**0–10 seconds — Overview**
+**0–10 seconds — Start Here**
 
 > Most crypto dashboards show activity without explaining what it means.
 > Solana Observatory asks six clearer questions about the network, adoption,
 > economy, validators, ecosystem, and financial rails.
 
-Show the title, six navigation links, and source-health summary.
+Show the title, source-health summary, and the thirty-second Start Here path.
 
-**10–24 seconds — Automatic briefing**
+**10–24 seconds — Six-question map and automatic briefing**
 
-> It refreshes automatically every six hours and turns verified measurements
-> into a plain-English briefing. The explanation is deterministic: every claim
-> points back to the metrics that support it.
+> These six questions connect the system without collapsing it into one health
+> score. The report refreshes every six hours, and every explanation points back
+> to the measurements that support it.
 
-Pause over the automatic evidence briefing.
+Pause over the six-question map and automatic evidence briefing.
 
 **24–40 seconds — Economy**
 

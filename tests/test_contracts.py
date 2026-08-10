@@ -197,6 +197,31 @@ class ContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unknown metric"):
             validate_snapshot(snapshot)
 
+    def test_contract_rejects_briefings_with_unknown_evidence(self):
+        snapshot = build_network_snapshot(
+            {
+                "getHealth": "ok",
+                "getSlot": 1,
+                "getBlockHeight": 1,
+                "getEpochInfo": {"epoch": 1, "slotIndex": 1, "slotsInEpoch": 2},
+                "getRecentPerformanceSamples": [{"numTransactions": 10, "numNonVoteTransactions": 5, "numSlots": 2, "samplePeriodSecs": 1}],
+                "getVoteAccounts": {"current": [], "delinquent": []},
+            },
+            "2026-08-10T12:00:00Z",
+        )
+        snapshot["analysis"] = {
+            "status": "ok",
+            "kind": "deterministic",
+            "current_reading": "Invented evidence.",
+            "supporting_metric_ids": ["invented_metric"],
+            "uncertainty": "None.",
+            "generated_at": "2026-08-10T12:00:00Z",
+            "model": "bad",
+        }
+
+        with self.assertRaisesRegex(ValueError, "unknown evidence"):
+            validate_snapshot(snapshot)
+
 
 if __name__ == "__main__":
     unittest.main()

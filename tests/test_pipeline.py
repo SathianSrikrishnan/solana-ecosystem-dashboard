@@ -26,6 +26,12 @@ class PipelineTests(unittest.TestCase):
 
             self.assertEqual(snapshot["comparisons"], {})
             self.assertEqual(len(snapshot["timeline"]), 7)
+            self.assertEqual(snapshot["anomalies"], {})
+            self.assertEqual(snapshot["analysis"]["status"], "ok")
+            self.assertEqual(
+                snapshot["analysis"]["model"],
+                "deterministic-observatory-v1",
+            )
 
             self.assertEqual(
                 set(written),

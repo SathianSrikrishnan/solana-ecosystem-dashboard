@@ -5,6 +5,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from .anomalies import build_anomalies
+from .briefing import build_grounded_briefing
 from .comparisons import build_comparisons
 from .contracts import validate_snapshot
 from .renderers import render_html, render_json, render_markdown
@@ -15,6 +17,7 @@ def write_reports(
     snapshot: dict[str, Any], output_dir: Path
 ) -> list[Path]:
     snapshot["comparisons"] = build_comparisons(snapshot["metrics"])
+    snapshot["anomalies"] = build_anomalies(snapshot["comparisons"])
     if "timeline" not in snapshot:
         timeline_path = (
             Path(__file__).resolve().parents[2]
@@ -25,6 +28,13 @@ def write_reports(
         snapshot["timeline"] = load_timeline(timeline_path)
     else:
         snapshot["timeline"] = validate_timeline(snapshot["timeline"])
+    existing_analysis = snapshot.get("analysis")
+    if (
+        not isinstance(existing_analysis, dict)
+        or existing_analysis.get("status") != "ok"
+        or existing_analysis.get("kind") == "deterministic"
+    ):
+        snapshot["analysis"] = build_grounded_briefing(snapshot)
     validate_snapshot(snapshot)
     output_dir.mkdir(parents=True, exist_ok=True)
     outputs = {

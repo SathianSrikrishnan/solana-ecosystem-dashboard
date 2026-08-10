@@ -173,7 +173,7 @@ class RendererTests(unittest.TestCase):
 
         self.assertIn("Verified facts", rendered)
         self.assertIn("Interpretation", rendered)
-        self.assertIn("Automatic AI briefing", rendered)
+        self.assertIn("Automatic evidence briefing", rendered)
         self.assertIn("Analysis unavailable for this snapshot", rendered)
         self.assertIn("<strong>Collected:</strong> 2026-07-27T22:00:00Z", rendered)
         self.assertIn("<strong>Confidence:</strong> high", rendered)
@@ -198,6 +198,24 @@ class RendererTests(unittest.TestCase):
         )
         self.assertIn("2026-07-27T22:01:00Z", rendered)
         self.assertIn("example-grounded-model", rendered)
+
+    def test_html_labels_deterministic_explanation_without_claiming_ai(self):
+        self.snapshot["analysis"] = {
+            "status": "ok",
+            "kind": "deterministic",
+            "current_reading": "No comparison crossed the review threshold.",
+            "supporting_metric_ids": [],
+            "uncertainty": "Direction is not automatically good or bad.",
+            "generated_at": "2026-07-27T22:01:00Z",
+            "model": "deterministic-observatory-v1",
+        }
+
+        rendered = render_html(self.snapshot)
+
+        self.assertIn("Deterministic", rendered)
+        self.assertIn("Automatic evidence briefing", rendered)
+        self.assertIn("Engine:", rendered)
+        self.assertNotIn("AI-generated", rendered)
 
     def test_html_shows_unavailable_metrics_without_inventing_a_zero(self):
         self.snapshot["metrics"]["rpc_health"]["value"] = None

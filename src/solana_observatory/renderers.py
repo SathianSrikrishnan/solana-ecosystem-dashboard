@@ -264,7 +264,7 @@ def _analysis_panel(snapshot: dict[str, Any]) -> str:
         return """
       <aside class="analysis-panel" data-status="unavailable">
         <div class="metric-topline">
-          <span class="eyebrow">Automatic AI briefing</span>
+          <span class="eyebrow">Automatic evidence briefing</span>
           <span class="status status-unavailable">unavailable</span>
         </div>
         <h2>Analysis unavailable for this snapshot</h2>
@@ -276,22 +276,25 @@ def _analysis_panel(snapshot: dict[str, Any]) -> str:
         str(metric_id)
         for metric_id in analysis.get("supporting_metric_ids", [])
     ) or "None supplied"
+    kind = str(analysis.get("kind", "ai"))
+    badge = "Deterministic" if kind == "deterministic" else "Grounded"
     return """
       <aside class="analysis-panel" data-status="ok">
         <div class="metric-topline">
-          <span class="eyebrow">Automatic AI briefing</span>
-          <span class="status status-ok">grounded</span>
+          <span class="eyebrow">Automatic evidence briefing</span>
+          <span class="status status-ok">{badge}</span>
         </div>
         <h2>{current_reading}</h2>
         <p><strong>Uncertainty:</strong> {uncertainty}</p>
         <div class="analysis-meta">
           <span><strong>Evidence:</strong> {supporting_metric_ids}</span>
           <span><strong>Generated:</strong> {generated_at}</span>
-          <span><strong>Model:</strong> {model}</span>
+          <span><strong>Engine:</strong> {model}</span>
         </div>
       </aside>
     """.format(
         current_reading=html.escape(str(analysis.get("current_reading", ""))),
+        badge=html.escape(badge),
         uncertainty=html.escape(str(analysis.get("uncertainty", "Not supplied"))),
         supporting_metric_ids=html.escape(supporting_metric_ids),
         generated_at=html.escape(str(analysis.get("generated_at", "Not supplied"))),

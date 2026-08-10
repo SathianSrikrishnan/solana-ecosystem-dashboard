@@ -51,6 +51,25 @@ REQUIRED_COMPARISON_FIELDS = {
     "current_window",
     "reason",
 }
+REQUIRED_ANOMALY_FIELDS = {
+    "metric_id",
+    "status",
+    "direction",
+    "observed_change_pct",
+    "threshold_pct",
+    "previous_window",
+    "current_window",
+    "known_gap",
+    "caveat",
+}
+REQUIRED_ANALYSIS_FIELDS = {
+    "status",
+    "current_reading",
+    "supporting_metric_ids",
+    "uncertainty",
+    "generated_at",
+    "model",
+}
 
 
 def validate_snapshot(snapshot: dict[str, Any]) -> None:
@@ -140,4 +159,37 @@ def validate_snapshot(snapshot: dict[str, Any]) -> None:
             raise ValueError(
                 f"Comparison {comparison_key} has unknown direction"
             )
+
+    anomalies = snapshot.get("anomalies", {})
+    if not isinstance(anomalies, dict):
+        raise ValueError("Snapshot anomalies must be a dictionary")
+    for anomaly_key, anomaly in anomalies.items():
+        if anomaly_key not in snapshot["metrics"]:
+            raise ValueError(f"Anomaly {anomaly_key} references an unknown metric")
+        if not isinstance(anomaly, dict):
+            raise ValueError(f"Anomaly {anomaly_key} must be a dictionary")
+        missing_fields = REQUIRED_ANOMALY_FIELDS - anomaly.keys()
+        if missing_fields:
+            fields = ", ".join(sorted(missing_fields))
+            raise ValueError(
+                f"Anomaly {anomaly_key} is missing required fields: {fields}"
+            )
+        if anomaly["metric_id"] != anomaly_key:
+            raise ValueError(f"Anomaly metric id must match its key {anomaly_key}")
+        if anomaly["status"] not in {"notable", "within_range", "unavailable"}:
+            raise ValueError(f"Anomaly {anomaly_key} has unknown status")
+
+    analysis = snapshot.get("analysis")
+    if analysis is not None:
+        if not isinstance(analysis, dict):
+            raise ValueError("Snapshot analysis must be a dictionary")
+        missing_fields = REQUIRED_ANALYSIS_FIELDS - analysis.keys()
+        if missing_fields:
+            fields = ", ".join(sorted(missing_fields))
+            raise ValueError(f"Analysis is missing required fields: {fields}")
+        evidence_ids = analysis["supporting_metric_ids"]
+        if not isinstance(evidence_ids, list):
+            raise ValueError("Analysis evidence IDs must be a list")
+        if any(metric_id not in snapshot["metrics"] for metric_id in evidence_ids):
+            raise ValueError("Analysis references unknown evidence")
 

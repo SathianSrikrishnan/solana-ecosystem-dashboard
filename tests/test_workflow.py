@@ -35,6 +35,9 @@ class RefreshWorkflowTests(unittest.TestCase):
         self.assertIn("id-token: write", workflow)
         self.assertIn("path: output", workflow)
         self.assertIn("actions/deploy-pages", workflow)
+        self.assertIn("workflow_run:", workflow)
+        self.assertIn('workflows: ["Refresh Solana reports"]', workflow)
+        self.assertIn("conclusion == 'success'", workflow)
 
 
 if __name__ == "__main__":

@@ -136,6 +136,31 @@ class SnapshotTests(unittest.TestCase):
             snapshot["metrics"]["estimated_tps"]["caveat"].lower(),
         )
 
+    def test_builds_validator_depth_metrics_from_vote_account_stake(self):
+        rpc_results = {
+            "getHealth": "ok",
+            "getSlot": 1,
+            "getBlockHeight": 1,
+            "getEpochInfo": {"epoch": 1, "slotIndex": 1, "slotsInEpoch": 2},
+            "getRecentPerformanceSamples": [{"numTransactions": 10, "numNonVoteTransactions": 5, "numSlots": 2, "samplePeriodSecs": 1}],
+            "getVoteAccounts": {
+                "current": [{"votePubkey": "a", "activatedStake": 2_000_000_000, "commission": 5, "epochCredits": [[1, 10, 5]]}],
+                "delinquent": [{"votePubkey": "b", "activatedStake": 1_000_000_000, "commission": 10, "epochCredits": []}],
+            },
+        }
+
+        metrics = build_network_snapshot(
+            rpc_results, "2026-08-10T12:00:00Z"
+        )["metrics"]
+
+        self.assertEqual(metrics["active_stake_sol"]["value"], 2.0)
+        self.assertEqual(metrics["delinquent_stake_share_pct"]["value"], 33.33)
+        self.assertEqual(metrics["superminority_coefficient"]["value"], 1)
+        self.assertIn(
+            "vote accounts",
+            metrics["top_10_stake_share_pct"]["caveat"].lower(),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

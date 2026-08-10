@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from .validator_depth import calculate_validator_depth
+
 
 WHY_IT_MATTERS_MIGRATION = {
     "daily_unique_successful_fee_payers": (
@@ -117,6 +119,7 @@ def build_network_snapshot(
     epoch_info = rpc_results["getEpochInfo"]
     performance = rpc_results["getRecentPerformanceSamples"][0]
     vote_accounts = rpc_results["getVoteAccounts"]
+    validator_depth = calculate_validator_depth(vote_accounts)
 
     sample_period = performance["samplePeriodSecs"]
     estimated_tps = performance["numTransactions"] / sample_period
@@ -265,6 +268,79 @@ def build_network_snapshot(
             caveat="Temporary delinquency can recover and is not automatically malicious behavior.",
         ),
     }
+
+    usable_depth = validator_depth["valid_accounts"] > 0
+    depth_specs = {
+        "active_stake_sol": (
+            "Active stake",
+            "SOL",
+            "Activated stake assigned to currently active vote accounts.",
+            "It shows how much voting power is currently participating.",
+            "Vote accounts are not necessarily distinct operators or organizations.",
+        ),
+        "delinquent_stake_sol": (
+            "Delinquent stake",
+            "SOL",
+            "Activated stake assigned to vote accounts currently classified as delinquent.",
+            "It sizes the voting power currently failing to participate normally.",
+            "Delinquency can be temporary and does not imply malicious behavior.",
+        ),
+        "delinquent_stake_share_pct": (
+            "Delinquent stake share",
+            "percent",
+            "Delinquent activated stake as a share of all activated stake in this response.",
+            "Stake share is more meaningful than a raw delinquent-validator count.",
+            "One RPC snapshot can change quickly as validators recover or fall behind.",
+        ),
+        "top_10_stake_share_pct": (
+            "Top 10 stake share",
+            "percent",
+            "Share of activated stake assigned to the ten largest vote accounts.",
+            "It exposes concentration hidden by the total validator count.",
+            "Vote accounts are not operators; one organization may control several accounts.",
+        ),
+        "top_25_stake_share_pct": (
+            "Top 25 stake share",
+            "percent",
+            "Share of activated stake assigned to the twenty-five largest vote accounts.",
+            "It provides a broader view of stake concentration beyond the largest validators.",
+            "Vote accounts are not operators and ownership identity is not inferred.",
+        ),
+        "superminority_coefficient": (
+            "Stake superminority coefficient",
+            "vote accounts",
+            "Minimum largest vote accounts whose combined activated stake reaches one third.",
+            "A larger value means more vote accounts are required to reach consensus-blocking stake.",
+            "This is calculated by vote account, not verified independent operator.",
+        ),
+        "median_commission_pct": (
+            "Median validator commission",
+            "percent",
+            "Median advertised commission among active vote accounts with valid values.",
+            "Commission affects how staking rewards are divided between validators and delegators.",
+            "The median does not include operating cost, MEV, or total validator profitability.",
+        ),
+        "vote_credit_coverage_pct": (
+            "Stake with recent vote credits",
+            "percent",
+            "Share of active stake on vote accounts whose latest epoch-credit record increased.",
+            "It checks whether active voting power shows evidence of recent vote participation.",
+            "One credit record is a bounded participation check, not a full performance history.",
+        ),
+    }
+    for metric_id, (label, unit, definition, why, caveat) in depth_specs.items():
+        metrics[metric_id] = _metric(
+            metric_id=metric_id,
+            section="validators",
+            label=label,
+            value=validator_depth[metric_id] if usable_depth else None,
+            unit=unit,
+            definition=definition,
+            why_it_matters=why,
+            method="getVoteAccounts",
+            collected_at=collected_at,
+            caveat=caveat,
+        )
 
     health = rpc_results["getHealth"]
     summary_status = "healthy" if health == "ok" else "attention"

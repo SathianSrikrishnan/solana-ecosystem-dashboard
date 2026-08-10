@@ -84,6 +84,22 @@ class DuneAdoptionTests(unittest.TestCase):
         )
         self.assertIn("not people", metric["caveat"].lower())
 
+    def test_parser_accepts_scientific_notation_only_when_count_is_an_integer(self):
+        metric = dune_adoption.parse_daily_fee_payers_csv(
+            self._valid_csv().replace("2026-08-02,160", "2026-08-02,1.60e2"),
+            collected_at=self.collected_at,
+            source_url=self.source_url,
+        )
+
+        self.assertEqual(metric["value"], 160)
+
+        with self.assertRaisesRegex(ValueError, "Invalid unique_fee_payers count"):
+            dune_adoption.parse_daily_fee_payers_csv(
+                self._valid_csv().replace("2026-08-02,160", "2026-08-02,1.605e2"),
+                collected_at=self.collected_at,
+                source_url=self.source_url,
+            )
+
     def test_parser_rejects_empty_or_incomplete_csv(self):
         for csv_text in (
             "",

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 from datetime import date, datetime, timedelta
+from decimal import Decimal, InvalidOperation
 from io import StringIO
 from typing import Any
 
@@ -46,11 +47,14 @@ def _parse_daily_observations(
         if activity_date in observations:
             raise ValueError(f"Dune CSV contains duplicate date: {date_text}")
         try:
-            count = int(count_text)
-        except ValueError as error:
+            decimal_count = Decimal(count_text)
+        except InvalidOperation as error:
             raise ValueError(
                 f"Invalid {count_column} count: {count_text}"
             ) from error
+        if not decimal_count.is_finite() or decimal_count != decimal_count.to_integral_value():
+            raise ValueError(f"Invalid {count_column} count: {count_text}")
+        count = int(decimal_count)
         if count < 0:
             raise ValueError(f"{count_column} cannot be negative")
         observations[activity_date] = count

@@ -68,6 +68,10 @@ def parse_coingecko_sol_price(
         "unit": "USD",
         "status": "ok",
         "definition": "CoinGecko's aggregated market price for one SOL in USD.",
+        "why_it_matters": (
+            "Price supplies market context for SOL-denominated capital and "
+            "validator economics."
+        ),
         "source": {
             "name": "CoinGecko",
             "method": "simple/price?ids=solana",
@@ -131,6 +135,7 @@ def _defillama_metric(
     metric_id: str,
     label: str,
     definition: str,
+    why_it_matters: str,
     method: str,
     source_url: str,
     collected_at: str,
@@ -145,6 +150,7 @@ def _defillama_metric(
         "unit": "USD",
         "status": "ok",
         "definition": definition,
+        "why_it_matters": why_it_matters,
         "source": {
             "name": "DeFiLlama",
             "method": method,
@@ -183,6 +189,10 @@ def parse_defillama_tvl(
         definition=(
             "USD value locked in Solana DeFi protocols tracked by "
             "DeFiLlama on the latest complete UTC day."
+        ),
+        why_it_matters=(
+            "TVL shows how much capital is deposited in tracked Solana DeFi "
+            "protocols."
         ),
         method="v2/historicalChainTvl/Solana",
         source_url=source_url,
@@ -232,6 +242,10 @@ def parse_defillama_stablecoins(
             "USD value of circulating stablecoins on Solana across "
             "DeFiLlama's peg buckets on the latest complete UTC day."
         ),
+        why_it_matters=(
+            "Stablecoin value shows the dollar-like liquidity available for "
+            "trading, saving, and settlement on Solana."
+        ),
         method="stablecoincharts/Solana",
         source_url=source_url,
         collected_at=collected_at,
@@ -270,6 +284,10 @@ def parse_defillama_dex(
         definition=(
             "Aggregate Solana spot DEX volume tracked by DeFiLlama on "
             "the latest complete UTC day."
+        ),
+        why_it_matters=(
+            "DEX volume shows how much spot exchange activity occurred across "
+            "tracked Solana venues."
         ),
         method="overview/dexs/Solana?dataType=dailyVolume",
         source_url=source_url,

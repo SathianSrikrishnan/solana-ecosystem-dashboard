@@ -30,6 +30,7 @@ class ImportDuneJupiterTests(unittest.TestCase):
             "unit": "wallet addresses",
             "status": "ok",
             "definition": "Test population.",
+            "why_it_matters": "It provides a comparison population.",
             "source": {
                 "name": "Dune",
                 "method": "test fixture",
@@ -59,7 +60,7 @@ class ImportDuneJupiterTests(unittest.TestCase):
             [130, 140, 150, 160, 170, 180, 190],
         )
         return {
-            "schema_version": "0.2.0",
+            "schema_version": "0.3.0",
             "generated_at": "2026-08-03T11:00:00Z",
             "summary": {"status": "healthy", "headline": "RPC is healthy."},
             "metrics": {fee_payers["id"]: fee_payers, signers["id"]: signers},

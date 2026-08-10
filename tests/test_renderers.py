@@ -13,7 +13,7 @@ from solana_observatory.renderers import render_html, render_json, render_markdo
 class RendererTests(unittest.TestCase):
     def setUp(self):
         self.snapshot = {
-            "schema_version": "0.2.0",
+            "schema_version": "0.3.0",
             "generated_at": "2026-07-27T22:00:00Z",
             "summary": {"status": "healthy", "headline": "Solana RPC is healthy."},
             "metrics": {
@@ -25,6 +25,7 @@ class RendererTests(unittest.TestCase):
                     "unit": "status",
                     "status": "ok",
                     "definition": "Health response from the selected RPC node.",
+                    "why_it_matters": "It confirms the selected data path responds.",
                     "source": {
                         "name": "Solana JSON-RPC",
                         "method": "getHealth",
@@ -44,6 +45,7 @@ class RendererTests(unittest.TestCase):
                     "unit": "transactions/second",
                     "status": "ok",
                     "definition": "Non-vote transactions divided by sample seconds.",
+                    "why_it_matters": "It approximates live application throughput.",
                     "source": {
                         "name": "Solana JSON-RPC",
                         "method": "getRecentPerformanceSamples",
@@ -63,6 +65,7 @@ class RendererTests(unittest.TestCase):
                     "unit": "validators",
                     "status": "ok",
                     "definition": "Vote accounts classified as active.",
+                    "why_it_matters": "It shows current validator participation.",
                     "source": {
                         "name": "Solana JSON-RPC",
                         "method": "getVoteAccounts",

@@ -5,6 +5,45 @@ from __future__ import annotations
 from typing import Any
 
 
+WHY_IT_MATTERS_MIGRATION = {
+    "daily_unique_successful_fee_payers": (
+        "Fee payers approximate how many distinct addresses initiated "
+        "successful activity and paid for execution."
+    ),
+    "daily_unique_successful_signers": (
+        "Successful signers capture a broader set of participating addresses "
+        "than fee payers alone."
+    ),
+    "daily_unique_jupiter_swap_signers": (
+        "It shows the scale of intended swap activity through one of Solana's "
+        "major application routes."
+    ),
+    "daily_jupiter_fee_payer_overlap": (
+        "The overlap reveals how often the visible application signer also "
+        "pays the transaction fee."
+    ),
+    "jupiter_swap_signer_7d_return_rate": (
+        "Return rate distinguishes repeat use from one-time address activity."
+    ),
+    "sol_price_usd": (
+        "Price supplies market context for SOL-denominated capital and "
+        "validator economics."
+    ),
+    "solana_defi_tvl_usd": (
+        "TVL shows how much capital is deposited in tracked Solana DeFi "
+        "protocols."
+    ),
+    "solana_stablecoin_value_usd": (
+        "Stablecoin value shows the dollar-like liquidity available for "
+        "trading, saving, and settlement on Solana."
+    ),
+    "solana_dex_volume_usd": (
+        "DEX volume shows how much spot exchange activity occurred across "
+        "tracked Solana venues."
+    ),
+}
+
+
 def merge_network_snapshot(
     prior_snapshot: dict[str, Any], fresh_snapshot: dict[str, Any]
 ) -> dict[str, Any]:
@@ -14,7 +53,18 @@ def merge_network_snapshot(
         "schema_version": fresh_snapshot["schema_version"],
         "generated_at": fresh_snapshot["generated_at"],
         "summary": fresh_snapshot["summary"],
-        "metrics": dict(prior_snapshot.get("metrics", {})),
+        "metrics": {
+            metric_id: {
+                **metric,
+                **(
+                    {"why_it_matters": WHY_IT_MATTERS_MIGRATION[metric_id]}
+                    if "why_it_matters" not in metric
+                    and metric_id in WHY_IT_MATTERS_MIGRATION
+                    else {}
+                ),
+            }
+            for metric_id, metric in prior_snapshot.get("metrics", {}).items()
+        },
     }
     merged["metrics"].update(fresh_snapshot["metrics"])
     return merged
@@ -31,6 +81,7 @@ def _metric(
     value: Any,
     unit: str,
     definition: str,
+    why_it_matters: str,
     method: str,
     collected_at: str,
     caveat: str,
@@ -44,6 +95,7 @@ def _metric(
         "unit": unit,
         "status": "ok" if value is not None else "unavailable",
         "definition": definition,
+        "why_it_matters": why_it_matters,
         "source": {
             "name": "Solana JSON-RPC",
             "method": method,
@@ -84,6 +136,10 @@ def build_network_snapshot(
             value=rpc_results["getHealth"],
             unit="status",
             definition="Health response from the selected public RPC node.",
+            why_it_matters=(
+                "It is the first check that the dashboard's live network "
+                "data path is responding normally."
+            ),
             method="getHealth",
             collected_at=collected_at,
             caveat="This checks one public RPC endpoint, not every validator.",
@@ -95,6 +151,10 @@ def build_network_snapshot(
             value=rpc_results["getSlot"],
             unit="slot",
             definition="Latest slot reported by the selected public RPC node.",
+            why_it_matters=(
+                "A rising slot confirms that this observer sees the chain "
+                "continuing to advance."
+            ),
             method="getSlot",
             collected_at=collected_at,
             caveat="Different RPC nodes can be a few slots apart.",
@@ -106,6 +166,10 @@ def build_network_snapshot(
             value=rpc_results["getBlockHeight"],
             unit="block",
             definition="Current block height reported by the selected RPC node.",
+            why_it_matters=(
+                "Block height is a second progress marker that helps detect "
+                "a stalled or lagging data source."
+            ),
             method="getBlockHeight",
             collected_at=collected_at,
             caveat="This is network progress, not a measure of user adoption.",
@@ -117,6 +181,10 @@ def build_network_snapshot(
             value=round(epoch_progress, 2),
             unit="percent",
             definition="Share of the current epoch's slots already completed.",
+            why_it_matters=(
+                "Epoch progress provides timing context for validator "
+                "rewards, stake activation, and network operations."
+            ),
             method="getEpochInfo",
             collected_at=collected_at,
             caveat="Epoch progress describes validator timing, not economic growth.",
@@ -128,6 +196,10 @@ def build_network_snapshot(
             value=round(estimated_tps, 2),
             unit="transactions/second",
             definition="All transactions in the latest RPC performance sample divided by sample seconds.",
+            why_it_matters=(
+                "Total throughput shows network load, but must be separated "
+                "from user activity because it includes validator votes."
+            ),
             method="getRecentPerformanceSamples",
             collected_at=collected_at,
             caveat="Includes validator votes, so it is not the same as user activity.",
@@ -139,6 +211,10 @@ def build_network_snapshot(
             value=round(estimated_non_vote_tps, 2),
             unit="transactions/second",
             definition="Non-vote transactions in the latest RPC performance sample divided by sample seconds.",
+            why_it_matters=(
+                "This is the closest live RPC measure of application and "
+                "user transaction throughput."
+            ),
             method="getRecentPerformanceSamples",
             collected_at=collected_at,
             caveat="Non-vote transactions can still include bots and automated programs.",
@@ -150,6 +226,10 @@ def build_network_snapshot(
             value=round(estimated_slot_time, 3),
             unit="seconds",
             definition="Latest performance sample duration divided by slots produced.",
+            why_it_matters=(
+                "Slot time indicates how quickly the chain is advancing in "
+                "the most recent sample."
+            ),
             method="getRecentPerformanceSamples",
             collected_at=collected_at,
             caveat="This is a short recent estimate and can move between samples.",
@@ -161,6 +241,10 @@ def build_network_snapshot(
             value=len(vote_accounts["current"]),
             unit="validators",
             definition="Vote accounts currently classified as active by the RPC response.",
+            why_it_matters=(
+                "Active vote accounts show how many validators are currently "
+                "participating, before considering stake concentration."
+            ),
             method="getVoteAccounts",
             collected_at=collected_at,
             caveat="A validator count does not describe how evenly stake is distributed.",
@@ -172,6 +256,10 @@ def build_network_snapshot(
             value=len(vote_accounts["delinquent"]),
             unit="validators",
             definition="Vote accounts currently classified as delinquent by the RPC response.",
+            why_it_matters=(
+                "Delinquency is an early operational signal that part of the "
+                "validator set is falling behind."
+            ),
             method="getVoteAccounts",
             collected_at=collected_at,
             caveat="Temporary delinquency can recover and is not automatically malicious behavior.",
@@ -187,7 +275,7 @@ def build_network_snapshot(
     )
 
     return {
-        "schema_version": "0.2.0",
+        "schema_version": "0.3.0",
         "generated_at": collected_at,
         "summary": {"status": summary_status, "headline": headline},
         "metrics": metrics,

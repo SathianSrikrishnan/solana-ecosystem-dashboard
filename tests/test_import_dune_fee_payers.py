@@ -33,7 +33,7 @@ class ImportDuneFeePayersTests(unittest.TestCase):
 
     def _snapshot(self):
         return {
-            "schema_version": "0.2.0",
+            "schema_version": "0.3.0",
             "generated_at": "2026-08-03T11:00:00Z",
             "summary": {"status": "healthy", "headline": "RPC is healthy."},
             "metrics": {},
@@ -92,6 +92,7 @@ class ImportDuneFeePayersTests(unittest.TestCase):
             "value": 160,
             "unit": "wallet addresses",
             "definition": "Distinct successful fee payer addresses.",
+            "why_it_matters": "It measures successful initiated activity.",
             "source": {
                 "name": "Dune",
                 "method": "test fixture",

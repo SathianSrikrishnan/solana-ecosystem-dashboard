@@ -31,6 +31,7 @@ SOURCE_DETAILS = {
         "name": "CoinGecko",
         "method": "simple/price?ids=solana",
         "definition": "CoinGecko's aggregated market price for one SOL in USD.",
+        "why_it_matters": "Price gives market context for SOL-denominated activity.",
     },
     "tvl": {
         "id": "solana_defi_tvl_usd",
@@ -38,6 +39,7 @@ SOURCE_DETAILS = {
         "name": "DeFiLlama",
         "method": "v2/historicalChainTvl/Solana",
         "definition": "USD value locked in tracked Solana DeFi protocols.",
+        "why_it_matters": "TVL shows capital deposited in tracked DeFi protocols.",
     },
     "stablecoins": {
         "id": "solana_stablecoin_value_usd",
@@ -45,6 +47,7 @@ SOURCE_DETAILS = {
         "name": "DeFiLlama",
         "method": "stablecoincharts/Solana",
         "definition": "USD value of circulating stablecoins tracked on Solana.",
+        "why_it_matters": "Stablecoin value shows available dollar-like liquidity.",
     },
     "dex": {
         "id": "solana_dex_volume_usd",
@@ -52,6 +55,7 @@ SOURCE_DETAILS = {
         "name": "DeFiLlama",
         "method": "overview/dexs/Solana?dataType=dailyVolume",
         "definition": "Aggregate tracked Solana spot DEX volume for one day.",
+        "why_it_matters": "DEX volume shows the scale of tracked spot trading.",
     },
 }
 
@@ -71,6 +75,7 @@ def _unavailable_metric(
         "unit": "USD",
         "status": "unavailable",
         "definition": details["definition"],
+        "why_it_matters": details["why_it_matters"],
         "source": {
             "name": details["name"],
             "method": details["method"],

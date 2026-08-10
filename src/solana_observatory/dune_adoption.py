@@ -96,6 +96,10 @@ def parse_daily_fee_payers_csv(
             "Distinct primary signer (fee payer) addresses on successful "
             "non-vote Solana transactions during the latest complete UTC day."
         ),
+        "why_it_matters": (
+            "Fee payers approximate how many distinct addresses initiated "
+            "successful activity and paid for execution."
+        ),
         "source": {
             "name": "Dune",
             "method": "solana.transactions / daily_unique_fee_payers.sql",
@@ -137,6 +141,10 @@ def parse_daily_successful_signers_csv(
         "definition": (
             "Distinct signer addresses on successful non-vote Solana "
             "transactions during the latest complete UTC day."
+        ),
+        "why_it_matters": (
+            "Successful signers capture a broader set of participating "
+            "addresses than fee payers alone."
         ),
         "source": {
             "name": "Dune",
@@ -217,6 +225,7 @@ def parse_daily_jupiter_swap_csv(
         label: str,
         unit: str,
         definition: str,
+        why_it_matters: str,
         caveat: str,
         series: list[dict[str, Any]],
     ) -> dict[str, Any]:
@@ -228,6 +237,7 @@ def parse_daily_jupiter_swap_csv(
             "unit": unit,
             "status": "ok",
             "definition": definition,
+            "why_it_matters": why_it_matters,
             "source": dict(source),
             "collected_at": collected_at,
             "source_time": latest_date,
@@ -246,6 +256,10 @@ def parse_daily_jupiter_swap_csv(
                 "Dune's curated Jupiter aggregator table during the latest "
                 "complete UTC day."
             ),
+            why_it_matters=(
+                "It shows the scale of intended swap activity through one of "
+                "Solana's major application routes."
+            ),
             caveat=(
                 "Wallet addresses are not people, and this measures Jupiter "
                 "Swap signers rather than users of a particular wallet app."
@@ -260,6 +274,10 @@ def parse_daily_jupiter_swap_csv(
                 "Jupiter Swap signer addresses that were also the successful "
                 "transaction fee payer on the same UTC day."
             ),
+            why_it_matters=(
+                "The overlap reveals how often the visible application signer "
+                "also pays the transaction fee."
+            ),
             caveat=(
                 "This is an address intersection, not a count of people; "
                 "sponsored or relayed transactions can fall outside it."
@@ -273,6 +291,10 @@ def parse_daily_jupiter_swap_csv(
             definition=(
                 "Share of the day's Jupiter Swap signer addresses also seen "
                 "at least once during the preceding seven complete UTC days."
+            ),
+            why_it_matters=(
+                "Return rate distinguishes repeat use from one-time address "
+                "activity."
             ),
             caveat=(
                 "Returning addresses are not necessarily returning people; "

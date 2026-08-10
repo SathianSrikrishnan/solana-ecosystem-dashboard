@@ -14,7 +14,7 @@ from solana_observatory.pipeline import write_reports
 class PipelineTests(unittest.TestCase):
     def test_writes_all_required_report_formats(self):
         snapshot = {
-            "schema_version": "0.2.0",
+            "schema_version": "0.3.0",
             "generated_at": "2026-07-27T22:00:00Z",
             "summary": {"status": "healthy", "headline": "RPC is healthy."},
             "metrics": {},
@@ -49,7 +49,7 @@ class PipelineTests(unittest.TestCase):
 
     def test_rejects_invalid_data_before_writing_reports(self):
         snapshot = {
-            "schema_version": "0.2.0",
+            "schema_version": "0.3.0",
             "generated_at": "2026-07-27T22:00:00Z",
             "summary": {"status": "healthy", "headline": "RPC is healthy."},
             "metrics": {"broken": {"value": 1}},

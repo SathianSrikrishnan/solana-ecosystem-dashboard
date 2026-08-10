@@ -13,7 +13,7 @@ class SnapshotTests(unittest.TestCase):
 
     def test_network_refresh_preserves_verified_non_network_metrics(self):
         prior = {
-            "schema_version": "0.2.0",
+            "schema_version": "0.3.0",
             "generated_at": "2026-08-07T12:00:00Z",
             "summary": {"status": "healthy", "headline": "Old"},
             "metrics": {
@@ -34,7 +34,7 @@ class SnapshotTests(unittest.TestCase):
             },
         }
         fresh = {
-            "schema_version": "0.2.0",
+            "schema_version": "0.3.0",
             "generated_at": "2026-08-08T12:00:00Z",
             "summary": {"status": "healthy", "headline": "Fresh"},
             "metrics": {
@@ -64,6 +64,32 @@ class SnapshotTests(unittest.TestCase):
         )
         self.assertEqual(merged["metrics"]["active_validators"]["value"], 11)
         self.assertEqual(merged["metrics"]["rpc_health"]["value"], "ok")
+
+    def test_network_refresh_upgrades_known_preserved_metrics(self):
+        prior = {
+            "schema_version": "0.2.0",
+            "generated_at": "2026-08-08T12:00:00Z",
+            "summary": {"status": "healthy", "headline": "Old"},
+            "metrics": {
+                "daily_unique_successful_fee_payers": {
+                    "id": "daily_unique_successful_fee_payers",
+                    "section": "adoption",
+                    "label": "Daily unique successful fee payers",
+                }
+            },
+        }
+        fresh = {
+            "schema_version": "0.3.0",
+            "generated_at": "2026-08-10T12:00:00Z",
+            "summary": {"status": "healthy", "headline": "Fresh"},
+            "metrics": {},
+        }
+
+        merged = merge_network_snapshot(prior, fresh)
+
+        preserved = merged["metrics"]["daily_unique_successful_fee_payers"]
+        self.assertIn("why_it_matters", preserved)
+        self.assertIn("initiated", preserved["why_it_matters"].lower())
     def test_builds_provenance_rich_network_metrics(self):
         collected_at = "2026-07-27T22:00:00Z"
         rpc_results = {
@@ -91,7 +117,7 @@ class SnapshotTests(unittest.TestCase):
 
         snapshot = build_network_snapshot(rpc_results, collected_at)
 
-        self.assertEqual(snapshot["schema_version"], "0.2.0")
+        self.assertEqual(snapshot["schema_version"], "0.3.0")
         self.assertEqual(snapshot["generated_at"], collected_at)
         self.assertEqual(snapshot["metrics"]["rpc_health"]["value"], "ok")
         self.assertEqual(snapshot["metrics"]["estimated_tps"]["value"], 2000.0)

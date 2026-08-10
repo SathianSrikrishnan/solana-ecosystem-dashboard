@@ -24,7 +24,7 @@ class RefreshEconomyTests(unittest.TestCase):
 
     def _snapshot(self):
         return {
-            "schema_version": "0.2.0",
+            "schema_version": "0.3.0",
             "generated_at": "2026-08-08T15:00:00Z",
             "summary": {"status": "healthy", "headline": "RPC is healthy."},
             "metrics": {},

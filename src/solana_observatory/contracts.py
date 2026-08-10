@@ -18,6 +18,7 @@ REQUIRED_METRIC_FIELDS = {
     "value",
     "unit",
     "definition",
+    "why_it_matters",
     "source",
     "collected_at",
     "source_time",
@@ -35,6 +36,7 @@ VALID_SECTIONS = {
 }
 VALID_STATUSES = {"ok", "stale", "unavailable", "error"}
 VALID_CONFIDENCE = {"high", "medium", "experimental"}
+CURRENT_SCHEMA_VERSION = "0.3.0"
 
 
 def validate_snapshot(snapshot: dict[str, Any]) -> None:
@@ -47,6 +49,10 @@ def validate_snapshot(snapshot: dict[str, Any]) -> None:
 
     if not isinstance(snapshot["metrics"], dict):
         raise ValueError("Snapshot metrics must be a dictionary")
+    if snapshot["schema_version"] != CURRENT_SCHEMA_VERSION:
+        raise ValueError(
+            f"Snapshot schema version must be {CURRENT_SCHEMA_VERSION}"
+        )
 
     for metric_key, metric in snapshot["metrics"].items():
         missing_metric_fields = REQUIRED_METRIC_FIELDS - metric.keys()

@@ -1,7 +1,8 @@
 # Solana health story and metric-source research
 
-**Date:** 2026-08-08  
-**Purpose:** Define the broad stories a living, beginner-readable Solana observatory should tell, and identify primary or authoritative data sources that can support them reproducibly.  
+**Date:** 2026-08-08
+
+**Purpose:** Define the broad stories a living, beginner-readable Solana observatory should tell, and identify primary or authoritative data sources that can support them reproducibly.
 **Scope rule:** Facts below are source-backed. “Dashboard interpretation” sections are product recommendations, not facts. Source gaps are explicit rather than silently filled.
 
 ## Executive conclusion

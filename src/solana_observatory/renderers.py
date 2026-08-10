@@ -454,8 +454,10 @@ def render_html(snapshot: dict[str, Any]) -> str:
       --muted: #96a6a1;
       --line: #25312f;
       --green: #4df0a8;
+      --cyan: #79c6d9;
       --violet: #a58cff;
       --amber: #f1bd67;
+      --red: #ff7f75;
     }}
     * {{ box-sizing: border-box; }}
     html {{ scroll-behavior: smooth; }}
@@ -552,8 +554,10 @@ def render_html(snapshot: dict[str, Any]) -> str:
     .comparison[data-direction="decreased"] strong::before {{ content: "↓ "; color: var(--violet); }}
     .comparison[data-direction="flat"] strong::before {{ content: "→ "; color: var(--muted); }}
     .definition {{ min-height: 64px; margin: 18px 0; color: var(--muted); font-size: .86rem; }}
-    .status {{ color: var(--green); text-transform: uppercase; letter-spacing: .08em; }}
-    .status-unavailable, .status-error, .status-stale {{ color: var(--amber); }}
+    .status {{ color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }}
+    .status-ok {{ color: var(--cyan); }}
+    .status-unavailable, .status-stale {{ color: var(--amber); }}
+    .status-error {{ color: var(--red); }}
     details {{ color: var(--muted); font-size: .78rem; }}
     summary {{ cursor: pointer; color: var(--text); }}
     code {{ color: var(--violet); }}

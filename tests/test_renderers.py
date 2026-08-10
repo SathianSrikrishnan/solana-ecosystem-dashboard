@@ -341,6 +341,14 @@ class RendererTests(unittest.TestCase):
         self.assertIn("Bahnschrift", rendered)
         self.assertIn("@media (prefers-reduced-motion: reduce)", rendered)
 
+    def test_html_uses_neutral_data_state_colors_instead_of_all_green(self):
+        rendered = render_html(self.snapshot)
+
+        self.assertIn("--cyan:", rendered)
+        self.assertIn(".status-ok { color: var(--cyan); }", rendered)
+        self.assertIn(".status-error { color: var(--red); }", rendered)
+        self.assertIn(".status-stale", rendered)
+
     def test_html_has_no_trailing_whitespace(self):
         rendered = render_html(self.snapshot)
 

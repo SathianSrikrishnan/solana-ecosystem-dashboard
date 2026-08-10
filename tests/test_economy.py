@@ -184,6 +184,70 @@ class EconomyParserTests(unittest.TestCase):
         )
         self.assertEqual(dex_metric["id"], "solana_dex_volume_usd")
 
+    def test_fee_parsers_keep_fees_revenue_and_rev_distinct(self):
+        _, _, dex = self._defillama_payloads()
+        chain_url = "https://api.llama.fi/summary/fees/solana?dataType=dailyFees"
+        app_fees_url = (
+            "https://api.llama.fi/overview/fees/solana?"
+            "excludeTotalDataChartBreakdown=true&dataType=dailyAppFees"
+        )
+        app_revenue_url = app_fees_url.replace("dailyAppFees", "dailyAppRevenue")
+        tips_url = (
+            "https://api.llama.fi/summary/fees/jito-mev-tips?dataType=dailyFees"
+        )
+
+        chain = economy.parse_defillama_fee_chart(
+            dex,
+            metric_kind="chain_fees",
+            collected_at=self.collected_at,
+            source_url=chain_url,
+        )
+        app_fees = economy.parse_defillama_fee_chart(
+            dex,
+            metric_kind="app_fees",
+            collected_at=self.collected_at,
+            source_url=app_fees_url,
+        )
+        app_revenue = economy.parse_defillama_fee_chart(
+            dex,
+            metric_kind="app_revenue",
+            collected_at=self.collected_at,
+            source_url=app_revenue_url,
+        )
+        tips_payload = {
+            "totalDataChart": [[row[0], 100 + index] for index, row in enumerate(dex["totalDataChart"])]
+        }
+        rev = economy.parse_defillama_rev(
+            dex,
+            tips_payload,
+            collected_at=self.collected_at,
+            chain_fees_url=chain_url,
+            jito_tips_url=tips_url,
+        )
+
+        self.assertEqual(chain["id"], "solana_chain_fees_usd")
+        self.assertEqual(app_fees["id"], "solana_app_fees_usd")
+        self.assertEqual(app_revenue["id"], "solana_app_revenue_usd")
+        self.assertEqual(rev["id"], "solana_rev_usd")
+        self.assertEqual(rev["value"], 3126.0)
+        self.assertEqual(rev["section"], "economy")
+        self.assertIn("tracked Jito", rev["label"])
+        self.assertIn("+", rev["source"]["method"])
+        self.assertIn(tips_url, rev["caveat"])
+        self.assertNotEqual(app_fees["definition"], app_revenue["definition"])
+
+    def test_rev_requires_aligned_complete_component_days(self):
+        _, _, chain = self._defillama_payloads()
+        tips = {"totalDataChart": chain["totalDataChart"][:-1]}
+        with self.assertRaises(ValueError):
+            economy.parse_defillama_rev(
+                chain,
+                tips,
+                collected_at=self.collected_at,
+                chain_fees_url="https://api.llama.fi/summary/fees/solana?dataType=dailyFees",
+                jito_tips_url="https://api.llama.fi/summary/fees/jito-mev-tips?dataType=dailyFees",
+            )
+
     def test_defillama_parser_ignores_the_providers_partial_current_day(self):
         tvl, stablecoins, dex = self._defillama_payloads()
         current_day = int(

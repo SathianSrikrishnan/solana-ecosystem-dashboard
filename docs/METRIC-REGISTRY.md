@@ -20,7 +20,7 @@ Every production metric must define these fields:
 
 The dictionary key must equal `id`. A missing observation uses `null` plus a
 visible non-`ok` status; collectors must not invent zeroes. This is schema
-version `0.2.0`, shared by collectors, JSON, Markdown, and the interface.
+version `0.3.0`, shared by collectors, JSON, Markdown, and the interface.
 
 ## First metrics
 
@@ -113,3 +113,25 @@ day onchain market readings. The different time grains remain explicit.
 - Failure behavior: every endpoint is collected and normalized independently.
   A failed source produces a `null`, visibly `unavailable` metric while the
   other economy metrics continue reporting.
+
+## Fees, revenue, and REV
+
+- `solana_chain_fees_usd`: base and priority transaction fees indexed by
+  DeFiLlama. Its adapter estimates base fees from transaction count even though
+  Solana protocol semantics charge per signature; that limitation is visible.
+- `solana_app_fees_usd`: fees paid to covered applications, excluding chain
+  gas, stablecoin issuers, and liquid staking under DeFiLlama's definition.
+- `solana_app_revenue_usd`: the subset of covered app fees retained by
+  protocols. It is not profit.
+- `solana_rev_usd`: chain fees plus tracked gross Jito MEV tips, aligned on the
+  same complete UTC day. It is not GDP, profit, or application revenue.
+- Window: fourteen complete UTC days; partial current-day values are ignored.
+
+## Financial rails gaps
+
+- `solana_non_stablecoin_rwa_value_usd`: visible but unavailable until an
+  approved authenticated RWA.xyz adapter is connected. Stablecoins are
+  excluded to prevent double counting.
+- `solana_identifiable_payments_usd`: visible but unavailable until a source
+  can distinguish commerce/remittance from trading, rebalancing, bots, and
+  repeated transfers with a published coverage boundary.

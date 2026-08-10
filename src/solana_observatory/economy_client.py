@@ -20,7 +20,21 @@ DEFILLAMA_DEX_URL = (
     "https://api.llama.fi/overview/dexs/Solana?"
     "excludeTotalDataChartBreakdown=true&dataType=dailyVolume"
 )
-USER_AGENT = "Solana-Observatory/0.2 (+public-bounty-dashboard)"
+DEFILLAMA_CHAIN_FEES_URL = (
+    "https://api.llama.fi/summary/fees/solana?dataType=dailyFees"
+)
+DEFILLAMA_APP_FEES_URL = (
+    "https://api.llama.fi/overview/fees/solana?"
+    "excludeTotalDataChart=false&excludeTotalDataChartBreakdown=true&"
+    "dataType=dailyAppFees"
+)
+DEFILLAMA_APP_REVENUE_URL = DEFILLAMA_APP_FEES_URL.replace(
+    "dailyAppFees", "dailyAppRevenue"
+)
+DEFILLAMA_JITO_TIPS_URL = (
+    "https://api.llama.fi/summary/fees/jito-mev-tips?dataType=dailyFees"
+)
+USER_AGENT = "Solana-Observatory/0.3 (+public-bounty-dashboard)"
 
 
 def fetch_json(
@@ -54,6 +68,10 @@ def fetch_economy_sources(
         "tvl": DEFILLAMA_TVL_URL,
         "stablecoins": DEFILLAMA_STABLECOIN_URL,
         "dex": DEFILLAMA_DEX_URL,
+        "chain_fees": DEFILLAMA_CHAIN_FEES_URL,
+        "app_fees": DEFILLAMA_APP_FEES_URL,
+        "app_revenue": DEFILLAMA_APP_REVENUE_URL,
+        "jito_tips": DEFILLAMA_JITO_TIPS_URL,
     }
     results: dict[str, dict[str, Any]] = {}
     for source_name, url in sources.items():

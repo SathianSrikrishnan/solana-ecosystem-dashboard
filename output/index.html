@@ -15,8 +15,10 @@
       --muted: #96a6a1;
       --line: #25312f;
       --green: #4df0a8;
+      --cyan: #79c6d9;
       --violet: #a58cff;
       --amber: #f1bd67;
+      --red: #ff7f75;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -113,8 +115,10 @@
     .comparison[data-direction="decreased"] strong::before { content: "↓ "; color: var(--violet); }
     .comparison[data-direction="flat"] strong::before { content: "→ "; color: var(--muted); }
     .definition { min-height: 64px; margin: 18px 0; color: var(--muted); font-size: .86rem; }
-    .status { color: var(--green); text-transform: uppercase; letter-spacing: .08em; }
-    .status-unavailable, .status-error, .status-stale { color: var(--amber); }
+    .status { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .status-ok { color: var(--cyan); }
+    .status-unavailable, .status-stale { color: var(--amber); }
+    .status-error { color: var(--red); }
     details { color: var(--muted); font-size: .78rem; }
     summary { cursor: pointer; color: var(--text); }
     code { color: var(--violet); }
@@ -129,6 +133,22 @@
     .era p { margin-bottom: 8px; color: var(--muted); font-size: .84rem; }
     .era p span { display: block; margin-bottom: 4px; color: var(--text); font-size: .68rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
     .era a { color: var(--violet); font-size: .76rem; }
+    .learn-intro { max-width: 760px; margin-bottom: 24px; color: var(--muted); }
+    .learn-guide { border-top: 1px solid var(--line); }
+    .learn-guide details { padding: 18px 0; border-bottom: 1px solid var(--line); font-size: .92rem; }
+    .learn-guide summary { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; font-family: Bahnschrift, "Franklin Gothic Medium", sans-serif; font-size: 1.15rem; }
+    .learn-guide summary::after { content: "+"; color: var(--green); font-family: "Cascadia Mono", Consolas, monospace; }
+    .learn-guide details[open] summary::after { content: "−"; }
+    .learn-guide details > div { max-width: 780px; padding-top: 14px; color: var(--muted); }
+    .learn-guide strong { color: var(--text); }
+    .identity-lens { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px; padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .identity-lens h3 { margin: 8px 0 0; font-size: 1.5rem; }
+    .identity-lens > p { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: .82rem; }
+    .identity-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .identity-facts p { margin: 0; }
+    .identity-facts strong, .identity-facts span { display: block; }
+    .identity-facts strong { font-family: Bahnschrift, "Franklin Gothic Medium", sans-serif; font-size: 1.6rem; }
+    .identity-facts span { color: var(--muted); font-size: .72rem; }
     .methods-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .methods-card, .interpretation {
       padding: 26px;
@@ -158,7 +178,7 @@
     @media (max-width: 680px) {
       main, .header-inner { width: min(100% - 24px, 1180px); }
       main { padding-top: 48px; }
-      .reading, .section-heading, .methods-grid, .era { grid-template-columns: 1fr; }
+      .reading, .section-heading, .methods-grid, .era, .identity-lens { grid-template-columns: 1fr; }
       .source-health { padding: 20px 0 0; border: 0; border-top: 1px solid var(--line); }
       .signal-grid, .metric-grid { grid-template-columns: 1fr; }
       .dashboard-section { padding-top: 58px; }
@@ -183,6 +203,7 @@
         <a href="#ecosystem">Ecosystem</a>
         <a href="#financial-rails">Financial rails</a>
         <a href="#history">History</a>
+        <a href="#learn">Learn</a>
         <a href="#methods">Methods</a>
       </nav>
     </div>
@@ -193,7 +214,7 @@
       <h1>Solana,<br>without the fog.</h1>
       <p class="lede">Six connected questions reveal whether Solana is working, attracting durable use, producing economic value, staying resilient, compounding its ecosystem, and becoming financial infrastructure. Wallets and transactions are measurements—not people.</p>
       <div class="hero-meta">
-        <span><strong>Snapshot</strong> 2026-08-10T10:31:52.439641Z</span>
+        <span><strong>Snapshot</strong> 2026-08-10T11:18:12.204135Z</span>
         <span><strong>Contract</strong> 0.3.0</span>
         <span><strong>Access</strong> Public, no account</span>
       </div>
@@ -205,7 +226,7 @@
         </div>
         <div class="source-health">
           <span class="eyebrow">Source health</span>
-          <strong>26 of 26 metrics reporting</strong>
+          <strong>30 of 32 metrics reporting</strong>
           <span>Failures remain visible instead of blanking the report.</span>
         </div>
       </section>
@@ -238,7 +259,7 @@
           <span class="status status-ok">Data reporting</span>
         </div>
         <h3>SOL price</h3>
-        <div class="signal-value">76.58</div>
+        <div class="signal-value">76.66</div>
         <div class="metric-unit">USD</div>
       </article>
 
@@ -249,7 +270,7 @@
           <span class="status status-ok">Data reporting</span>
         </div>
         <h3>Active stake</h3>
-        <div class="signal-value">434,005,094.66</div>
+        <div class="signal-value">434,005,084.36</div>
         <div class="metric-unit">SOL</div>
       </article>
 
@@ -268,21 +289,26 @@
       <article class="signal-card">
         <div class="metric-topline">
           <span>Is Solana becoming real financial infrastructure?</span>
-          <span class="status status-planned">Planned</span>
+          <span class="status status-unavailable">Data unavailable</span>
         </div>
-        <h3>Awaiting verified data</h3>
+        <h3>Identifiable payment volume</h3>
         <div class="signal-value">Not available</div>
-        <div class="metric-unit">A verified adapter will activate this signal.</div>
+        <div class="metric-unit">USD</div>
       </article>
     </div>
 
-      <aside class="analysis-panel" data-status="unavailable">
+      <aside class="analysis-panel" data-status="ok">
         <div class="metric-topline">
-          <span class="eyebrow">Automatic AI briefing</span>
-          <span class="status status-unavailable">unavailable</span>
+          <span class="eyebrow">Automatic evidence briefing</span>
+          <span class="status status-ok">Deterministic</span>
         </div>
-        <h2>Analysis unavailable for this snapshot</h2>
-        <p>The verified report remains available. No explanation is generated unless a grounded analysis record is supplied by the scheduled pipeline.</p>
+        <h2>Notable seven-day movement: Solana application fees increased by 15.9%; Solana chain fees increased by 15.5%.</h2>
+        <p><strong>Uncertainty:</strong> Direction is not automatically good or bad, and this briefing cannot identify causes. 5 comparison(s) lack sufficient evidence.</p>
+        <div class="analysis-meta">
+          <span><strong>Evidence:</strong> solana_app_fees_usd, solana_chain_fees_usd</span>
+          <span><strong>Generated:</strong> 2026-08-10T11:18:12.204135Z</span>
+          <span><strong>Engine:</strong> deterministic-observatory-v1</span>
+        </div>
       </aside>
 
     </section>
@@ -304,7 +330,7 @@
         </div>
         <h3>Block height</h3>
         <div class="metric-reading">
-          <span class="metric-value">416,438,811</span>
+          <span class="metric-value">416,445,416</span>
           <span class="metric-unit">block</span>
         </div>
 
@@ -315,7 +341,7 @@
             <p><strong>Why it matters:</strong> Block height is a second progress marker that helps detect a stalled or lagging data source.</p>
             <p><strong>What could fool you:</strong> This is network progress, not a measure of user adoption.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getBlockHeight</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -329,7 +355,7 @@
         </div>
         <h3>Current slot</h3>
         <div class="metric-reading">
-          <span class="metric-value">438,385,002</span>
+          <span class="metric-value">438,391,609</span>
           <span class="metric-unit">slot</span>
         </div>
 
@@ -340,7 +366,7 @@
             <p><strong>Why it matters:</strong> A rising slot confirms that this observer sees the chain continuing to advance.</p>
             <p><strong>What could fool you:</strong> Different RPC nodes can be a few slots apart.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getSlot</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -354,7 +380,7 @@
         </div>
         <h3>Epoch progress</h3>
         <div class="metric-reading">
-          <span class="metric-value">78.01</span>
+          <span class="metric-value">79.54</span>
           <span class="metric-unit">percent</span>
         </div>
 
@@ -365,7 +391,7 @@
             <p><strong>Why it matters:</strong> Epoch progress provides timing context for validator rewards, stake activation, and network operations.</p>
             <p><strong>What could fool you:</strong> Epoch progress describes validator timing, not economic growth.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getEpochInfo</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -379,7 +405,7 @@
         </div>
         <h3>Estimated non-vote TPS</h3>
         <div class="metric-reading">
-          <span class="metric-value">1,587.45</span>
+          <span class="metric-value">1,975.97</span>
           <span class="metric-unit">transactions/second</span>
         </div>
 
@@ -390,7 +416,7 @@
             <p><strong>Why it matters:</strong> This is the closest live RPC measure of application and user transaction throughput.</p>
             <p><strong>What could fool you:</strong> Non-vote transactions can still include bots and automated programs.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getRecentPerformanceSamples</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -404,7 +430,7 @@
         </div>
         <h3>Estimated slot time</h3>
         <div class="metric-reading">
-          <span class="metric-value">0.43</span>
+          <span class="metric-value">0.42</span>
           <span class="metric-unit">seconds</span>
         </div>
 
@@ -415,7 +441,7 @@
             <p><strong>Why it matters:</strong> Slot time indicates how quickly the chain is advancing in the most recent sample.</p>
             <p><strong>What could fool you:</strong> This is a short recent estimate and can move between samples.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getRecentPerformanceSamples</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -429,7 +455,7 @@
         </div>
         <h3>Estimated total TPS</h3>
         <div class="metric-reading">
-          <span class="metric-value">3,181.77</span>
+          <span class="metric-value">3,601.02</span>
           <span class="metric-unit">transactions/second</span>
         </div>
 
@@ -440,7 +466,7 @@
             <p><strong>Why it matters:</strong> Total throughput shows network load, but must be separated from user activity because it includes validator votes.</p>
             <p><strong>What could fool you:</strong> Includes validator votes, so it is not the same as user activity.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getRecentPerformanceSamples</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -465,7 +491,7 @@
             <p><strong>Why it matters:</strong> It is the first check that the dashboard&#x27;s live network data path is responding normally.</p>
             <p><strong>What could fool you:</strong> This checks one public RPC endpoint, not every validator.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getHealth</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -607,6 +633,15 @@
         </details>
       </article>
     </div>
+      <aside class="identity-lens">
+        <div><span class="eyebrow">Identity and automation lens</span><h3>We cannot classify bots yet.</h3></div>
+        <div class="identity-facts">
+          <p><strong>0.7%</strong><span>Jupiter share of successful signers</span></p>
+          <p><strong>26.4%</strong><span>Returning Jupiter signer rate</span></p>
+        </div>
+        <p><strong>Evidence still needed:</strong> transaction frequency, timing regularity, program breadth, funding relationships, and repeated instruction patterns. Addresses can be people, bots, custodians, or several wallets controlled by one person.</p>
+      </aside>
+
             </section>
 
 
@@ -626,7 +661,7 @@
         </div>
         <h3>SOL price</h3>
         <div class="metric-reading">
-          <span class="metric-value">76.58</span>
+          <span class="metric-value">76.66</span>
           <span class="metric-unit">USD</span>
         </div>
 
@@ -637,7 +672,100 @@
             <p><strong>Why it matters:</strong> Price supplies market context for SOL-denominated capital and validator economics.</p>
             <p><strong>What could fool you:</strong> Market price is volatile context, not evidence that network or application usage is growing.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.coingecko.com/api/v3/simple/price?ids=solana&amp;vs_currencies=usd&amp;include_24hr_change=true&amp;include_last_updated_at=true">CoinGecko</a> / <code>simple/price?ids=solana</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:52.439641Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:12.204135Z</p>
+            <p><strong>Confidence:</strong> high</p>
+          </div>
+        </details>
+      </article>
+
+
+      <article class="metric-card" data-metric="solana_app_fees_usd" data-status="ok">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-ok">Data reporting</span>
+        </div>
+        <h3>Solana application fees</h3>
+        <div class="metric-reading">
+          <span class="metric-value">8,376,941.66</span>
+          <span class="metric-unit">USD</span>
+        </div>
+
+        <div class="comparison" data-direction="increased">
+          <strong>7-day average +15.9%</strong>
+          <span>Jul 27–Aug 02 vs Aug 03–Aug 09</span>
+          <small>Direction is not a health verdict.</small>
+        </div>
+
+        <p class="definition"><strong>What this measures:</strong> Fees users paid covered Solana applications on the latest complete UTC day, excluding gas, stablecoin issuers, and liquid staking.</p>
+        <details>
+          <summary>Why it matters · risks · evidence</summary>
+          <div class="evidence">
+            <p><strong>Why it matters:</strong> App fees show what users paid applications for covered services.</p>
+            <p><strong>What could fool you:</strong> Adapter coverage can change, and fees paid are not money retained by applications.</p>
+            <p><strong>See the evidence:</strong> <a href="https://api.llama.fi/overview/fees/solana?excludeTotalDataChart=false&amp;excludeTotalDataChartBreakdown=true&amp;dataType=dailyAppFees">DeFiLlama</a> / <code>overview/fees/solana?dataType=dailyAppFees</code></p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:12.204135Z</p>
+            <p><strong>Confidence:</strong> high</p>
+          </div>
+        </details>
+      </article>
+
+
+      <article class="metric-card" data-metric="solana_app_revenue_usd" data-status="ok">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-ok">Data reporting</span>
+        </div>
+        <h3>Solana application revenue</h3>
+        <div class="metric-reading">
+          <span class="metric-value">3,887,791.90</span>
+          <span class="metric-unit">USD</span>
+        </div>
+
+        <div class="comparison" data-direction="increased">
+          <strong>7-day average +14.4%</strong>
+          <span>Jul 27–Aug 02 vs Aug 03–Aug 09</span>
+          <small>Direction is not a health verdict.</small>
+        </div>
+
+        <p class="definition"><strong>What this measures:</strong> The portion of covered Solana application fees retained by protocols on the latest complete UTC day.</p>
+        <details>
+          <summary>Why it matters · risks · evidence</summary>
+          <div class="evidence">
+            <p><strong>Why it matters:</strong> App revenue shows captured value under provider definitions.</p>
+            <p><strong>What could fool you:</strong> This is not profit; incentives, token emissions, and operating costs are separate.</p>
+            <p><strong>See the evidence:</strong> <a href="https://api.llama.fi/overview/fees/solana?excludeTotalDataChart=false&amp;excludeTotalDataChartBreakdown=true&amp;dataType=dailyAppRevenue">DeFiLlama</a> / <code>overview/fees/solana?dataType=dailyAppRevenue</code></p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:12.204135Z</p>
+            <p><strong>Confidence:</strong> high</p>
+          </div>
+        </details>
+      </article>
+
+
+      <article class="metric-card" data-metric="solana_chain_fees_usd" data-status="ok">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-ok">Data reporting</span>
+        </div>
+        <h3>Solana chain fees</h3>
+        <div class="metric-reading">
+          <span class="metric-value">650,664.00</span>
+          <span class="metric-unit">USD</span>
+        </div>
+
+        <div class="comparison" data-direction="increased">
+          <strong>7-day average +15.5%</strong>
+          <span>Jul 27–Aug 02 vs Aug 03–Aug 09</span>
+          <small>Direction is not a health verdict.</small>
+        </div>
+
+        <p class="definition"><strong>What this measures:</strong> Base and priority transaction fees paid to the Solana network on the latest complete UTC day, as indexed by DeFiLlama.</p>
+        <details>
+          <summary>Why it matters · risks · evidence</summary>
+          <div class="evidence">
+            <p><strong>Why it matters:</strong> Chain fees show demand for scarce transaction execution.</p>
+            <p><strong>What could fool you:</strong> Higher fees can reflect demand, congestion, speculation, or MEV. DeFiLlama&#x27;s adapter estimates base fees from transaction count although Solana&#x27;s protocol fee is charged per signature.</p>
+            <p><strong>See the evidence:</strong> <a href="https://api.llama.fi/summary/fees/solana?dataType=dailyFees">DeFiLlama</a> / <code>summary/fees/solana?dataType=dailyFees</code></p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:12.204135Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -668,7 +796,7 @@
             <p><strong>Why it matters:</strong> TVL shows how much capital is deposited in tracked Solana DeFi protocols.</p>
             <p><strong>What could fool you:</strong> TVL depends on protocol coverage and methodology and can double-count economic exposure through composable assets.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.llama.fi/v2/historicalChainTvl/Solana">DeFiLlama</a> / <code>v2/historicalChainTvl/Solana</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:52.439641Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:12.204135Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -682,12 +810,12 @@
         </div>
         <h3>Solana daily DEX volume</h3>
         <div class="metric-reading">
-          <span class="metric-value">1,223,391,334.98</span>
+          <span class="metric-value">1,347,434,364.98</span>
           <span class="metric-unit">USD</span>
         </div>
 
         <div class="comparison" data-direction="decreased">
-          <strong>7-day average -8.1%</strong>
+          <strong>7-day average -7.0%</strong>
           <span>Jul 27–Aug 02 vs Aug 03–Aug 09</span>
           <small>Direction is not a health verdict.</small>
         </div>
@@ -699,38 +827,38 @@
             <p><strong>Why it matters:</strong> DEX volume shows how much spot exchange activity occurred across tracked Solana venues.</p>
             <p><strong>What could fool you:</strong> Routing can touch several pools, and provider adapter and deduplication coverage determine the reported total.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.llama.fi/overview/dexs/Solana?excludeTotalDataChartBreakdown=true&amp;dataType=dailyVolume">DeFiLlama</a> / <code>overview/dexs/Solana?dataType=dailyVolume</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:52.439641Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:12.204135Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
       </article>
 
 
-      <article class="metric-card" data-metric="solana_stablecoin_value_usd" data-status="ok">
+      <article class="metric-card" data-metric="solana_rev_usd" data-status="ok">
         <div class="metric-topline">
           <span class="fact-label">Verified measurement</span>
           <span class="status status-ok">Data reporting</span>
         </div>
-        <h3>Solana stablecoin circulating value</h3>
+        <h3>Solana REV (chain fees + tracked Jito tips)</h3>
         <div class="metric-reading">
-          <span class="metric-value">16,255,726,011.00</span>
+          <span class="metric-value">786,058.00</span>
           <span class="metric-unit">USD</span>
         </div>
 
-        <div class="comparison" data-direction="decreased">
-          <strong>7-day average -1.4%</strong>
+        <div class="comparison" data-direction="increased">
+          <strong>7-day average +13.0%</strong>
           <span>Jul 27–Aug 02 vs Aug 03–Aug 09</span>
           <small>Direction is not a health verdict.</small>
         </div>
 
-        <p class="definition"><strong>What this measures:</strong> USD value of circulating stablecoins on Solana across DeFiLlama&#x27;s peg buckets on the latest complete UTC day.</p>
+        <p class="definition"><strong>What this measures:</strong> Solana chain fees plus gross Jito MEV tips tracked by DeFiLlama for the latest complete UTC day.</p>
         <details>
           <summary>Why it matters · risks · evidence</summary>
           <div class="evidence">
-            <p><strong>Why it matters:</strong> Stablecoin value shows the dollar-like liquidity available for trading, saving, and settlement on Solana.</p>
-            <p><strong>What could fool you:</strong> Circulating stablecoin value is not payment volume or proof that every token is backed by cash.</p>
-            <p><strong>See the evidence:</strong> <a href="https://stablecoins.llama.fi/stablecoincharts/Solana">DeFiLlama</a> / <code>stablecoincharts/Solana</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:52.439641Z</p>
+            <p><strong>Why it matters:</strong> REV estimates direct economic value paid for blockspace and transaction ordering.</p>
+            <p><strong>What could fool you:</strong> REV is not GDP, profit, or app revenue; private or non-Jito MEV may be outside coverage. Jito component: https://api.llama.fi/summary/fees/jito-mev-tips?dataType=dailyFees</p>
+            <p><strong>See the evidence:</strong> <a href="https://api.llama.fi/summary/fees/solana?dataType=dailyFees">DeFiLlama</a> / <code>dailyFees(Solana) + dailyFees(jito-mev-tips)</code></p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:12.204135Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -755,7 +883,7 @@
         </div>
         <h3>Active stake</h3>
         <div class="metric-reading">
-          <span class="metric-value">434,005,094.66</span>
+          <span class="metric-value">434,005,084.36</span>
           <span class="metric-unit">SOL</span>
         </div>
 
@@ -766,7 +894,7 @@
             <p><strong>Why it matters:</strong> It shows how much voting power is currently participating.</p>
             <p><strong>What could fool you:</strong> Vote accounts are not necessarily distinct operators or organizations.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getVoteAccounts</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -780,7 +908,7 @@
         </div>
         <h3>Active validators</h3>
         <div class="metric-reading">
-          <span class="metric-value">690</span>
+          <span class="metric-value">689</span>
           <span class="metric-unit">validators</span>
         </div>
 
@@ -791,7 +919,7 @@
             <p><strong>Why it matters:</strong> Active vote accounts show how many validators are currently participating, before considering stake concentration.</p>
             <p><strong>What could fool you:</strong> A validator count does not describe how evenly stake is distributed.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getVoteAccounts</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -816,7 +944,7 @@
             <p><strong>Why it matters:</strong> Stake share is more meaningful than a raw delinquent-validator count.</p>
             <p><strong>What could fool you:</strong> One RPC snapshot can change quickly as validators recover or fall behind.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getVoteAccounts</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -830,7 +958,7 @@
         </div>
         <h3>Delinquent stake</h3>
         <div class="metric-reading">
-          <span class="metric-value">43,921.49</span>
+          <span class="metric-value">43,931.79</span>
           <span class="metric-unit">SOL</span>
         </div>
 
@@ -841,7 +969,7 @@
             <p><strong>Why it matters:</strong> It sizes the voting power currently failing to participate normally.</p>
             <p><strong>What could fool you:</strong> Delinquency can be temporary and does not imply malicious behavior.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getVoteAccounts</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -855,7 +983,7 @@
         </div>
         <h3>Delinquent validators</h3>
         <div class="metric-reading">
-          <span class="metric-value">8</span>
+          <span class="metric-value">9</span>
           <span class="metric-unit">validators</span>
         </div>
 
@@ -866,7 +994,7 @@
             <p><strong>Why it matters:</strong> Delinquency is an early operational signal that part of the validator set is falling behind.</p>
             <p><strong>What could fool you:</strong> Temporary delinquency can recover and is not automatically malicious behavior.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getVoteAccounts</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -891,7 +1019,7 @@
             <p><strong>Why it matters:</strong> Commission affects how staking rewards are divided between validators and delegators.</p>
             <p><strong>What could fool you:</strong> The median does not include operating cost, MEV, or total validator profitability.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getVoteAccounts</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -916,7 +1044,7 @@
             <p><strong>Why it matters:</strong> A larger value means more vote accounts are required to reach consensus-blocking stake.</p>
             <p><strong>What could fool you:</strong> This is calculated by vote account, not verified independent operator.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getVoteAccounts</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -941,7 +1069,7 @@
             <p><strong>Why it matters:</strong> It exposes concentration hidden by the total validator count.</p>
             <p><strong>What could fool you:</strong> Vote accounts are not operators; one organization may control several accounts.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getVoteAccounts</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -966,7 +1094,7 @@
             <p><strong>Why it matters:</strong> It provides a broader view of stake concentration beyond the largest validators.</p>
             <p><strong>What could fool you:</strong> Vote accounts are not operators and ownership identity is not inferred.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getVoteAccounts</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -991,7 +1119,7 @@
             <p><strong>Why it matters:</strong> It checks whether active voting power shows evidence of recent vote participation.</p>
             <p><strong>What could fool you:</strong> One credit record is a bounded participation check, not a full performance history.</p>
             <p><strong>See the evidence:</strong> <a href="https://api.mainnet-beta.solana.com">Solana JSON-RPC</a> / <code>getVoteAccounts</code></p>
-            <p><strong>Collected:</strong> 2026-08-10T10:31:51.341180Z</p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:11.006306Z</p>
             <p><strong>Confidence:</strong> high</p>
           </div>
         </details>
@@ -1026,13 +1154,87 @@
                 </div>
                 <p>Tokenized assets, stablecoin settlement, payments, and liquidity.</p>
               </div>
+              <div class="metric-grid">
+      <article class="metric-card" data-metric="solana_identifiable_payments_usd" data-status="unavailable">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-unavailable">Data unavailable</span>
+        </div>
+        <h3>Identifiable payment volume</h3>
+        <div class="metric-reading">
+          <span class="metric-value">Not available</span>
+          <span class="metric-unit">USD</span>
+        </div>
 
-              <div class="empty-state">
-                <span class="status status-planned">Data adapter planned</span>
-                <p>This section will activate when its verified data slice lands.</p>
-                <p><strong>Expected evidence:</strong> RWA value, issuers, holders, liquidity, and identifiable payments.</p>
-              </div>
+        <p class="definition"><strong>What this measures:</strong> Value transferred for identifiable commerce or remittance, with a published attribution method and coverage boundary.</p>
+        <details>
+          <summary>Why it matters · risks · evidence</summary>
+          <div class="evidence">
+            <p><strong>Why it matters:</strong> Payments would show use of Solana as financial settlement rather than only trading infrastructure.</p>
+            <p><strong>What could fool you:</strong> Raw stablecoin transfers are not payments: they can include trading, bots, rebalancing, and repeated movement.</p>
+            <p><strong>See the evidence:</strong> <a href="https://www.stablecoin.fyi/methodology">No approved live source</a> / <code>deferred pending defensible payment attribution</code></p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:12.204135Z</p>
+            <p><strong>Confidence:</strong> experimental</p>
+          </div>
+        </details>
+      </article>
 
+
+      <article class="metric-card" data-metric="solana_non_stablecoin_rwa_value_usd" data-status="unavailable">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-unavailable">Data unavailable</span>
+        </div>
+        <h3>Tokenized real-world assets (excluding stablecoins)</h3>
+        <div class="metric-reading">
+          <span class="metric-value">Not available</span>
+          <span class="metric-unit">USD</span>
+        </div>
+
+        <p class="definition"><strong>What this measures:</strong> Circulating market value of tokenized real-world assets on Solana, excluding the stablecoin asset class.</p>
+        <details>
+          <summary>Why it matters · risks · evidence</summary>
+          <div class="evidence">
+            <p><strong>Why it matters:</strong> This would show adoption of tokenized treasuries, equities, credit, commodities, funds, and other off-chain claims.</p>
+            <p><strong>What could fool you:</strong> Source not connected: dependable API access requires authentication. No historical article value is substituted.</p>
+            <p><strong>See the evidence:</strong> <a href="https://docs.rwa.xyz/api/authentication">RWA.xyz (optional adapter)</a> / <code>v4 assets aggregate; Solana; exclude Stablecoins</code></p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:12.204135Z</p>
+            <p><strong>Confidence:</strong> experimental</p>
+          </div>
+        </details>
+      </article>
+
+
+      <article class="metric-card" data-metric="solana_stablecoin_value_usd" data-status="ok">
+        <div class="metric-topline">
+          <span class="fact-label">Verified measurement</span>
+          <span class="status status-ok">Data reporting</span>
+        </div>
+        <h3>Solana stablecoin circulating value</h3>
+        <div class="metric-reading">
+          <span class="metric-value">16,255,726,011.00</span>
+          <span class="metric-unit">USD</span>
+        </div>
+
+        <div class="comparison" data-direction="decreased">
+          <strong>7-day average -1.4%</strong>
+          <span>Jul 27–Aug 02 vs Aug 03–Aug 09</span>
+          <small>Direction is not a health verdict.</small>
+        </div>
+
+        <p class="definition"><strong>What this measures:</strong> USD value of circulating stablecoins on Solana across DeFiLlama&#x27;s peg buckets on the latest complete UTC day.</p>
+        <details>
+          <summary>Why it matters · risks · evidence</summary>
+          <div class="evidence">
+            <p><strong>Why it matters:</strong> Stablecoin value shows the dollar-like liquidity available for trading, saving, and settlement on Solana.</p>
+            <p><strong>What could fool you:</strong> Circulating stablecoin value is not payment volume or proof that every token is backed by cash.</p>
+            <p><strong>See the evidence:</strong> <a href="https://stablecoins.llama.fi/stablecoincharts/Solana">DeFiLlama</a> / <code>stablecoincharts/Solana</code></p>
+            <p><strong>Collected:</strong> 2026-08-10T11:18:12.204135Z</p>
+            <p><strong>Confidence:</strong> high</p>
+          </div>
+        </details>
+      </article>
+    </div>
             </section>
 
 
@@ -1094,9 +1296,35 @@
     </section>
 
 
+    <section class="dashboard-section" id="learn">
+      <div class="section-heading">
+        <div><span class="section-index">08</span><div><p class="section-question">New to the observatory?</p><h2>Learn the instrument</h2></div></div>
+        <p>A short field guide to the dashboard, the network, and the project behind it.</p>
+      </div>
+      <p class="learn-intro">Start with the six questions. Open a metric only when you want its definition, interpretive risk, or source. A reporting badge describes the data feed; it is not a verdict on Solana.</p>
+      <div class="learn-guide">
+        <details open>
+          <summary>How do I use this dashboard?</summary>
+          <div>Read the six overview signals, then follow the section that changed. Compare the latest seven complete days with the prior seven, inspect companion metrics, and check the evidence before drawing a conclusion.</div>
+        </details>
+        <details>
+          <summary>How do I learn the concepts?</summary>
+          <div>Begin with Network, Adoption, and Economy. Then study Validators and Financial Rails. Each card explains what the metric measures, why it matters, and what can fool you; the history rail shows how these questions emerged.</div>
+        </details>
+        <details>
+          <summary>Why might Solana matter?</summary>
+          <div>Solana combines low transaction costs, fast execution, and an accessible builder experience with active markets, stablecoins, payments, and tokenized assets. The observatory tests that financial-rails thesis without hiding reliability, concentration, speculation, or automation risks.</div>
+        </details>
+        <details>
+          <summary>Why was this built?</summary>
+          <div>Sathian built the observatory to replace borrowed conviction with inspectable evidence while learning Solana. That learning also informs Tooth Fairy Network, a separate mainnet project for family time capsules and long-term value. Physical books and expanded incentive features are planned, not presented here as shipped.</div>
+        </details>
+      </div>
+    </section>
+
     <section class="dashboard-section" id="methods">
       <div class="section-heading">
-        <div><span class="section-index">08</span><h2>Methods</h2></div>
+        <div><span class="section-index">09</span><h2>Methods</h2></div>
         <p>How to read this report without mistaking a useful metric for the whole truth.</p>
       </div>
       <div class="methods-grid">
@@ -1113,6 +1341,6 @@
       </div>
     </section>
   </main>
-  <script id="snapshot" type="application/json">{"comparisons": {"daily_jupiter_fee_payer_overlap": {"metric_id": "daily_jupiter_fee_payer_overlap", "status": "unavailable", "grain": "daily", "current_average": null, "previous_average": null, "absolute_change": null, "percent_change": null, "direction": "unknown", "previous_window": null, "current_window": null, "reason": "A 14-day daily series is required."}, "daily_unique_jupiter_swap_signers": {"metric_id": "daily_unique_jupiter_swap_signers", "status": "unavailable", "grain": "daily", "current_average": null, "previous_average": null, "absolute_change": null, "percent_change": null, "direction": "unknown", "previous_window": null, "current_window": null, "reason": "A 14-day daily series is required."}, "daily_unique_successful_fee_payers": {"metric_id": "daily_unique_successful_fee_payers", "status": "unavailable", "grain": "daily", "current_average": null, "previous_average": null, "absolute_change": null, "percent_change": null, "direction": "unknown", "previous_window": null, "current_window": null, "reason": "A 14-day daily series is required."}, "daily_unique_successful_signers": {"metric_id": "daily_unique_successful_signers", "status": "unavailable", "grain": "daily", "current_average": null, "previous_average": null, "absolute_change": null, "percent_change": null, "direction": "unknown", "previous_window": null, "current_window": null, "reason": "A 14-day daily series is required."}, "jupiter_swap_signer_7d_return_rate": {"metric_id": "jupiter_swap_signer_7d_return_rate", "status": "unavailable", "grain": "daily", "current_average": null, "previous_average": null, "absolute_change": null, "percent_change": null, "direction": "unknown", "previous_window": null, "current_window": null, "reason": "A 14-day daily series is required."}, "solana_defi_tvl_usd": {"metric_id": "solana_defi_tvl_usd", "status": "ok", "grain": "daily", "current_average": 4755566450.86, "previous_average": 4788747992.0, "absolute_change": -33181541.14, "percent_change": -0.69, "direction": "decreased", "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "reason": null}, "solana_dex_volume_usd": {"metric_id": "solana_dex_volume_usd", "status": "ok", "grain": "daily", "current_average": 1507634475.78, "previous_average": 1640140879.92, "absolute_change": -132506404.15, "percent_change": -8.08, "direction": "decreased", "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "reason": null}, "solana_stablecoin_value_usd": {"metric_id": "solana_stablecoin_value_usd", "status": "ok", "grain": "daily", "current_average": 16308717847.57, "previous_average": 16536870146.14, "absolute_change": -228152298.57, "percent_change": -1.38, "direction": "decreased", "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "reason": null}}, "generated_at": "2026-08-10T10:31:52.439641Z", "metrics": {"active_stake_sol": {"caveat": "Vote accounts are not necessarily distinct operators or organizations.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Activated stake assigned to currently active vote accounts.", "id": "active_stake_sol", "label": "Active stake", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "SOL", "value": 434005094.66, "why_it_matters": "It shows how much voting power is currently participating."}, "active_validators": {"caveat": "A validator count does not describe how evenly stake is distributed.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Vote accounts currently classified as active by the RPC response.", "id": "active_validators", "label": "Active validators", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "validators", "value": 690, "why_it_matters": "Active vote accounts show how many validators are currently participating, before considering stake concentration."}, "block_height": {"caveat": "This is network progress, not a measure of user adoption.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Current block height reported by the selected RPC node.", "id": "block_height", "label": "Block height", "section": "network", "series": [], "source": {"method": "getBlockHeight", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "block", "value": 416438811, "why_it_matters": "Block height is a second progress marker that helps detect a stalled or lagging data source."}, "current_slot": {"caveat": "Different RPC nodes can be a few slots apart.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Latest slot reported by the selected public RPC node.", "id": "current_slot", "label": "Current slot", "section": "network", "series": [], "source": {"method": "getSlot", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "slot", "value": 438385002, "why_it_matters": "A rising slot confirms that this observer sees the chain continuing to advance."}, "daily_jupiter_fee_payer_overlap": {"caveat": "This is an address intersection, not a count of people; sponsored or relayed transactions can fall outside it.", "collected_at": "2026-08-08T15:31:00Z", "confidence": "high", "definition": "Jupiter Swap signer addresses that were also the successful transaction fee payer on the same UTC day.", "id": "daily_jupiter_fee_payer_overlap", "label": "Jupiter signer and fee-payer overlap", "section": "adoption", "series": [{"observed_at": "2026-08-01", "value": 23296}, {"observed_at": "2026-08-02", "value": 20679}, {"observed_at": "2026-08-03", "value": 17920}, {"observed_at": "2026-08-04", "value": 20099}, {"observed_at": "2026-08-05", "value": 18212}, {"observed_at": "2026-08-06", "value": 18275}, {"observed_at": "2026-08-07", "value": 26816}], "source": {"method": "jupiter_solana.aggregator_swaps + solana.transactions / daily_jupiter_swap_signers.sql", "name": "Dune", "url": "https://dune.com/queries/8264526"}, "source_time": "2026-08-07", "status": "ok", "unit": "wallet addresses", "value": 26816, "why_it_matters": "The overlap reveals how often the visible application signer also pays the transaction fee."}, "daily_unique_jupiter_swap_signers": {"caveat": "Wallet addresses are not people, and this measures Jupiter Swap signers rather than users of a particular wallet app.", "collected_at": "2026-08-08T15:31:00Z", "confidence": "high", "definition": "Distinct tx_signer addresses on intended swaps recorded by Dune's curated Jupiter aggregator table during the latest complete UTC day.", "id": "daily_unique_jupiter_swap_signers", "label": "Daily unique Jupiter Swap signers", "section": "adoption", "series": [{"observed_at": "2026-08-01", "value": 23296}, {"observed_at": "2026-08-02", "value": 20679}, {"observed_at": "2026-08-03", "value": 17920}, {"observed_at": "2026-08-04", "value": 20099}, {"observed_at": "2026-08-05", "value": 18212}, {"observed_at": "2026-08-06", "value": 18275}, {"observed_at": "2026-08-07", "value": 26816}], "source": {"method": "jupiter_solana.aggregator_swaps + solana.transactions / daily_jupiter_swap_signers.sql", "name": "Dune", "url": "https://dune.com/queries/8264526"}, "source_time": "2026-08-07", "status": "ok", "unit": "wallet addresses", "value": 26816, "why_it_matters": "It shows the scale of intended swap activity through one of Solana's major application routes."}, "daily_unique_successful_fee_payers": {"caveat": "Wallet addresses are not people: one person or bot can control many addresses, and relayers may pay fees for others.", "collected_at": "2026-08-08T15:19:39Z", "confidence": "high", "definition": "Distinct primary signer (fee payer) addresses on successful non-vote Solana transactions during the latest complete UTC day.", "id": "daily_unique_successful_fee_payers", "label": "Daily unique successful fee payers", "section": "adoption", "series": [{"observed_at": "2026-08-01", "value": 1899721}, {"observed_at": "2026-08-02", "value": 1649399}, {"observed_at": "2026-08-03", "value": 2252879}, {"observed_at": "2026-08-04", "value": 2213893}, {"observed_at": "2026-08-05", "value": 2135207}, {"observed_at": "2026-08-06", "value": 2014997}, {"observed_at": "2026-08-07", "value": 2046280}], "source": {"method": "solana.transactions / daily_unique_fee_payers.sql", "name": "Dune", "url": "https://dune.com/queries/8213434"}, "source_time": "2026-08-07", "status": "ok", "unit": "wallet addresses", "value": 2046280, "why_it_matters": "Fee payers approximate how many distinct addresses initiated successful activity and paid for execution."}, "daily_unique_successful_signers": {"caveat": "Wallet addresses are not people: one person or bot can control many addresses, and one transaction may require several signers.", "collected_at": "2026-08-08T15:19:39Z", "confidence": "high", "definition": "Distinct signer addresses on successful non-vote Solana transactions during the latest complete UTC day.", "id": "daily_unique_successful_signers", "label": "Daily unique successful signers", "section": "adoption", "series": [{"observed_at": "2026-08-01", "value": 3187305}, {"observed_at": "2026-08-02", "value": 2962791}, {"observed_at": "2026-08-03", "value": 3581743}, {"observed_at": "2026-08-04", "value": 3594893}, {"observed_at": "2026-08-05", "value": 3499093}, {"observed_at": "2026-08-06", "value": 3408461}, {"observed_at": "2026-08-07", "value": 3628019}], "source": {"method": "solana.transactions.signers / daily_unique_successful_signers.sql", "name": "Dune", "url": "https://dune.com/queries/8264418"}, "source_time": "2026-08-07", "status": "ok", "unit": "wallet addresses", "value": 3628019, "why_it_matters": "Successful signers capture a broader set of participating addresses than fee payers alone."}, "delinquent_stake_share_pct": {"caveat": "One RPC snapshot can change quickly as validators recover or fall behind.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Delinquent activated stake as a share of all activated stake in this response.", "id": "delinquent_stake_share_pct", "label": "Delinquent stake share", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "percent", "value": 0.01, "why_it_matters": "Stake share is more meaningful than a raw delinquent-validator count."}, "delinquent_stake_sol": {"caveat": "Delinquency can be temporary and does not imply malicious behavior.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Activated stake assigned to vote accounts currently classified as delinquent.", "id": "delinquent_stake_sol", "label": "Delinquent stake", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "SOL", "value": 43921.49, "why_it_matters": "It sizes the voting power currently failing to participate normally."}, "delinquent_validators": {"caveat": "Temporary delinquency can recover and is not automatically malicious behavior.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Vote accounts currently classified as delinquent by the RPC response.", "id": "delinquent_validators", "label": "Delinquent validators", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "validators", "value": 8, "why_it_matters": "Delinquency is an early operational signal that part of the validator set is falling behind."}, "epoch_progress": {"caveat": "Epoch progress describes validator timing, not economic growth.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Share of the current epoch's slots already completed.", "id": "epoch_progress", "label": "Epoch progress", "section": "network", "series": [], "source": {"method": "getEpochInfo", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "percent", "value": 78.01, "why_it_matters": "Epoch progress provides timing context for validator rewards, stake activation, and network operations."}, "estimated_non_vote_tps": {"caveat": "Non-vote transactions can still include bots and automated programs.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Non-vote transactions in the latest RPC performance sample divided by sample seconds.", "id": "estimated_non_vote_tps", "label": "Estimated non-vote TPS", "section": "network", "series": [], "source": {"method": "getRecentPerformanceSamples", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "transactions/second", "value": 1587.45, "why_it_matters": "This is the closest live RPC measure of application and user transaction throughput."}, "estimated_slot_time": {"caveat": "This is a short recent estimate and can move between samples.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Latest performance sample duration divided by slots produced.", "id": "estimated_slot_time", "label": "Estimated slot time", "section": "network", "series": [], "source": {"method": "getRecentPerformanceSamples", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "seconds", "value": 0.432, "why_it_matters": "Slot time indicates how quickly the chain is advancing in the most recent sample."}, "estimated_tps": {"caveat": "Includes validator votes, so it is not the same as user activity.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "All transactions in the latest RPC performance sample divided by sample seconds.", "id": "estimated_tps", "label": "Estimated total TPS", "section": "network", "series": [], "source": {"method": "getRecentPerformanceSamples", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "transactions/second", "value": 3181.77, "why_it_matters": "Total throughput shows network load, but must be separated from user activity because it includes validator votes."}, "jupiter_swap_signer_7d_return_rate": {"caveat": "Returning addresses are not necessarily returning people; bots and one person using several wallets remain included.", "collected_at": "2026-08-08T15:31:00Z", "confidence": "high", "definition": "Share of the day's Jupiter Swap signer addresses also seen at least once during the preceding seven complete UTC days.", "id": "jupiter_swap_signer_7d_return_rate", "label": "Jupiter Swap seven-day return rate", "section": "adoption", "series": [{"observed_at": "2026-08-01", "value": 28.9}, {"observed_at": "2026-08-02", "value": 33.54}, {"observed_at": "2026-08-03", "value": 39.12}, {"observed_at": "2026-08-04", "value": 36.21}, {"observed_at": "2026-08-05", "value": 37.69}, {"observed_at": "2026-08-06", "value": 38.65}, {"observed_at": "2026-08-07", "value": 26.43}], "source": {"method": "jupiter_solana.aggregator_swaps + solana.transactions / daily_jupiter_swap_signers.sql", "name": "Dune", "url": "https://dune.com/queries/8264526"}, "source_time": "2026-08-07", "status": "ok", "unit": "percent", "value": 26.43, "why_it_matters": "Return rate distinguishes repeat use from one-time address activity."}, "median_commission_pct": {"caveat": "The median does not include operating cost, MEV, or total validator profitability.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Median advertised commission among active vote accounts with valid values.", "id": "median_commission_pct", "label": "Median validator commission", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "percent", "value": 5.0, "why_it_matters": "Commission affects how staking rewards are divided between validators and delegators."}, "rpc_health": {"caveat": "This checks one public RPC endpoint, not every validator.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Health response from the selected public RPC node.", "id": "rpc_health", "label": "RPC health", "section": "network", "series": [], "source": {"method": "getHealth", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "status", "value": "ok", "why_it_matters": "It is the first check that the dashboard's live network data path is responding normally."}, "sol_price_usd": {"id": "sol_price_usd", "section": "economy", "label": "SOL price", "value": 76.58, "unit": "USD", "status": "ok", "definition": "CoinGecko's aggregated market price for one SOL in USD.", "why_it_matters": "Price supplies market context for SOL-denominated capital and validator economics.", "source": {"name": "CoinGecko", "method": "simple/price?ids=solana", "url": "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd&include_24hr_change=true&include_last_updated_at=true"}, "collected_at": "2026-08-10T10:31:52.439641Z", "source_time": "2026-08-10T10:30:10Z", "confidence": "high", "caveat": "Market price is volatile context, not evidence that network or application usage is growing.", "series": []}, "solana_defi_tvl_usd": {"id": "solana_defi_tvl_usd", "section": "economy", "label": "Solana DeFi TVL", "value": 4792264217.0, "unit": "USD", "status": "ok", "definition": "USD value locked in Solana DeFi protocols tracked by DeFiLlama on the latest complete UTC day.", "why_it_matters": "TVL shows how much capital is deposited in tracked Solana DeFi protocols.", "source": {"name": "DeFiLlama", "method": "v2/historicalChainTvl/Solana", "url": "https://api.llama.fi/v2/historicalChainTvl/Solana"}, "collected_at": "2026-08-10T10:31:52.439641Z", "source_time": "2026-08-09", "confidence": "high", "caveat": "TVL depends on protocol coverage and methodology and can double-count economic exposure through composable assets.", "series": [{"observed_at": "2026-07-27", "value": 4905396243.0}, {"observed_at": "2026-07-28", "value": 4802569937.0}, {"observed_at": "2026-07-29", "value": 4778172182.0}, {"observed_at": "2026-07-30", "value": 4782012435.0}, {"observed_at": "2026-07-31", "value": 4812810087.0}, {"observed_at": "2026-08-01", "value": 4736130794.0}, {"observed_at": "2026-08-02", "value": 4704144266.0}, {"observed_at": "2026-08-03", "value": 4726924045.0}, {"observed_at": "2026-08-04", "value": 4749380354.0}, {"observed_at": "2026-08-05", "value": 4789768870.0}, {"observed_at": "2026-08-06", "value": 4789850728.0}, {"observed_at": "2026-08-07", "value": 4707203417.0}, {"observed_at": "2026-08-08", "value": 4733573525.0}, {"observed_at": "2026-08-09", "value": 4792264217.0}]}, "solana_dex_volume_usd": {"id": "solana_dex_volume_usd", "section": "economy", "label": "Solana daily DEX volume", "value": 1223391334.98, "unit": "USD", "status": "ok", "definition": "Aggregate Solana spot DEX volume tracked by DeFiLlama on the latest complete UTC day.", "why_it_matters": "DEX volume shows how much spot exchange activity occurred across tracked Solana venues.", "source": {"name": "DeFiLlama", "method": "overview/dexs/Solana?dataType=dailyVolume", "url": "https://api.llama.fi/overview/dexs/Solana?excludeTotalDataChartBreakdown=true&dataType=dailyVolume"}, "collected_at": "2026-08-10T10:31:52.439641Z", "source_time": "2026-08-09", "confidence": "high", "caveat": "Routing can touch several pools, and provider adapter and deduplication coverage determine the reported total.", "series": [{"observed_at": "2026-07-27", "value": 1841326721.14}, {"observed_at": "2026-07-28", "value": 1736584597.15}, {"observed_at": "2026-07-29", "value": 1969313151.23}, {"observed_at": "2026-07-30", "value": 1579651526.25}, {"observed_at": "2026-07-31", "value": 1699349711.08}, {"observed_at": "2026-08-01", "value": 1306429242.65}, {"observed_at": "2026-08-02", "value": 1348331209.96}, {"observed_at": "2026-08-03", "value": 1712393241.88}, {"observed_at": "2026-08-04", "value": 1747500916.93}, {"observed_at": "2026-08-05", "value": 1636774684.91}, {"observed_at": "2026-08-06", "value": 1378953158.18}, {"observed_at": "2026-08-07", "value": 1361283964.02}, {"observed_at": "2026-08-08", "value": 1493144029.54}, {"observed_at": "2026-08-09", "value": 1223391334.98}]}, "solana_stablecoin_value_usd": {"id": "solana_stablecoin_value_usd", "section": "economy", "label": "Solana stablecoin circulating value", "value": 16255726011.0, "unit": "USD", "status": "ok", "definition": "USD value of circulating stablecoins on Solana across DeFiLlama's peg buckets on the latest complete UTC day.", "why_it_matters": "Stablecoin value shows the dollar-like liquidity available for trading, saving, and settlement on Solana.", "source": {"name": "DeFiLlama", "method": "stablecoincharts/Solana", "url": "https://stablecoins.llama.fi/stablecoincharts/Solana"}, "collected_at": "2026-08-10T10:31:52.439641Z", "source_time": "2026-08-09", "confidence": "high", "caveat": "Circulating stablecoin value is not payment volume or proof that every token is backed by cash.", "series": [{"observed_at": "2026-07-27", "value": 16935093774.0}, {"observed_at": "2026-07-28", "value": 17264670069.0}, {"observed_at": "2026-07-29", "value": 16185093392.0}, {"observed_at": "2026-07-30", "value": 16352855793.0}, {"observed_at": "2026-07-31", "value": 16358757413.0}, {"observed_at": "2026-08-01", "value": 16356176139.0}, {"observed_at": "2026-08-02", "value": 16305444443.0}, {"observed_at": "2026-08-03", "value": 16240503930.0}, {"observed_at": "2026-08-04", "value": 16418918702.0}, {"observed_at": "2026-08-05", "value": 16552276832.0}, {"observed_at": "2026-08-06", "value": 16199236431.0}, {"observed_at": "2026-08-07", "value": 16252010540.0}, {"observed_at": "2026-08-08", "value": 16242352487.0}, {"observed_at": "2026-08-09", "value": 16255726011.0}]}, "superminority_coefficient": {"caveat": "This is calculated by vote account, not verified independent operator.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Minimum largest vote accounts whose combined activated stake reaches one third.", "id": "superminority_coefficient", "label": "Stake superminority coefficient", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "vote accounts", "value": 18, "why_it_matters": "A larger value means more vote accounts are required to reach consensus-blocking stake."}, "top_10_stake_share_pct": {"caveat": "Vote accounts are not operators; one organization may control several accounts.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Share of activated stake assigned to the ten largest vote accounts.", "id": "top_10_stake_share_pct", "label": "Top 10 stake share", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "percent", "value": 24.39, "why_it_matters": "It exposes concentration hidden by the total validator count."}, "top_25_stake_share_pct": {"caveat": "Vote accounts are not operators and ownership identity is not inferred.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Share of activated stake assigned to the twenty-five largest vote accounts.", "id": "top_25_stake_share_pct", "label": "Top 25 stake share", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "percent", "value": 40.12, "why_it_matters": "It provides a broader view of stake concentration beyond the largest validators."}, "vote_credit_coverage_pct": {"caveat": "One credit record is a bounded participation check, not a full performance history.", "collected_at": "2026-08-10T10:31:51.341180Z", "confidence": "high", "definition": "Share of active stake on vote accounts whose latest epoch-credit record increased.", "id": "vote_credit_coverage_pct", "label": "Stake with recent vote credits", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "percent", "value": 100.0, "why_it_matters": "It checks whether active voting power shows evidence of recent vote participation."}}, "schema_version": "0.3.0", "summary": {"headline": "The selected Solana RPC endpoint reports healthy.", "status": "healthy"}, "timeline": [{"fact": "Proof of History was conceived in 2017; Solana's genesis block launched Mainnet Beta on March 16, 2020.", "interpretation": "The original wager was that cheap, fast shared state could support applications at internet scale.", "order": 1, "period": "2017\u20132020", "source_label": "Solana: 8 Innovations", "source_type": "primary", "source_url": "https://solana.com/de/news/8-innovations-that-make-solana-the-first-web-scale-blockchain", "title": "A faster shared clock becomes a network"}, {"fact": "The Solana Foundation reported rapid growth in DeFi, NFTs, validators, and projects during 2021; its historical counts do not include a reproducible methodology.", "interpretation": "Demand arrived quickly, making precise definitions of users, projects, and capital essential.", "order": 2, "period": "2021", "source_label": "Solana Foundation 2021 community update", "source_type": "primary", "source_url": "https://solana.com/news/december-2021-community-update", "title": "The first application boom"}, {"fact": "Solana launched payment and mobile experiments while official incident reports documented consensus-impacting network halts.", "interpretation": "Throughput means little without dependable execution, so reliability belongs beside adoption.", "order": 3, "period": "2022", "source_label": "Solana Solstice 2022", "source_type": "primary", "source_url": "https://solana.com/news/solana-solstice-2022", "title": "Ambition meets reliability"}, {"fact": "The Foundation highlighted Helium's migration, state compression, Saga, DeFi recovery, and major commerce and infrastructure integrations.", "interpretation": "The recovery case rests on retained builders and widening utility, not token price alone.", "order": 4, "period": "2023", "source_label": "Solana Foundation 2023 community review", "source_type": "primary", "source_url": "https://solana.com/en/news/solana-solstice-2023-community-review", "title": "Builders carry the recovery"}, {"fact": "Foundation and developer reports documented growth across stablecoins, payments, mobile, DePIN, institutions, and new developers.", "interpretation": "Solana began looking less like one trading venue and more like a general financial and consumer platform.", "order": 5, "period": "2024", "source_label": "State of Solana at Breakpoint 2024", "source_type": "primary", "source_url": "https://solana.com/news/state-of-solana-breakpoint-2024", "title": "Trading broadens into distribution"}, {"fact": "A Foundation network report cited nearly 16 months of uptime, multiple validator clients, substantial application revenue, and a voting-power Nakamoto coefficient of 20.", "interpretation": "The next test became resilience: diverse software, distributed stake, and sustainable operators.", "order": 6, "period": "2025", "source_label": "Solana Network Health Report, June 2025", "source_type": "primary", "source_url": "https://solana.com/de/news/network-health-report-june-2025", "title": "Reliability and application economics"}, {"fact": "Foundation ecosystem reports highlighted expanding stablecoin settlement and tokenized real-world assets; live values require their underlying datasets.", "interpretation": "The thesis now is convergence: crypto-native markets meeting payments, tokenized assets, and institutional distribution.", "order": 7, "period": "2026", "source_label": "Solana Ecosystem Roundup, June 2026", "source_type": "primary", "source_url": "https://solana.com/pl/news/solana-ecosystem-roundup-june-2026", "title": "Financial rails move to the foreground"}]}</script>
+  <script id="snapshot" type="application/json">{"analysis": {"status": "ok", "kind": "deterministic", "current_reading": "Notable seven-day movement: Solana application fees increased by 15.9%; Solana chain fees increased by 15.5%.", "supporting_metric_ids": ["solana_app_fees_usd", "solana_chain_fees_usd"], "uncertainty": "Direction is not automatically good or bad, and this briefing cannot identify causes. 5 comparison(s) lack sufficient evidence.", "generated_at": "2026-08-10T11:18:12.204135Z", "model": "deterministic-observatory-v1"}, "anomalies": {"daily_jupiter_fee_payer_overlap": {"metric_id": "daily_jupiter_fee_payer_overlap", "status": "unavailable", "direction": "unknown", "observed_change_pct": null, "threshold_pct": 15.0, "previous_window": null, "current_window": null, "known_gap": "A 14-day daily series is required.", "caveat": "Missing comparison evidence is not a network anomaly."}, "daily_unique_jupiter_swap_signers": {"metric_id": "daily_unique_jupiter_swap_signers", "status": "unavailable", "direction": "unknown", "observed_change_pct": null, "threshold_pct": 15.0, "previous_window": null, "current_window": null, "known_gap": "A 14-day daily series is required.", "caveat": "Missing comparison evidence is not a network anomaly."}, "daily_unique_successful_fee_payers": {"metric_id": "daily_unique_successful_fee_payers", "status": "unavailable", "direction": "unknown", "observed_change_pct": null, "threshold_pct": 15.0, "previous_window": null, "current_window": null, "known_gap": "A 14-day daily series is required.", "caveat": "Missing comparison evidence is not a network anomaly."}, "daily_unique_successful_signers": {"metric_id": "daily_unique_successful_signers", "status": "unavailable", "direction": "unknown", "observed_change_pct": null, "threshold_pct": 15.0, "previous_window": null, "current_window": null, "known_gap": "A 14-day daily series is required.", "caveat": "Missing comparison evidence is not a network anomaly."}, "jupiter_swap_signer_7d_return_rate": {"metric_id": "jupiter_swap_signer_7d_return_rate", "status": "unavailable", "direction": "unknown", "observed_change_pct": null, "threshold_pct": 15.0, "previous_window": null, "current_window": null, "known_gap": "A 14-day daily series is required.", "caveat": "Missing comparison evidence is not a network anomaly."}, "solana_app_fees_usd": {"metric_id": "solana_app_fees_usd", "status": "notable", "direction": "increased", "observed_change_pct": 15.9, "threshold_pct": 15.0, "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "known_gap": null, "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter."}, "solana_app_revenue_usd": {"metric_id": "solana_app_revenue_usd", "status": "within_range", "direction": "increased", "observed_change_pct": 14.4, "threshold_pct": 15.0, "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "known_gap": null, "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter."}, "solana_chain_fees_usd": {"metric_id": "solana_chain_fees_usd", "status": "notable", "direction": "increased", "observed_change_pct": 15.5, "threshold_pct": 15.0, "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "known_gap": null, "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter."}, "solana_defi_tvl_usd": {"metric_id": "solana_defi_tvl_usd", "status": "within_range", "direction": "decreased", "observed_change_pct": -0.69, "threshold_pct": 15.0, "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "known_gap": null, "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter."}, "solana_dex_volume_usd": {"metric_id": "solana_dex_volume_usd", "status": "within_range", "direction": "decreased", "observed_change_pct": -7.0, "threshold_pct": 15.0, "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "known_gap": null, "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter."}, "solana_rev_usd": {"metric_id": "solana_rev_usd", "status": "within_range", "direction": "increased", "observed_change_pct": 12.97, "threshold_pct": 15.0, "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "known_gap": null, "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter."}, "solana_stablecoin_value_usd": {"metric_id": "solana_stablecoin_value_usd", "status": "within_range", "direction": "decreased", "observed_change_pct": -1.38, "threshold_pct": 15.0, "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "known_gap": null, "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter."}}, "comparisons": {"daily_jupiter_fee_payer_overlap": {"metric_id": "daily_jupiter_fee_payer_overlap", "status": "unavailable", "grain": "daily", "current_average": null, "previous_average": null, "absolute_change": null, "percent_change": null, "direction": "unknown", "previous_window": null, "current_window": null, "reason": "A 14-day daily series is required."}, "daily_unique_jupiter_swap_signers": {"metric_id": "daily_unique_jupiter_swap_signers", "status": "unavailable", "grain": "daily", "current_average": null, "previous_average": null, "absolute_change": null, "percent_change": null, "direction": "unknown", "previous_window": null, "current_window": null, "reason": "A 14-day daily series is required."}, "daily_unique_successful_fee_payers": {"metric_id": "daily_unique_successful_fee_payers", "status": "unavailable", "grain": "daily", "current_average": null, "previous_average": null, "absolute_change": null, "percent_change": null, "direction": "unknown", "previous_window": null, "current_window": null, "reason": "A 14-day daily series is required."}, "daily_unique_successful_signers": {"metric_id": "daily_unique_successful_signers", "status": "unavailable", "grain": "daily", "current_average": null, "previous_average": null, "absolute_change": null, "percent_change": null, "direction": "unknown", "previous_window": null, "current_window": null, "reason": "A 14-day daily series is required."}, "jupiter_swap_signer_7d_return_rate": {"metric_id": "jupiter_swap_signer_7d_return_rate", "status": "unavailable", "grain": "daily", "current_average": null, "previous_average": null, "absolute_change": null, "percent_change": null, "direction": "unknown", "previous_window": null, "current_window": null, "reason": "A 14-day daily series is required."}, "solana_app_fees_usd": {"metric_id": "solana_app_fees_usd", "status": "ok", "grain": "daily", "current_average": 8064423.23, "previous_average": 6958345.85, "absolute_change": 1106077.38, "percent_change": 15.9, "direction": "increased", "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "reason": null}, "solana_app_revenue_usd": {"metric_id": "solana_app_revenue_usd", "status": "ok", "grain": "daily", "current_average": 3927526.03, "previous_average": 3433150.65, "absolute_change": 494375.38, "percent_change": 14.4, "direction": "increased", "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "reason": null}, "solana_chain_fees_usd": {"metric_id": "solana_chain_fees_usd", "status": "ok", "grain": "daily", "current_average": 590857.29, "previous_average": 511552.57, "absolute_change": 79304.71, "percent_change": 15.5, "direction": "increased", "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "reason": null}, "solana_defi_tvl_usd": {"metric_id": "solana_defi_tvl_usd", "status": "ok", "grain": "daily", "current_average": 4755566450.86, "previous_average": 4788747992.0, "absolute_change": -33181541.14, "percent_change": -0.69, "direction": "decreased", "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "reason": null}, "solana_dex_volume_usd": {"metric_id": "solana_dex_volume_usd", "status": "ok", "grain": "daily", "current_average": 1525354908.63, "previous_average": 1640140879.92, "absolute_change": -114785971.29, "percent_change": -7.0, "direction": "decreased", "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "reason": null}, "solana_rev_usd": {"metric_id": "solana_rev_usd", "status": "ok", "grain": "daily", "current_average": 713490.43, "previous_average": 631568.86, "absolute_change": 81921.57, "percent_change": 12.97, "direction": "increased", "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "reason": null}, "solana_stablecoin_value_usd": {"metric_id": "solana_stablecoin_value_usd", "status": "ok", "grain": "daily", "current_average": 16308717847.57, "previous_average": 16536870146.14, "absolute_change": -228152298.57, "percent_change": -1.38, "direction": "decreased", "previous_window": ["2026-07-27", "2026-08-02"], "current_window": ["2026-08-03", "2026-08-09"], "reason": null}}, "generated_at": "2026-08-10T11:18:12.204135Z", "metrics": {"active_stake_sol": {"caveat": "Vote accounts are not necessarily distinct operators or organizations.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Activated stake assigned to currently active vote accounts.", "id": "active_stake_sol", "label": "Active stake", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "SOL", "value": 434005084.36, "why_it_matters": "It shows how much voting power is currently participating."}, "active_validators": {"caveat": "A validator count does not describe how evenly stake is distributed.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Vote accounts currently classified as active by the RPC response.", "id": "active_validators", "label": "Active validators", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "validators", "value": 689, "why_it_matters": "Active vote accounts show how many validators are currently participating, before considering stake concentration."}, "block_height": {"caveat": "This is network progress, not a measure of user adoption.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Current block height reported by the selected RPC node.", "id": "block_height", "label": "Block height", "section": "network", "series": [], "source": {"method": "getBlockHeight", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "block", "value": 416445416, "why_it_matters": "Block height is a second progress marker that helps detect a stalled or lagging data source."}, "current_slot": {"caveat": "Different RPC nodes can be a few slots apart.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Latest slot reported by the selected public RPC node.", "id": "current_slot", "label": "Current slot", "section": "network", "series": [], "source": {"method": "getSlot", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "slot", "value": 438391609, "why_it_matters": "A rising slot confirms that this observer sees the chain continuing to advance."}, "daily_jupiter_fee_payer_overlap": {"caveat": "This is an address intersection, not a count of people; sponsored or relayed transactions can fall outside it.", "collected_at": "2026-08-08T15:31:00Z", "confidence": "high", "definition": "Jupiter Swap signer addresses that were also the successful transaction fee payer on the same UTC day.", "id": "daily_jupiter_fee_payer_overlap", "label": "Jupiter signer and fee-payer overlap", "section": "adoption", "series": [{"observed_at": "2026-08-01", "value": 23296}, {"observed_at": "2026-08-02", "value": 20679}, {"observed_at": "2026-08-03", "value": 17920}, {"observed_at": "2026-08-04", "value": 20099}, {"observed_at": "2026-08-05", "value": 18212}, {"observed_at": "2026-08-06", "value": 18275}, {"observed_at": "2026-08-07", "value": 26816}], "source": {"method": "jupiter_solana.aggregator_swaps + solana.transactions / daily_jupiter_swap_signers.sql", "name": "Dune", "url": "https://dune.com/queries/8264526"}, "source_time": "2026-08-07", "status": "ok", "unit": "wallet addresses", "value": 26816, "why_it_matters": "The overlap reveals how often the visible application signer also pays the transaction fee."}, "daily_unique_jupiter_swap_signers": {"caveat": "Wallet addresses are not people, and this measures Jupiter Swap signers rather than users of a particular wallet app.", "collected_at": "2026-08-08T15:31:00Z", "confidence": "high", "definition": "Distinct tx_signer addresses on intended swaps recorded by Dune's curated Jupiter aggregator table during the latest complete UTC day.", "id": "daily_unique_jupiter_swap_signers", "label": "Daily unique Jupiter Swap signers", "section": "adoption", "series": [{"observed_at": "2026-08-01", "value": 23296}, {"observed_at": "2026-08-02", "value": 20679}, {"observed_at": "2026-08-03", "value": 17920}, {"observed_at": "2026-08-04", "value": 20099}, {"observed_at": "2026-08-05", "value": 18212}, {"observed_at": "2026-08-06", "value": 18275}, {"observed_at": "2026-08-07", "value": 26816}], "source": {"method": "jupiter_solana.aggregator_swaps + solana.transactions / daily_jupiter_swap_signers.sql", "name": "Dune", "url": "https://dune.com/queries/8264526"}, "source_time": "2026-08-07", "status": "ok", "unit": "wallet addresses", "value": 26816, "why_it_matters": "It shows the scale of intended swap activity through one of Solana's major application routes."}, "daily_unique_successful_fee_payers": {"caveat": "Wallet addresses are not people: one person or bot can control many addresses, and relayers may pay fees for others.", "collected_at": "2026-08-08T15:19:39Z", "confidence": "high", "definition": "Distinct primary signer (fee payer) addresses on successful non-vote Solana transactions during the latest complete UTC day.", "id": "daily_unique_successful_fee_payers", "label": "Daily unique successful fee payers", "section": "adoption", "series": [{"observed_at": "2026-08-01", "value": 1899721}, {"observed_at": "2026-08-02", "value": 1649399}, {"observed_at": "2026-08-03", "value": 2252879}, {"observed_at": "2026-08-04", "value": 2213893}, {"observed_at": "2026-08-05", "value": 2135207}, {"observed_at": "2026-08-06", "value": 2014997}, {"observed_at": "2026-08-07", "value": 2046280}], "source": {"method": "solana.transactions / daily_unique_fee_payers.sql", "name": "Dune", "url": "https://dune.com/queries/8213434"}, "source_time": "2026-08-07", "status": "ok", "unit": "wallet addresses", "value": 2046280, "why_it_matters": "Fee payers approximate how many distinct addresses initiated successful activity and paid for execution."}, "daily_unique_successful_signers": {"caveat": "Wallet addresses are not people: one person or bot can control many addresses, and one transaction may require several signers.", "collected_at": "2026-08-08T15:19:39Z", "confidence": "high", "definition": "Distinct signer addresses on successful non-vote Solana transactions during the latest complete UTC day.", "id": "daily_unique_successful_signers", "label": "Daily unique successful signers", "section": "adoption", "series": [{"observed_at": "2026-08-01", "value": 3187305}, {"observed_at": "2026-08-02", "value": 2962791}, {"observed_at": "2026-08-03", "value": 3581743}, {"observed_at": "2026-08-04", "value": 3594893}, {"observed_at": "2026-08-05", "value": 3499093}, {"observed_at": "2026-08-06", "value": 3408461}, {"observed_at": "2026-08-07", "value": 3628019}], "source": {"method": "solana.transactions.signers / daily_unique_successful_signers.sql", "name": "Dune", "url": "https://dune.com/queries/8264418"}, "source_time": "2026-08-07", "status": "ok", "unit": "wallet addresses", "value": 3628019, "why_it_matters": "Successful signers capture a broader set of participating addresses than fee payers alone."}, "delinquent_stake_share_pct": {"caveat": "One RPC snapshot can change quickly as validators recover or fall behind.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Delinquent activated stake as a share of all activated stake in this response.", "id": "delinquent_stake_share_pct", "label": "Delinquent stake share", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "percent", "value": 0.01, "why_it_matters": "Stake share is more meaningful than a raw delinquent-validator count."}, "delinquent_stake_sol": {"caveat": "Delinquency can be temporary and does not imply malicious behavior.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Activated stake assigned to vote accounts currently classified as delinquent.", "id": "delinquent_stake_sol", "label": "Delinquent stake", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "SOL", "value": 43931.79, "why_it_matters": "It sizes the voting power currently failing to participate normally."}, "delinquent_validators": {"caveat": "Temporary delinquency can recover and is not automatically malicious behavior.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Vote accounts currently classified as delinquent by the RPC response.", "id": "delinquent_validators", "label": "Delinquent validators", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "validators", "value": 9, "why_it_matters": "Delinquency is an early operational signal that part of the validator set is falling behind."}, "epoch_progress": {"caveat": "Epoch progress describes validator timing, not economic growth.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Share of the current epoch's slots already completed.", "id": "epoch_progress", "label": "Epoch progress", "section": "network", "series": [], "source": {"method": "getEpochInfo", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "percent", "value": 79.54, "why_it_matters": "Epoch progress provides timing context for validator rewards, stake activation, and network operations."}, "estimated_non_vote_tps": {"caveat": "Non-vote transactions can still include bots and automated programs.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Non-vote transactions in the latest RPC performance sample divided by sample seconds.", "id": "estimated_non_vote_tps", "label": "Estimated non-vote TPS", "section": "network", "series": [], "source": {"method": "getRecentPerformanceSamples", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "transactions/second", "value": 1975.97, "why_it_matters": "This is the closest live RPC measure of application and user transaction throughput."}, "estimated_slot_time": {"caveat": "This is a short recent estimate and can move between samples.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Latest performance sample duration divided by slots produced.", "id": "estimated_slot_time", "label": "Estimated slot time", "section": "network", "series": [], "source": {"method": "getRecentPerformanceSamples", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "seconds", "value": 0.423, "why_it_matters": "Slot time indicates how quickly the chain is advancing in the most recent sample."}, "estimated_tps": {"caveat": "Includes validator votes, so it is not the same as user activity.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "All transactions in the latest RPC performance sample divided by sample seconds.", "id": "estimated_tps", "label": "Estimated total TPS", "section": "network", "series": [], "source": {"method": "getRecentPerformanceSamples", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "transactions/second", "value": 3601.02, "why_it_matters": "Total throughput shows network load, but must be separated from user activity because it includes validator votes."}, "jupiter_swap_signer_7d_return_rate": {"caveat": "Returning addresses are not necessarily returning people; bots and one person using several wallets remain included.", "collected_at": "2026-08-08T15:31:00Z", "confidence": "high", "definition": "Share of the day's Jupiter Swap signer addresses also seen at least once during the preceding seven complete UTC days.", "id": "jupiter_swap_signer_7d_return_rate", "label": "Jupiter Swap seven-day return rate", "section": "adoption", "series": [{"observed_at": "2026-08-01", "value": 28.9}, {"observed_at": "2026-08-02", "value": 33.54}, {"observed_at": "2026-08-03", "value": 39.12}, {"observed_at": "2026-08-04", "value": 36.21}, {"observed_at": "2026-08-05", "value": 37.69}, {"observed_at": "2026-08-06", "value": 38.65}, {"observed_at": "2026-08-07", "value": 26.43}], "source": {"method": "jupiter_solana.aggregator_swaps + solana.transactions / daily_jupiter_swap_signers.sql", "name": "Dune", "url": "https://dune.com/queries/8264526"}, "source_time": "2026-08-07", "status": "ok", "unit": "percent", "value": 26.43, "why_it_matters": "Return rate distinguishes repeat use from one-time address activity."}, "median_commission_pct": {"caveat": "The median does not include operating cost, MEV, or total validator profitability.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Median advertised commission among active vote accounts with valid values.", "id": "median_commission_pct", "label": "Median validator commission", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "percent", "value": 5.0, "why_it_matters": "Commission affects how staking rewards are divided between validators and delegators."}, "rpc_health": {"caveat": "This checks one public RPC endpoint, not every validator.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Health response from the selected public RPC node.", "id": "rpc_health", "label": "RPC health", "section": "network", "series": [], "source": {"method": "getHealth", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "status", "value": "ok", "why_it_matters": "It is the first check that the dashboard's live network data path is responding normally."}, "sol_price_usd": {"id": "sol_price_usd", "section": "economy", "label": "SOL price", "value": 76.66, "unit": "USD", "status": "ok", "definition": "CoinGecko's aggregated market price for one SOL in USD.", "why_it_matters": "Price supplies market context for SOL-denominated capital and validator economics.", "source": {"name": "CoinGecko", "method": "simple/price?ids=solana", "url": "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd&include_24hr_change=true&include_last_updated_at=true"}, "collected_at": "2026-08-10T11:18:12.204135Z", "source_time": "2026-08-10T11:15:50Z", "confidence": "high", "caveat": "Market price is volatile context, not evidence that network or application usage is growing.", "series": []}, "solana_app_fees_usd": {"id": "solana_app_fees_usd", "section": "economy", "label": "Solana application fees", "value": 8376941.66, "unit": "USD", "status": "ok", "definition": "Fees users paid covered Solana applications on the latest complete UTC day, excluding gas, stablecoin issuers, and liquid staking.", "why_it_matters": "App fees show what users paid applications for covered services.", "source": {"name": "DeFiLlama", "method": "overview/fees/solana?dataType=dailyAppFees", "url": "https://api.llama.fi/overview/fees/solana?excludeTotalDataChart=false&excludeTotalDataChartBreakdown=true&dataType=dailyAppFees"}, "collected_at": "2026-08-10T11:18:12.204135Z", "source_time": "2026-08-09", "confidence": "high", "caveat": "Adapter coverage can change, and fees paid are not money retained by applications.", "series": [{"observed_at": "2026-07-27", "value": 7564778.53}, {"observed_at": "2026-07-28", "value": 7581549.92}, {"observed_at": "2026-07-29", "value": 7669588.99}, {"observed_at": "2026-07-30", "value": 7252508.58}, {"observed_at": "2026-07-31", "value": 6775003.13}, {"observed_at": "2026-08-01", "value": 5626621.88}, {"observed_at": "2026-08-02", "value": 6238369.93}, {"observed_at": "2026-08-03", "value": 8349262.15}, {"observed_at": "2026-08-04", "value": 8791226.82}, {"observed_at": "2026-08-05", "value": 7613772.89}, {"observed_at": "2026-08-06", "value": 7578232.42}, {"observed_at": "2026-08-07", "value": 7994290.34}, {"observed_at": "2026-08-08", "value": 7747236.34}, {"observed_at": "2026-08-09", "value": 8376941.66}]}, "solana_app_revenue_usd": {"id": "solana_app_revenue_usd", "section": "economy", "label": "Solana application revenue", "value": 3887791.9, "unit": "USD", "status": "ok", "definition": "The portion of covered Solana application fees retained by protocols on the latest complete UTC day.", "why_it_matters": "App revenue shows captured value under provider definitions.", "source": {"name": "DeFiLlama", "method": "overview/fees/solana?dataType=dailyAppRevenue", "url": "https://api.llama.fi/overview/fees/solana?excludeTotalDataChart=false&excludeTotalDataChartBreakdown=true&dataType=dailyAppRevenue"}, "collected_at": "2026-08-10T11:18:12.204135Z", "source_time": "2026-08-09", "confidence": "high", "caveat": "This is not profit; incentives, token emissions, and operating costs are separate.", "series": [{"observed_at": "2026-07-27", "value": 3701843.62}, {"observed_at": "2026-07-28", "value": 3620404.64}, {"observed_at": "2026-07-29", "value": 3967511.05}, {"observed_at": "2026-07-30", "value": 3565857.72}, {"observed_at": "2026-07-31", "value": 3283135.3}, {"observed_at": "2026-08-01", "value": 2767101.07}, {"observed_at": "2026-08-02", "value": 3126201.18}, {"observed_at": "2026-08-03", "value": 4351987.81}, {"observed_at": "2026-08-04", "value": 4445102.57}, {"observed_at": "2026-08-05", "value": 3632361.88}, {"observed_at": "2026-08-06", "value": 3665844.91}, {"observed_at": "2026-08-07", "value": 3791041.34}, {"observed_at": "2026-08-08", "value": 3718551.8}, {"observed_at": "2026-08-09", "value": 3887791.9}]}, "solana_chain_fees_usd": {"id": "solana_chain_fees_usd", "section": "economy", "label": "Solana chain fees", "value": 650664.0, "unit": "USD", "status": "ok", "definition": "Base and priority transaction fees paid to the Solana network on the latest complete UTC day, as indexed by DeFiLlama.", "why_it_matters": "Chain fees show demand for scarce transaction execution.", "source": {"name": "DeFiLlama", "method": "summary/fees/solana?dataType=dailyFees", "url": "https://api.llama.fi/summary/fees/solana?dataType=dailyFees"}, "collected_at": "2026-08-10T11:18:12.204135Z", "source_time": "2026-08-09", "confidence": "high", "caveat": "Higher fees can reflect demand, congestion, speculation, or MEV. DeFiLlama's adapter estimates base fees from transaction count although Solana's protocol fee is charged per signature.", "series": [{"observed_at": "2026-07-27", "value": 561095.0}, {"observed_at": "2026-07-28", "value": 569749.0}, {"observed_at": "2026-07-29", "value": 551786.0}, {"observed_at": "2026-07-30", "value": 532565.0}, {"observed_at": "2026-07-31", "value": 518791.0}, {"observed_at": "2026-08-01", "value": 424805.0}, {"observed_at": "2026-08-02", "value": 422077.0}, {"observed_at": "2026-08-03", "value": 614784.0}, {"observed_at": "2026-08-04", "value": 613997.0}, {"observed_at": "2026-08-05", "value": 589526.0}, {"observed_at": "2026-08-06", "value": 516121.0}, {"observed_at": "2026-08-07", "value": 552239.0}, {"observed_at": "2026-08-08", "value": 598670.0}, {"observed_at": "2026-08-09", "value": 650664.0}]}, "solana_defi_tvl_usd": {"id": "solana_defi_tvl_usd", "section": "economy", "label": "Solana DeFi TVL", "value": 4792264217.0, "unit": "USD", "status": "ok", "definition": "USD value locked in Solana DeFi protocols tracked by DeFiLlama on the latest complete UTC day.", "why_it_matters": "TVL shows how much capital is deposited in tracked Solana DeFi protocols.", "source": {"name": "DeFiLlama", "method": "v2/historicalChainTvl/Solana", "url": "https://api.llama.fi/v2/historicalChainTvl/Solana"}, "collected_at": "2026-08-10T11:18:12.204135Z", "source_time": "2026-08-09", "confidence": "high", "caveat": "TVL depends on protocol coverage and methodology and can double-count economic exposure through composable assets.", "series": [{"observed_at": "2026-07-27", "value": 4905396243.0}, {"observed_at": "2026-07-28", "value": 4802569937.0}, {"observed_at": "2026-07-29", "value": 4778172182.0}, {"observed_at": "2026-07-30", "value": 4782012435.0}, {"observed_at": "2026-07-31", "value": 4812810087.0}, {"observed_at": "2026-08-01", "value": 4736130794.0}, {"observed_at": "2026-08-02", "value": 4704144266.0}, {"observed_at": "2026-08-03", "value": 4726924045.0}, {"observed_at": "2026-08-04", "value": 4749380354.0}, {"observed_at": "2026-08-05", "value": 4789768870.0}, {"observed_at": "2026-08-06", "value": 4789850728.0}, {"observed_at": "2026-08-07", "value": 4707203417.0}, {"observed_at": "2026-08-08", "value": 4733573525.0}, {"observed_at": "2026-08-09", "value": 4792264217.0}]}, "solana_dex_volume_usd": {"id": "solana_dex_volume_usd", "section": "economy", "label": "Solana daily DEX volume", "value": 1347434364.98, "unit": "USD", "status": "ok", "definition": "Aggregate Solana spot DEX volume tracked by DeFiLlama on the latest complete UTC day.", "why_it_matters": "DEX volume shows how much spot exchange activity occurred across tracked Solana venues.", "source": {"name": "DeFiLlama", "method": "overview/dexs/Solana?dataType=dailyVolume", "url": "https://api.llama.fi/overview/dexs/Solana?excludeTotalDataChartBreakdown=true&dataType=dailyVolume"}, "collected_at": "2026-08-10T11:18:12.204135Z", "source_time": "2026-08-09", "confidence": "high", "caveat": "Routing can touch several pools, and provider adapter and deduplication coverage determine the reported total.", "series": [{"observed_at": "2026-07-27", "value": 1841326721.14}, {"observed_at": "2026-07-28", "value": 1736584597.15}, {"observed_at": "2026-07-29", "value": 1969313151.23}, {"observed_at": "2026-07-30", "value": 1579651526.25}, {"observed_at": "2026-07-31", "value": 1699349711.08}, {"observed_at": "2026-08-01", "value": 1306429242.65}, {"observed_at": "2026-08-02", "value": 1348331209.96}, {"observed_at": "2026-08-03", "value": 1712393241.88}, {"observed_at": "2026-08-04", "value": 1747500916.93}, {"observed_at": "2026-08-05", "value": 1636774684.91}, {"observed_at": "2026-08-06", "value": 1378953158.18}, {"observed_at": "2026-08-07", "value": 1361283964.02}, {"observed_at": "2026-08-08", "value": 1493144029.54}, {"observed_at": "2026-08-09", "value": 1347434364.98}]}, "solana_identifiable_payments_usd": {"id": "solana_identifiable_payments_usd", "section": "financial_rails", "label": "Identifiable payment volume", "value": null, "unit": "USD", "status": "unavailable", "definition": "Value transferred for identifiable commerce or remittance, with a published attribution method and coverage boundary.", "why_it_matters": "Payments would show use of Solana as financial settlement rather than only trading infrastructure.", "source": {"name": "No approved live source", "method": "deferred pending defensible payment attribution", "url": "https://www.stablecoin.fyi/methodology"}, "collected_at": "2026-08-10T11:18:12.204135Z", "source_time": null, "confidence": "experimental", "caveat": "Raw stablecoin transfers are not payments: they can include trading, bots, rebalancing, and repeated movement.", "series": []}, "solana_non_stablecoin_rwa_value_usd": {"id": "solana_non_stablecoin_rwa_value_usd", "section": "financial_rails", "label": "Tokenized real-world assets (excluding stablecoins)", "value": null, "unit": "USD", "status": "unavailable", "definition": "Circulating market value of tokenized real-world assets on Solana, excluding the stablecoin asset class.", "why_it_matters": "This would show adoption of tokenized treasuries, equities, credit, commodities, funds, and other off-chain claims.", "source": {"name": "RWA.xyz (optional adapter)", "method": "v4 assets aggregate; Solana; exclude Stablecoins", "url": "https://docs.rwa.xyz/api/authentication"}, "collected_at": "2026-08-10T11:18:12.204135Z", "source_time": null, "confidence": "experimental", "caveat": "Source not connected: dependable API access requires authentication. No historical article value is substituted.", "series": []}, "solana_rev_usd": {"id": "solana_rev_usd", "section": "economy", "label": "Solana REV (chain fees + tracked Jito tips)", "value": 786058.0, "unit": "USD", "status": "ok", "definition": "Solana chain fees plus gross Jito MEV tips tracked by DeFiLlama for the latest complete UTC day.", "why_it_matters": "REV estimates direct economic value paid for blockspace and transaction ordering.", "source": {"name": "DeFiLlama", "method": "dailyFees(Solana) + dailyFees(jito-mev-tips)", "url": "https://api.llama.fi/summary/fees/solana?dataType=dailyFees"}, "collected_at": "2026-08-10T11:18:12.204135Z", "source_time": "2026-08-09", "confidence": "high", "caveat": "REV is not GDP, profit, or app revenue; private or non-Jito MEV may be outside coverage. Jito component: https://api.llama.fi/summary/fees/jito-mev-tips?dataType=dailyFees", "series": [{"observed_at": "2026-07-27", "value": 702349.0}, {"observed_at": "2026-07-28", "value": 705109.0}, {"observed_at": "2026-07-29", "value": 687589.0}, {"observed_at": "2026-07-30", "value": 650504.0}, {"observed_at": "2026-07-31", "value": 632653.0}, {"observed_at": "2026-08-01", "value": 525712.0}, {"observed_at": "2026-08-02", "value": 517066.0}, {"observed_at": "2026-08-03", "value": 754983.0}, {"observed_at": "2026-08-04", "value": 751163.0}, {"observed_at": "2026-08-05", "value": 706133.0}, {"observed_at": "2026-08-06", "value": 624299.0}, {"observed_at": "2026-08-07", "value": 658875.0}, {"observed_at": "2026-08-08", "value": 712922.0}, {"observed_at": "2026-08-09", "value": 786058.0}]}, "solana_stablecoin_value_usd": {"id": "solana_stablecoin_value_usd", "section": "financial_rails", "label": "Solana stablecoin circulating value", "value": 16255726011.0, "unit": "USD", "status": "ok", "definition": "USD value of circulating stablecoins on Solana across DeFiLlama's peg buckets on the latest complete UTC day.", "why_it_matters": "Stablecoin value shows the dollar-like liquidity available for trading, saving, and settlement on Solana.", "source": {"name": "DeFiLlama", "method": "stablecoincharts/Solana", "url": "https://stablecoins.llama.fi/stablecoincharts/Solana"}, "collected_at": "2026-08-10T11:18:12.204135Z", "source_time": "2026-08-09", "confidence": "high", "caveat": "Circulating stablecoin value is not payment volume or proof that every token is backed by cash.", "series": [{"observed_at": "2026-07-27", "value": 16935093774.0}, {"observed_at": "2026-07-28", "value": 17264670069.0}, {"observed_at": "2026-07-29", "value": 16185093392.0}, {"observed_at": "2026-07-30", "value": 16352855793.0}, {"observed_at": "2026-07-31", "value": 16358757413.0}, {"observed_at": "2026-08-01", "value": 16356176139.0}, {"observed_at": "2026-08-02", "value": 16305444443.0}, {"observed_at": "2026-08-03", "value": 16240503930.0}, {"observed_at": "2026-08-04", "value": 16418918702.0}, {"observed_at": "2026-08-05", "value": 16552276832.0}, {"observed_at": "2026-08-06", "value": 16199236431.0}, {"observed_at": "2026-08-07", "value": 16252010540.0}, {"observed_at": "2026-08-08", "value": 16242352487.0}, {"observed_at": "2026-08-09", "value": 16255726011.0}]}, "superminority_coefficient": {"caveat": "This is calculated by vote account, not verified independent operator.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Minimum largest vote accounts whose combined activated stake reaches one third.", "id": "superminority_coefficient", "label": "Stake superminority coefficient", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "vote accounts", "value": 18, "why_it_matters": "A larger value means more vote accounts are required to reach consensus-blocking stake."}, "top_10_stake_share_pct": {"caveat": "Vote accounts are not operators; one organization may control several accounts.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Share of activated stake assigned to the ten largest vote accounts.", "id": "top_10_stake_share_pct", "label": "Top 10 stake share", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "percent", "value": 24.39, "why_it_matters": "It exposes concentration hidden by the total validator count."}, "top_25_stake_share_pct": {"caveat": "Vote accounts are not operators and ownership identity is not inferred.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Share of activated stake assigned to the twenty-five largest vote accounts.", "id": "top_25_stake_share_pct", "label": "Top 25 stake share", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "percent", "value": 40.12, "why_it_matters": "It provides a broader view of stake concentration beyond the largest validators."}, "vote_credit_coverage_pct": {"caveat": "One credit record is a bounded participation check, not a full performance history.", "collected_at": "2026-08-10T11:18:11.006306Z", "confidence": "high", "definition": "Share of active stake on vote accounts whose latest epoch-credit record increased.", "id": "vote_credit_coverage_pct", "label": "Stake with recent vote credits", "section": "validators", "series": [], "source": {"method": "getVoteAccounts", "name": "Solana JSON-RPC", "url": "https://api.mainnet-beta.solana.com"}, "source_time": null, "status": "ok", "unit": "percent", "value": 100.0, "why_it_matters": "It checks whether active voting power shows evidence of recent vote participation."}}, "schema_version": "0.3.0", "summary": {"headline": "The selected Solana RPC endpoint reports healthy.", "status": "healthy"}, "timeline": [{"fact": "Proof of History was conceived in 2017; Solana's genesis block launched Mainnet Beta on March 16, 2020.", "interpretation": "The original wager was that cheap, fast shared state could support applications at internet scale.", "order": 1, "period": "2017\u20132020", "source_label": "Solana: 8 Innovations", "source_type": "primary", "source_url": "https://solana.com/de/news/8-innovations-that-make-solana-the-first-web-scale-blockchain", "title": "A faster shared clock becomes a network"}, {"fact": "The Solana Foundation reported rapid growth in DeFi, NFTs, validators, and projects during 2021; its historical counts do not include a reproducible methodology.", "interpretation": "Demand arrived quickly, making precise definitions of users, projects, and capital essential.", "order": 2, "period": "2021", "source_label": "Solana Foundation 2021 community update", "source_type": "primary", "source_url": "https://solana.com/news/december-2021-community-update", "title": "The first application boom"}, {"fact": "Solana launched payment and mobile experiments while official incident reports documented consensus-impacting network halts.", "interpretation": "Throughput means little without dependable execution, so reliability belongs beside adoption.", "order": 3, "period": "2022", "source_label": "Solana Solstice 2022", "source_type": "primary", "source_url": "https://solana.com/news/solana-solstice-2022", "title": "Ambition meets reliability"}, {"fact": "The Foundation highlighted Helium's migration, state compression, Saga, DeFi recovery, and major commerce and infrastructure integrations.", "interpretation": "The recovery case rests on retained builders and widening utility, not token price alone.", "order": 4, "period": "2023", "source_label": "Solana Foundation 2023 community review", "source_type": "primary", "source_url": "https://solana.com/en/news/solana-solstice-2023-community-review", "title": "Builders carry the recovery"}, {"fact": "Foundation and developer reports documented growth across stablecoins, payments, mobile, DePIN, institutions, and new developers.", "interpretation": "Solana began looking less like one trading venue and more like a general financial and consumer platform.", "order": 5, "period": "2024", "source_label": "State of Solana at Breakpoint 2024", "source_type": "primary", "source_url": "https://solana.com/news/state-of-solana-breakpoint-2024", "title": "Trading broadens into distribution"}, {"fact": "A Foundation network report cited nearly 16 months of uptime, multiple validator clients, substantial application revenue, and a voting-power Nakamoto coefficient of 20.", "interpretation": "The next test became resilience: diverse software, distributed stake, and sustainable operators.", "order": 6, "period": "2025", "source_label": "Solana Network Health Report, June 2025", "source_type": "primary", "source_url": "https://solana.com/de/news/network-health-report-june-2025", "title": "Reliability and application economics"}, {"fact": "Foundation ecosystem reports highlighted expanding stablecoin settlement and tokenized real-world assets; live values require their underlying datasets.", "interpretation": "The thesis now is convergence: crypto-native markets meeting payments, tokenized assets, and institutional distribution.", "order": 7, "period": "2026", "source_label": "Solana Ecosystem Roundup, June 2026", "source_type": "primary", "source_url": "https://solana.com/pl/news/solana-ecosystem-roundup-june-2026", "title": "Financial rails move to the foreground"}]}</script>
 </body>
 </html>

@@ -129,3 +129,14 @@ will target 650–900 words and frame Solana through low cost, ease of learning,
 ease of building, maturation beyond its scam/meme-coin reputation, and its
 potential as financial rails. Tooth Fairy Network is the concrete build story;
 future product features remain labeled as planned.
+
+### 2026-08-10 - Keep fees, revenue, REV, transfers, and payments distinct
+
+The no-key core publishes chain fees, application fees, application revenue,
+and REV as separate measurements. REV is transparently derived from chain fees
+plus tracked gross Jito tips. Stablecoin circulating value remains separate
+from transfer volume, and raw transfers are never labeled as payments.
+
+RWA.xyz stays an optional authenticated adapter. Identifiable payment volume
+stays visibly unavailable until a repeatable attribution source with a clear
+coverage boundary exists.

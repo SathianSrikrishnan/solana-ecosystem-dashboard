@@ -302,6 +302,152 @@ def parse_defillama_dex(
     )
 
 
+_FEE_METRICS = {
+    "chain_fees": {
+        "id": "solana_chain_fees_usd",
+        "label": "Solana chain fees",
+        "definition": (
+            "Base and priority transaction fees paid to the Solana network "
+            "on the latest complete UTC day, as indexed by DeFiLlama."
+        ),
+        "why": "Chain fees show demand for scarce transaction execution.",
+        "method": "summary/fees/solana?dataType=dailyFees",
+        "caveat": (
+            "Higher fees can reflect demand, congestion, speculation, or MEV. "
+            "DeFiLlama's adapter estimates base fees from transaction count "
+            "although Solana's protocol fee is charged per signature."
+        ),
+    },
+    "app_fees": {
+        "id": "solana_app_fees_usd",
+        "label": "Solana application fees",
+        "definition": (
+            "Fees users paid covered Solana applications on the latest "
+            "complete UTC day, excluding gas, stablecoin issuers, and liquid staking."
+        ),
+        "why": "App fees show what users paid applications for covered services.",
+        "method": "overview/fees/solana?dataType=dailyAppFees",
+        "caveat": (
+            "Adapter coverage can change, and fees paid are not money retained "
+            "by applications."
+        ),
+    },
+    "app_revenue": {
+        "id": "solana_app_revenue_usd",
+        "label": "Solana application revenue",
+        "definition": (
+            "The portion of covered Solana application fees retained by "
+            "protocols on the latest complete UTC day."
+        ),
+        "why": "App revenue shows captured value under provider definitions.",
+        "method": "overview/fees/solana?dataType=dailyAppRevenue",
+        "caveat": (
+            "This is not profit; incentives, token emissions, and operating "
+            "costs are separate."
+        ),
+    },
+}
+
+
+def _fee_chart_series(
+    payload: dict[str, Any], *, collected_at: str
+) -> list[dict[str, Any]]:
+    if not isinstance(payload, dict) or not isinstance(
+        payload.get("totalDataChart"), list
+    ):
+        raise ValueError("DeFiLlama fee payload must include totalDataChart")
+
+    def row_value(row: Any) -> tuple[Any, Any]:
+        if not isinstance(row, list) or len(row) != 2:
+            raise ValueError("Fee chart rows must be timestamp/value pairs")
+        return row[0], row[1]
+
+    return _complete_day_series(
+        payload["totalDataChart"],
+        collected_time=_collection_time(collected_at),
+        date_value=row_value,
+    )
+
+
+def parse_defillama_fee_chart(
+    payload: dict[str, Any],
+    *,
+    metric_kind: str,
+    collected_at: str,
+    source_url: str,
+) -> dict[str, Any]:
+    """Normalize one complete-day DefiLlama fee or revenue aggregate."""
+    if urlparse(source_url).hostname != "api.llama.fi":
+        raise ValueError("fee source URL must use DeFiLlama")
+    try:
+        details = _FEE_METRICS[metric_kind]
+    except KeyError as error:
+        raise ValueError(f"Unknown fee metric kind: {metric_kind}") from error
+    series = _fee_chart_series(payload, collected_at=collected_at)
+    return _defillama_metric(
+        metric_id=details["id"],
+        label=details["label"],
+        definition=details["definition"],
+        why_it_matters=details["why"],
+        method=details["method"],
+        source_url=source_url,
+        collected_at=collected_at,
+        caveat=details["caveat"],
+        series=series,
+    )
+
+
+def parse_defillama_rev(
+    chain_fees_payload: dict[str, Any],
+    jito_tips_payload: dict[str, Any],
+    *,
+    collected_at: str,
+    chain_fees_url: str,
+    jito_tips_url: str,
+) -> dict[str, Any]:
+    """Derive aligned REV from chain fees plus tracked gross Jito tips."""
+    if any(
+        urlparse(url).hostname != "api.llama.fi"
+        for url in (chain_fees_url, jito_tips_url)
+    ):
+        raise ValueError("REV source URLs must use DeFiLlama")
+    chain_series = _fee_chart_series(
+        chain_fees_payload, collected_at=collected_at
+    )
+    tips_series = _fee_chart_series(jito_tips_payload, collected_at=collected_at)
+    if [point["observed_at"] for point in chain_series] != [
+        point["observed_at"] for point in tips_series
+    ]:
+        raise ValueError("REV components must cover the same complete UTC days")
+    series = [
+        {
+            "observed_at": chain["observed_at"],
+            "value": round(chain["value"] + tips["value"], 2),
+        }
+        for chain, tips in zip(chain_series, tips_series)
+    ]
+    return _defillama_metric(
+        metric_id="solana_rev_usd",
+        label="Solana REV (chain fees + tracked Jito tips)",
+        definition=(
+            "Solana chain fees plus gross Jito MEV tips tracked by DeFiLlama "
+            "for the latest complete UTC day."
+        ),
+        why_it_matters=(
+            "REV estimates direct economic value paid for blockspace and "
+            "transaction ordering."
+        ),
+        method="dailyFees(Solana) + dailyFees(jito-mev-tips)",
+        source_url=chain_fees_url,
+        collected_at=collected_at,
+        caveat=(
+            "REV is not GDP, profit, or app revenue; private or non-Jito MEV "
+            f"may be outside coverage. Jito component: {jito_tips_url}"
+        ),
+        series=series,
+    )
+
+
 def parse_defillama_economy(
     tvl_payload: list[dict[str, Any]],
     stablecoin_payload: list[dict[str, Any]],

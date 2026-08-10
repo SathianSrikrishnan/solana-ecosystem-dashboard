@@ -63,6 +63,10 @@ class EconomyClientTests(unittest.TestCase):
             economy_client.COINGECKO_PRICE_URL: {"solana": {"usd": 76.31}},
             economy_client.DEFILLAMA_TVL_URL: [{"date": 1, "tvl": 2}],
             economy_client.DEFILLAMA_DEX_URL: {"totalDataChart": [[1, 2]]},
+            economy_client.DEFILLAMA_CHAIN_FEES_URL: {"totalDataChart": [[1, 2]]},
+            economy_client.DEFILLAMA_APP_FEES_URL: {"totalDataChart": [[1, 2]]},
+            economy_client.DEFILLAMA_APP_REVENUE_URL: {"totalDataChart": [[1, 2]]},
+            economy_client.DEFILLAMA_JITO_TIPS_URL: {"totalDataChart": [[1, 2]]},
         }
 
         def opener(request, timeout):
@@ -72,7 +76,13 @@ class EconomyClientTests(unittest.TestCase):
 
         results = economy_client.fetch_economy_sources(opener=opener, timeout=9)
 
-        self.assertEqual(set(results), {"price", "tvl", "stablecoins", "dex"})
+        self.assertEqual(
+            set(results),
+            {
+                "price", "tvl", "stablecoins", "dex", "chain_fees",
+                "app_fees", "app_revenue", "jito_tips",
+            },
+        )
         self.assertEqual(results["price"]["status"], "ok")
         self.assertEqual(results["tvl"]["status"], "ok")
         self.assertEqual(results["dex"]["status"], "ok")

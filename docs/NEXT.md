@@ -45,16 +45,18 @@ dashboard is now organized as a layered observatory around six health questions.
 
 ## Next technical phase
 
-Choose hosting, verify the exact bounty listing, and prepare the deployed demo.
-RWA.xyz remains an optional authenticated adapter.
+The GitHub Pages dashboard and refresh-to-deploy path are live and verified.
+Activate the authenticated Dune adapter by adding `DUNE_API_KEY` as a GitHub
+Actions secret, then complete the short demo and submission form. RWA.xyz
+remains an optional authenticated adapter.
 Identifiable payment volume remains deferred until a repeatable attribution
 source exists. Bot classification remains a named evidence gap until address-
 level frequency, timing, program breadth, funding, and instruction-pattern
 features are reproducibly available.
 
-The article is deferred until the dashboard is feature-complete. Its revised
-target is 650–900 words: a concise low-cost builder and financial-rails thesis,
-a compressed seven-era arc, and a factual connection to Tooth Fairy Network.
+The dashboard is feature-complete for the release candidate. The article target
+is 325–450 words: a concise low-cost builder and financial-rails thesis, a
+compressed seven-era arc, and a factual connection to Tooth Fairy Network.
 
 ## Parallel learning track
 

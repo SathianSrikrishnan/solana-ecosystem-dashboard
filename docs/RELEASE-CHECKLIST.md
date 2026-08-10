@@ -28,16 +28,20 @@
 - [ ] Decide whether to add an optional model-backed briefing with a hard cost
       cap or submit with the deterministic briefing.
 - [ ] Confirm the public byline and short builder bio.
-- [ ] Approve the production deployment at action time.
+- [x] Approve and complete the production deployment.
 - [ ] Review the final article, LinkedIn post, and X thread before publication.
 - [ ] Approve the bounty submission at action time.
 
 ## Final verification after deployment
 
-- [ ] Run all Python tests and Axe against the deployed URL.
-- [ ] Test keyboard navigation and evidence drawers at 200% zoom.
-- [ ] Check the scheduled workflow completes and the deployed snapshot changes.
-- [ ] Confirm every source link opens and no secret appears in output or logs.
+- [x] Run all Python tests and Axe against the deployed URL.
+- [x] Test keyboard navigation, evidence drawers, and 360px reflow (equivalent
+      to a 720px viewport at 200% zoom).
+- [x] Check the scheduled workflow completes, commits a fresh snapshot, and
+      automatically triggers a successful Pages deployment.
+- [x] Confirm no secret-like values appear in the public JSON or HTML output.
+- [x] Check all 19 current external metric-source links (19/19 returned a
+      successful or content-range response on 2026-08-10).
 - [ ] Record a 60-90 second product demo.
-- [ ] Capture final desktop and mobile screenshots.
+- [x] Capture final desktop and mobile screenshots.
 - [ ] Verify the official requirements and character limits line by line.

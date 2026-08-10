@@ -1,5 +1,7 @@
 # Solana Observatory
 
+Live dashboard: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/
+
 A trustworthy, automatically updating view of Solana's network health,
 adoption, economics, validators, ecosystem changes, and financial rails.
 

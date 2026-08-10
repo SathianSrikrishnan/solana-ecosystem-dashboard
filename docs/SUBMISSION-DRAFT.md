@@ -1,6 +1,10 @@
 # Superteam submission draft
 
-Status: draft pending the exact official listing URL and deployed product URL.
+Status: release candidate; public links are verified and final byline/demo remain.
+
+- Live dashboard: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/
+- Public repository: https://github.com/SathianSrikrishnan/solana-ecosystem-dashboard
+- Official bounty: https://superteam.fun/earn/listing/develop-solana-ecosystem-auto-updating-report-and-interactive-dashboard
 
 ## One-line pitch
 
@@ -57,8 +61,5 @@ npm run test:a11y
 
 ## Final fields still needed
 
-- Official listing URL and exact judging criteria.
-- Deployed dashboard URL.
-- Public repository URL confirmation.
 - Sathian's public byline and 1-2 sentence builder bio.
 - Final screenshots/demo URL.

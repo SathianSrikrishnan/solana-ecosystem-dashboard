@@ -40,6 +40,11 @@ assets have reproducible free definitions suitable for this product. Build only
 the metrics that pass that source review. Validator depth follows; bot
 classification remains later work built on the verified base populations.
 
+The approved layered-observatory design now makes validator depth the first
+implementation batch, preceded by a schema migration that adds a beginner-
+readable “why it matters” sentence to every metric. The seven-era timeline and
+article outline are planned from the same primary-source research spine.
+
 ## Parallel learning track
 
 After PR 1 review, define one small onchain exercise that uses the dashboard's

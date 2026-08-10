@@ -103,3 +103,14 @@ weights.
 - Final product name and domain.
 - First monitored X account list.
 - Hosting provider and production schedule.
+
+## 2026-08-10 — Use a six-question layered observatory
+
+Sathian approved a layered product organized around Network, Adoption,
+Economy, Validators, Ecosystem, and Financial Rails. The experience moves from
+current conditions to recent change to seven-year context. Tokenized assets
+and payments are first-class rather than being buried inside DeFi TVL.
+
+The dashboard and article share evidence but not purpose: the dashboard is a
+living deterministic diagnostic, while the article is Sathian's authored
+account of learning Solana by building the instrument panel.

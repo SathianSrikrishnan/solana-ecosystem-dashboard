@@ -4,6 +4,12 @@ import { chromium } from "playwright";
 
 const jobs = [
   {
+    source: "assets/brand/crypto-101-social.html",
+    output: "output/crypto-101-social.png",
+    width: 1200,
+    height: 630,
+  },
+  {
     source: "assets/brand/social-cover.html",
     output: "output/solana-observatory-cover.png",
     width: 1200,

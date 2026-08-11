@@ -4,6 +4,7 @@ import { pathToFileURL } from "node:url";
 import { chromium } from "playwright";
 
 const assets = [
+  ["assets/brand/crypto-101-social.html", 1200, 630],
   ["assets/brand/social-cover.html", 1200, 630],
   ["assets/brand/six-question-map.html", 1200, 1200],
 ];

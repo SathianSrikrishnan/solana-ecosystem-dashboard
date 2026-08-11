@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Two Kinds of Power — Crypto 101</title>
+  <meta name="description" content="A short personal introduction to knowledge, prosperity, public ledgers, and why Sathian is learning to build on Solana.">
+  <meta property="og:title" content="Two Kinds of Power">
+  <meta property="og:description" content="What Saraswati, Lakshmi, public ledgers, and two daughters taught me about programmable money.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/crypto-101-social.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    :root {
+      --ink: #080806;
+      --panel: #11100c;
+      --paper: #f2ead8;
+      --muted: #b9b09d;
+      --brass: #c7953f;
+      --saffron: #df7c2d;
+      --vermilion: #ae382b;
+      --cyan: #6ce5dc;
+      --line: rgba(224, 198, 143, .22);
+      --space: clamp(22px, 4vw, 54px);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        linear-gradient(rgba(199,149,63,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(199,149,63,.035) 1px, transparent 1px),
+        var(--ink);
+      background-size: 48px 48px;
+      color: var(--paper);
+      font-family: "Palatino Linotype", Palatino, "Book Antiqua", serif;
+      line-height: 1.68;
+    }
+    a { color: inherit; }
+    a:focus-visible, .button:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
+    .skip { position: fixed; left: 12px; top: -80px; z-index: 5; padding: 10px 14px; background: var(--paper); color: var(--ink); }
+    .skip:focus { top: 12px; }
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .wordmark, .eyebrow, .timeline b, .sources, .button {
+      font-family: Bahnschrift, "Franklin Gothic Medium", sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .wordmark { font-size: .72rem; color: var(--brass); text-decoration: none; }
+    nav a:last-child { font-size: .78rem; color: var(--muted); text-underline-offset: 4px; }
+    .hero { padding: clamp(54px, 8vw, 110px) 0 34px; }
+    .eyebrow { margin: 0 0 18px; color: var(--cyan); font-size: .68rem; }
+    h1 { max-width: 940px; margin: 0; font-size: clamp(3.4rem, 10vw, 8.8rem); line-height: .85; font-weight: 500; letter-spacing: -.065em; }
+    .dek { max-width: 680px; margin: 30px 0 0 auto; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.35rem); }
+    figure { margin: 0; }
+    .hero-art { position: relative; margin-top: 48px; border: 1px solid var(--line); background: #050504; overflow: hidden; }
+    .hero-art img { display: block; width: 100%; aspect-ratio: 1.91 / 1; object-fit: cover; object-position: center 54%; }
+    .hero-art figcaption { position: absolute; left: 0; bottom: 0; max-width: 620px; padding: 16px 20px; background: rgba(8,8,6,.84); color: var(--muted); font-size: .78rem; backdrop-filter: blur(8px); }
+    .essay-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: clamp(36px, 7vw, 100px); padding: clamp(64px, 10vw, 130px) 0; }
+    article { max-width: 700px; font-size: clamp(1.08rem, 1.6vw, 1.27rem); }
+    article p { margin: 0 0 1.35em; }
+    article p:first-child { font-size: 1.45em; line-height: 1.25; color: #fff8e9; }
+    article p:first-child::first-letter { color: var(--saffron); font-size: 2.9em; line-height: .72; float: left; padding: .13em .12em 0 0; }
+    .margin-note { align-self: start; position: sticky; top: 28px; padding: 22px 0; border-top: 1px solid var(--brass); border-bottom: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+    .margin-note strong { display: block; margin-bottom: 10px; color: var(--paper); font-weight: 500; font-size: 1.1rem; }
+    blockquote { margin: 44px 0; padding: 4px 0 4px 28px; border-left: 2px solid var(--saffron); color: #fff5df; font-size: 1.45em; line-height: 1.35; }
+    .timeline-wrap { padding: 0 0 clamp(74px, 10vw, 130px); }
+    .timeline-wrap h2 { max-width: 640px; margin: 0 0 32px; font-size: clamp(2.1rem, 5vw, 4.6rem); font-weight: 500; line-height: .95; letter-spacing: -.04em; }
+    .timeline { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .moment { min-height: 245px; padding: 26px 24px 30px 0; }
+    .moment + .moment { padding-left: 24px; border-left: 1px solid var(--line); }
+    .moment b { display: block; color: var(--cyan); font-size: .64rem; }
+    .moment h3 { margin: 38px 0 10px; font-size: 1.35rem; font-weight: 500; }
+    .moment p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .solana-heading { display: flex; align-items: center; gap: 10px; }
+    .solana-heading img { width: 24px; height: 24px; }
+    .cta { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; padding: var(--space); border: 1px solid var(--line); background: linear-gradient(120deg, rgba(174,56,43,.13), rgba(108,229,220,.05)); }
+    .cta h2 { margin: 0; max-width: 700px; font-size: clamp(2rem, 5vw, 4rem); line-height: 1; font-weight: 500; letter-spacing: -.045em; }
+    .cta p { margin: 0 0 20px; color: var(--muted); }
+    .button { display: inline-block; padding: 13px 16px; border: 1px solid var(--cyan); color: var(--cyan); text-decoration: none; font-size: .68rem; }
+    .sources { padding: 24px 0 42px; border-top: 1px solid var(--line); color: var(--muted); font-size: .61rem; line-height: 2; }
+    .sources a { text-underline-offset: 3px; }
+    @media (max-width: 760px) {
+      .shell { width: min(100% - 24px, 680px); }
+      nav { align-items: flex-start; gap: 20px; }
+      h1 { font-size: clamp(3.2rem, 20vw, 5.3rem); }
+      .dek { margin-left: 0; }
+      .hero-art img { aspect-ratio: 4 / 3; }
+      .hero-art figcaption { position: static; }
+      .essay-grid { grid-template-columns: 1fr; }
+      .margin-note { position: static; order: -1; }
+      .timeline { grid-template-columns: 1fr 1fr; }
+      .moment:nth-child(3) { border-left: 0; border-top: 1px solid var(--line); }
+      .moment:nth-child(4) { border-top: 1px solid var(--line); }
+      .cta { grid-template-columns: 1fr; align-items: start; }
+    }
+    @media (max-width: 430px) {
+      .timeline { grid-template-columns: 1fr; }
+      .moment, .moment + .moment { min-height: auto; padding: 24px 0; border-left: 0; border-top: 1px solid var(--line); }
+      .moment:first-child { border-top: 0; }
+      .moment h3 { margin-top: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#article">Skip to article</a>
+  <div class="shell">
+    <nav aria-label="Primary">
+      <a class="wordmark" href="index.html">Solana Observatory / Field Note 01</a>
+      <a href="#timeline">90-second Crypto 101</a>
+    </nav>
+
+    <header class="hero">
+      <p class="eyebrow">Knowledge · prosperity · verifiable truth</p>
+      <h1>Two Kinds<br>of Power</h1>
+      <p class="dek">What Saraswati, Lakshmi, public ledgers, and two daughters taught me about programmable money.</p>
+      <figure class="hero-art">
+        <img src="media/crypto-101-balance.png" alt="A balanced brass scale: a blank manuscript and musical instrument on one side, a lotus and grain on the other, over a precise ledger grid.">
+        <figcaption>A personal metaphor, not a claim about Hindu doctrine: grow knowledge, then use value wisely.</figcaption>
+      </figure>
+    </header>
+
+    <main id="article">
+      <section class="essay-grid" aria-label="Article">
+        <article>
+          <p>I have twin daughters, so I notice pairs.</p>
+          <p>In the Hindu stories and symbols I grew up around, Saraswati represents knowledge, learning, speech, and music. Lakshmi represents prosperity, abundance, and good fortune. They are not a neat binary, and Hindu traditions do not all read them the same way. But I return to them as a personal shorthand: learn deeply, then use value wisely.</p>
+          <p>That balance feels newly urgent.</p>
+          <p>Artificial intelligence is making knowledge cheaper to produce and easier to act on. Crypto is trying to make ownership and settlement programmable. One system can decide. The other can keep the receipt.</p>
+          <p>Bitcoin’s 2008 whitepaper described digital money that strangers could verify without one central bookkeeper. Ethereum made that shared ledger programmable. Solana pushed the idea toward fast, inexpensive execution—closer to the speed and cost ordinary products need.</p>
+          <p>That does not make Solana magic. Its performance comes with real trade-offs: demanding validator hardware, concentrated stake, and an operational history worth inspecting. Crypto also earned some of its reputation for scams. A cheap, open rail gives builders room to create; it gives bandits room to operate too.</p>
+          <p>I am learning by building instead of pretending I already know the answer. The Solana Observatory tests whether the network is reliable, used, economically productive, and becoming real financial infrastructure. Tooth Fairy Network tests a smaller, more personal question: can programmable money help families preserve memories and create longer-term incentives for children?</p>
+          <p>Saraswati and Lakshmi are not technology predictions. They are a reminder that intelligence without judgment can become noise, and prosperity without wisdom can become extraction.</p>
+          <blockquote>The future will be shaped by what we know, what we value, and what the ledger can prove.</blockquote>
+        </article>
+        <aside class="margin-note">
+          <strong>Why a ledger?</strong>
+          A ledger is simply a record of who owns what and what happened. A public blockchain makes that record independently checkable. It does not make every entry wise, fair, or true about the outside world.
+        </aside>
+      </section>
+
+      <section class="timeline-wrap" id="timeline" aria-labelledby="timeline-title">
+        <p class="eyebrow">Four technical turns</p>
+        <h2 id="timeline-title">From digital money to agentic rails.</h2>
+        <div class="timeline">
+          <section class="moment">
+            <b>2008 / Bitcoin</b>
+            <h3>Truth without one bookkeeper</h3>
+            <p>A public ledger made digital scarcity and peer-to-peer settlement work without a central payment operator.</p>
+          </section>
+          <section class="moment">
+            <b>2015 / Ethereum</b>
+            <h3>The ledger becomes programmable</h3>
+            <p>General-purpose smart contracts let applications share rules, assets, and settlement onchain.</p>
+          </section>
+          <section class="moment">
+            <b>2020 / Solana</b>
+            <h3 class="solana-heading"><img src="media/solana-logomark.svg" alt="">Faster, cheaper execution</h3>
+            <p>Solana redesigned a layer one around verifiable ordering, parallel execution, and low-cost activity.</p>
+          </section>
+          <section class="moment">
+            <b>Next / Agentic rails</b>
+            <h3>Software can act—and settle</h3>
+            <p>Agents can make decisions. Open rails can give those decisions transparent rules, ownership, and receipts.</p>
+          </section>
+        </div>
+      </section>
+
+      <section class="cta" aria-labelledby="proof-title">
+        <h2 id="proof-title">Bullish is a thesis.<br>Evidence is the work.</h2>
+        <div>
+          <p>The Observatory follows the network, adoption, economy, validators, builders, and financial rails—with every claim open to inspection.</p>
+          <a class="button" href="index.html">Open the Solana Observatory →</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="sources">
+      Primary reading:
+      <a href="https://www.metzdowd.com/pipermail/cryptography/2008-October/014810.html">Bitcoin announcement</a> ·
+      <a href="https://ethereum.org/whitepaper/">Ethereum whitepaper</a> ·
+      <a href="https://solana.com/solana-whitepaper.pdf">Solana whitepaper</a> ·
+      <a href="https://asia.si.edu/whats-on/exhibitions/wisdom-of-the-goddess/">Smithsonian goddess overview</a>
+    </footer>
+  </div>
+</body>
+</html>

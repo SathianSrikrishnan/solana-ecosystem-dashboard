@@ -9,6 +9,29 @@ from io import StringIO
 from typing import Any
 
 
+def is_dune_execution_due(
+    snapshot: dict[str, Any],
+    *,
+    now: datetime,
+    max_age_days: int = 3,
+) -> bool:
+    """Return whether any verified Dune result is at least three UTC days old."""
+    source_dates = []
+    for metric in snapshot.get("metrics", {}).values():
+        if metric.get("source", {}).get("name") != "Dune":
+            continue
+        source_time = metric.get("source_time")
+        if not source_time:
+            continue
+        try:
+            source_dates.append(date.fromisoformat(str(source_time)[:10]))
+        except ValueError:
+            continue
+    if not source_dates:
+        return True
+    return (now.date() - min(source_dates)).days >= max_age_days
+
+
 def mark_dune_metrics_stale(snapshot: dict[str, Any], *, reason: str) -> int:
     """Keep verified values but expose a failed automatic Dune refresh."""
 

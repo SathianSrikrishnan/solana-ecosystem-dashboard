@@ -1,0 +1,58 @@
+name: Refresh Dune adoption
+
+on:
+  schedule:
+    - cron: '43 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: report-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Check whether the adoption slice is due
+        id: due
+        run: python scripts/dune_refresh_due.py --snapshot output/report.json
+
+      - name: Execute bounded Dune adoption queries
+        if: ${{ github.event_name == 'workflow_dispatch' || steps.due.outputs.due == 'true' }}
+        env:
+          DUNE_API_KEY: ${{ secrets.DUNE_API_KEY }}
+        run: python scripts/execute_dune_queries.py
+
+      - name: Publish refreshed Dune adoption metrics
+        if: ${{ github.event_name == 'workflow_dispatch' || steps.due.outputs.due == 'true' }}
+        env:
+          DUNE_API_KEY: ${{ secrets.DUNE_API_KEY }}
+        run: python scripts/refresh_dune.py --snapshot output/report.json --output output
+
+      - name: Commit changed reports
+        shell: bash
+        run: |
+          if git diff --quiet -- output; then
+            echo "No adoption refresh was due."
+            exit 0
+          fi
+          git config user.name "solana-observatory-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add output
+          git commit -m "data: refresh Dune adoption snapshot"
+          git push

@@ -50,9 +50,10 @@ dashboard is now organized as a layered observatory around six health questions.
 The GitHub Pages dashboard and refresh-to-deploy path are live and verified.
 `DUNE_API_KEY` is configured, the extra-credit limit is $0, and the per-query
 cap is 100 credits. One approved execution used 17.6844 included credits and
-published adoption results through 2026-08-10. The remaining Dune decision is
-whether to execute daily; the six-hour workflow continues retrieving saved
-results without spending execution credits. RWA.xyz
+published adoption results through 2026-08-10. A separate daily check now
+executes the three bounded queries only when the oldest verified adoption date
+is three days old. The public freshness control only checks the published
+snapshot and cannot spend credits. RWA.xyz
 remains unavailable unless API access and redistribution rights are granted.
 Identifiable payment volume remains deferred until a repeatable attribution
 source exists. Bot classification remains a named evidence gap until address-
@@ -79,9 +80,11 @@ that delays judges or returning dashboard users. Its four-beat historical arc
 must preserve the corrected Bitcoin, Ethereum, token/L2, and Solana chronology
 in `docs/research/dune-cost-and-crypto-timeline-fact-check.md`.
 
-The immediate decision is whether to schedule Dune execution daily. Once that
-operating cadence is settled, validate the companion-page architecture before
-building more images or interface components.
+The Dune cadence decision is settled at three days. Next, validate the
+companion-page architecture before building more images or interface
+components. The Ukraine beginner bounty is region-restricted, so this page is
+a personal-site, portfolio, and future-hackathon asset unless the sponsor gives
+written eligibility confirmation.
 
 ## Parallel learning track
 

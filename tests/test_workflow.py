@@ -46,6 +46,19 @@ class RefreshWorkflowTests(unittest.TestCase):
         self.assertIn('workflows: ["Refresh Solana reports"]', workflow)
         self.assertIn("conclusion == 'success'", workflow)
 
+    def test_dune_workflow_checks_daily_but_executes_only_when_three_days_old(self):
+        workflow_path = ROOT / ".github" / "workflows" / "dune-adoption.yml"
+        workflow = workflow_path.read_text(encoding="utf-8")
+
+        self.assertIn("cron: '43 7 * * *'", workflow)
+        self.assertIn("concurrency:", workflow)
+        self.assertIn("group: report-refresh", workflow)
+        self.assertIn("python scripts/dune_refresh_due.py", workflow)
+        self.assertIn("python scripts/execute_dune_queries.py", workflow)
+        self.assertIn("steps.due.outputs.due == 'true'", workflow)
+        self.assertIn("python scripts/refresh_dune.py", workflow)
+        self.assertIn("DUNE_API_KEY", workflow)
+
 
 if __name__ == "__main__":
     unittest.main()

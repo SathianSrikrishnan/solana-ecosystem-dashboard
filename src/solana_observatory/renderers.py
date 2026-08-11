@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import html
 import json
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from typing import Any
 
 from .comparisons import build_comparisons
@@ -96,6 +96,23 @@ def _display_timestamp(value: str) -> str:
         return value
     utc_value = parsed.astimezone(timezone.utc)
     return f"{utc_value.strftime('%b')} {utc_value.day}, {utc_value.year} · {utc_value:%H:%M} UTC"
+
+
+def _adoption_refresh_dates(snapshot: dict[str, Any]) -> tuple[str, str]:
+    source_dates = []
+    for metric in snapshot.get("metrics", {}).values():
+        if metric.get("source", {}).get("name") != "Dune":
+            continue
+        try:
+            source_dates.append(date.fromisoformat(str(metric.get("source_time"))[:10]))
+        except ValueError:
+            continue
+    if not source_dates:
+        return "Not connected", "After source connection"
+    verified = min(source_dates)
+    next_refresh = verified + timedelta(days=3)
+    display = lambda value: f"{value.strftime('%b')} {value.day}, {value.year}"
+    return display(verified), display(next_refresh)
 
 
 def _status_label(status: str) -> str:
@@ -718,6 +735,12 @@ def render_html(snapshot: dict[str, Any]) -> str:
     .lede {{ max-width: 680px; color: var(--muted); font-size: 1.1rem; }}
     .hero-meta {{ display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 34px; color: var(--muted); font-size: .8rem; }}
     .hero-meta strong {{ color: var(--text); }}
+    .freshness-bar {{ display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; margin-top: 16px; padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--muted); font-size: .76rem; }}
+    .freshness-bar strong {{ color: var(--text); }}
+    .freshness-bar button {{ min-height: 38px; margin-left: auto; padding: 7px 12px; border: 1px solid var(--green); background: transparent; color: var(--green); font: inherit; cursor: pointer; }}
+    .freshness-bar button:hover, .freshness-bar button:focus-visible {{ background: rgba(77,240,168,.08); }}
+    .freshness-bar button:disabled {{ cursor: wait; opacity: .65; }}
+    #refresh-message {{ flex-basis: 100%; margin: 0; color: var(--muted); }}
     .reading {{
       display: grid;
       grid-template-columns: 1.5fr 1fr;
@@ -921,6 +944,12 @@ def render_html(snapshot: dict[str, Any]) -> str:
         <span><strong>Contract</strong> {schema_version}</span>
         <span><strong>Access</strong> Public, no account</span>
       </div>
+      <div class="freshness-bar" aria-label="Adoption data freshness">
+        <span><strong>Adoption verified</strong> {adoption_verified}</span>
+        <span><strong>Next adoption refresh</strong> {next_adoption_refresh}</span>
+        <button id="check-latest" type="button">Check for latest data</button>
+        <p id="refresh-message" aria-live="polite"></p>
+      </div>
 
       <section class="reading" aria-labelledby="current-reading">
         <div>
@@ -1021,9 +1050,33 @@ def render_html(snapshot: dict[str, Any]) -> str:
     </section>
   </main>
   <script id="snapshot" type="application/json">{embedded_snapshot}</script>
+  <script>
+    const checkLatest = document.getElementById("check-latest");
+    const refreshMessage = document.getElementById("refresh-message");
+    checkLatest.addEventListener("click", async () => {{
+      checkLatest.disabled = true;
+      refreshMessage.textContent = "Checking the published snapshot...";
+      try {{
+        const response = await fetch("report.json?check=" + Date.now(), {{ cache: "no-store" }});
+        if (!response.ok) throw new Error("Snapshot check failed");
+        const latest = await response.json();
+        const current = JSON.parse(document.getElementById("snapshot").textContent);
+        if (latest.generated_at > current.generated_at) {{
+          window.location.reload();
+          return;
+        }}
+        refreshMessage.textContent = "You already have the latest verified snapshot.";
+      }} catch (error) {{
+        refreshMessage.textContent = "The latest snapshot could not be checked. The verified dashboard remains available.";
+      }} finally {{
+        checkLatest.disabled = false;
+      }}
+    }});
+  </script>
 </body>
 </html>
 """
+    adoption_verified, next_adoption_refresh = _adoption_refresh_dates(snapshot)
     rendered = document.format(
         generated_at=html.escape(_display_timestamp(snapshot["generated_at"])),
         schema_version=html.escape(snapshot["schema_version"]),
@@ -1032,6 +1085,8 @@ def render_html(snapshot: dict[str, Any]) -> str:
         metric_count=metric_count,
         gap_count=gap_count,
         gap_label=gap_label,
+        adoption_verified=html.escape(adoption_verified),
+        next_adoption_refresh=html.escape(next_adoption_refresh),
         signal_markup=signal_markup,
         analysis_panel=analysis_panel,
         anomaly_monitor=anomaly_monitor,

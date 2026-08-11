@@ -149,6 +149,31 @@ class RendererTests(unittest.TestCase):
             rendered,
         )
 
+    def test_html_shows_adoption_freshness_and_checks_published_data_without_execution(self):
+        dune_metric = {
+            **self.snapshot["metrics"]["rpc_health"],
+            "id": "daily_unique_successful_fee_payers",
+            "section": "adoption",
+            "source": {"name": "Dune", "method": "query", "url": "https://dune.com"},
+            "source_time": "2026-07-27",
+        }
+        snapshot = {
+            **self.snapshot,
+            "metrics": {**self.snapshot["metrics"], dune_metric["id"]: dune_metric},
+        }
+
+        rendered = render_html(snapshot)
+
+        self.assertIn("Adoption verified", rendered)
+        self.assertIn("Jul 27, 2026", rendered)
+        self.assertIn("Next adoption refresh", rendered)
+        self.assertIn("Jul 30, 2026", rendered)
+        self.assertIn('id="check-latest"', rendered)
+        self.assertIn("Check for latest data", rendered)
+        self.assertIn('aria-live="polite"', rendered)
+        self.assertIn('fetch("report.json?check="', rendered)
+        self.assertIn("You already have the latest verified snapshot.", rendered)
+
     def test_html_connects_the_six_questions_in_one_system_map(self):
         rendered = render_html(self.snapshot)
 

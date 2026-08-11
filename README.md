@@ -82,6 +82,13 @@ manually. It:
 `.github/workflows/pages.yml` deploys `output/` to GitHub Pages after changes
 reach `main`. Concurrency guards prevent overlapping refreshes and deployments.
 
+`.github/workflows/dune-adoption.yml` checks once a day whether the oldest
+verified Dune adoption date is at least three UTC days old. Only then does it
+execute the three bounded queries, refresh the five adoption measurements, and
+commit the new outputs. The dashboard's **Check for latest data** button only
+checks for a newer published `report.json`; it cannot run a query, access the
+secret, or consume credits.
+
 The Dune API requires authentication. Configure it without exposing the value:
 
 ```powershell
@@ -96,8 +103,9 @@ gh secret set DUNE_API_KEY
 
 The repository secret is configured. An explicitly approved bounded execution
 on 2026-08-11 published adoption results through 2026-08-10, the latest complete
-UTC day, using 17.6844 included credits and $0 cash spend. Recurring query
-execution remains off until its cadence is explicitly approved.
+UTC day, using 17.6844 included credits and $0 cash spend. Sathian approved a
+three-day recurring cadence. At the measured rate, that is approximately 180
+included credits per month, with the account's extra-credit limit remaining $0.
 
 ### What Dune does—and does not do
 
@@ -110,9 +118,10 @@ price, and stablecoin measurements continue without Dune.
 This project does not require a paid Dune subscription. The account receipt in
 [`docs/COSTS.md`](docs/COSTS.md) records a free allowance, a $0 extra-credit
 limit, and $0 cash spend. Dune API executions and CSV/API result retrieval do
-consume credits; therefore the current workflow preserves and labels the last
-verified result instead of spending execution credits automatically. A manual
-workflow switch executes all three queries only after explicit approval. Dune's current
+consume credits. The dedicated workflow executes only when the oldest verified
+adoption date is three days old; between executions, the normal refresh keeps
+and labels the last verified result. A repository maintainer can also use the
+manual workflow switch for a bounded execution. Dune's current
 [billing documentation](https://docs.dune.com/api-reference/overview/billing)
 and [credit guide](https://docs.dune.com/resources/credits-billing/how-credits-work)
 explain that behavior.
@@ -159,9 +168,9 @@ records but cannot identify causes.
 
 ## Known boundaries
 
-- Dune authentication and bounded execution are configured. Daily execution is
-  recommended but not scheduled; stale results remain visibly labeled if the
-  saved result falls behind.
+- Dune authentication and bounded execution are configured on a three-day
+  cadence. If execution or retrieval fails, the saved result remains visibly
+  labeled rather than being silently backfilled.
 - RWA.xyz's no-key API returns unauthorized, and full API plus redistribution
   rights require an enterprise agreement. Tokenized-asset value is therefore
   not scraped or backfilled from press releases.

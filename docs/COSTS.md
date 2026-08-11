@@ -94,3 +94,12 @@ cap remained 100 credits. Using a conservative 17.72-credit execute-and-retrieve
 cycle, the estimated monthly use is about 540 credits daily or 2,162 credits
 every six hours. Daily execution is the recommended sustainable cadence because
 the metrics use complete UTC-day cohorts.
+
+## Approved three-day cadence - 2026-08-11
+
+Sathian approved query execution when the oldest verified Dune adoption date
+is three UTC days old. The workflow checks daily but does not execute when the
+data is younger than three days. At the conservative 17.72-credit measured
+cycle, this is approximately 180 included credits per month or 1,080 over six
+months. That remains within the current 2,500-credit monthly Free allowance;
+the $0 extra-credit limit prevents cash overage.

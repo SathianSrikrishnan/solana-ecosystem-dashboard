@@ -33,7 +33,8 @@
 - [x] Set Dune's extra-credit limit to $0 and a conservative per-query cap.
 - [x] Approve and complete one bounded execution of the three saved queries;
       results now cover the latest complete UTC day.
-- [ ] Decide whether recurring Dune execution should run daily after submission.
+- [x] Approve a recurring three-day Dune execution cadence with a daily due
+      check and a $0 cash-overage guard.
 - [ ] Decide whether to add an optional model-backed briefing with a hard cost
       cap or submit with the deterministic briefing.
 - [ ] Confirm the public byline and short builder bio.

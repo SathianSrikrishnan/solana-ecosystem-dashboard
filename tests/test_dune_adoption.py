@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
 import sys
 
@@ -142,6 +143,35 @@ class DuneAdoptionTests(unittest.TestCase):
         self.assertIn(
             "The saved Dune result is preserved but needs a fresh query execution.",
             dune_metric["caveat"],
+        )
+
+    def test_execution_is_due_only_when_verified_adoption_is_three_days_old(self):
+        dune_metric = dune_adoption.parse_daily_fee_payers_csv(
+            self._valid_csv(),
+            collected_at=self.collected_at,
+            source_url=self.source_url,
+        )
+        snapshot = {"metrics": {dune_metric["id"]: dune_metric}}
+
+        self.assertFalse(
+            dune_adoption.is_dune_execution_due(
+                snapshot,
+                now=datetime(2026, 8, 4, 12, tzinfo=timezone.utc),
+            )
+        )
+        self.assertTrue(
+            dune_adoption.is_dune_execution_due(
+                snapshot,
+                now=datetime(2026, 8, 5, 12, tzinfo=timezone.utc),
+            )
+        )
+
+    def test_execution_is_due_when_no_verified_dune_date_exists(self):
+        self.assertTrue(
+            dune_adoption.is_dune_execution_due(
+                {"metrics": {}},
+                now=datetime(2026, 8, 5, 12, tzinfo=timezone.utc),
+            )
         )
 
     def test_parser_rejects_empty_or_incomplete_csv(self):

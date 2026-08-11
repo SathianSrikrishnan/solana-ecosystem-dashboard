@@ -172,3 +172,14 @@ results without silently executing paid-credit work.
 Daily execution is recommended because these are daily cohorts. It preserves
 freshness with substantial headroom under the 2,500-credit monthly Free
 allowance; changing the recurring cadence remains a separate approval decision.
+
+### 2026-08-11 - Execute Dune adoption queries only when three days old
+
+Sathian approved a recurring 72-hour adoption refresh. A daily GitHub Actions
+check compares the oldest verified Dune source date with the current UTC date
+and executes the three bounded queries only when the age reaches three days.
+The public dashboard button checks whether a newer published snapshot exists;
+it does not trigger execution or expose `DUNE_API_KEY`.
+
+At the measured 17.72-credit cycle, this cadence is approximately 180 included
+credits per month. The $0 extra-credit limit remains the hard cash-spend guard.

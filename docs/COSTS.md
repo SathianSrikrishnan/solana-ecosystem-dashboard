@@ -74,3 +74,23 @@ Cash spend for this economy slice: $0.
 Official reference: [Dune API billing](https://docs.dune.com/api-reference/overview/billing),
 [pricing FAQ](https://docs.dune.com/learning/how-tos/pricing-faqs), and
 [how credits work](https://docs.dune.com/resources/credits-billing/how-credits-work).
+
+## Dune execution receipt - 2026-08-11
+
+Sathian explicitly approved one bounded execution of all three saved queries.
+GitHub Actions executed them through Dune's account-supported default engine,
+then retrieved and published results through 2026-08-10, the latest complete
+UTC day.
+
+| Query | Execution credits |
+|---|---:|
+| Successful fee payers (`8213434`) | 5.5502 |
+| Successful signers (`8264418`) | 7.0179 |
+| Jupiter overlap and retention (`8264526`) | 5.1163 |
+| **Execution total** | **17.6844** |
+
+Cash spend remained $0. The extra-credit limit remained $0 and the per-query
+cap remained 100 credits. Using a conservative 17.72-credit execute-and-retrieve
+cycle, the estimated monthly use is about 540 credits daily or 2,162 credits
+every six hours. Daily execution is the recommended sustainable cadence because
+the metrics use complete UTC-day cohorts.

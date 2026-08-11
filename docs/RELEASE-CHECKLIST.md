@@ -31,8 +31,9 @@
 - [x] Configure `DUNE_API_KEY` as a repository secret for authenticated Dune
       stored-result retrieval.
 - [x] Set Dune's extra-credit limit to $0 and a conservative per-query cap.
-- [ ] Approve one bounded execution of the three saved queries before submission,
-      or accept the visibly stale adoption slice.
+- [x] Approve and complete one bounded execution of the three saved queries;
+      results now cover the latest complete UTC day.
+- [ ] Decide whether recurring Dune execution should run daily after submission.
 - [ ] Decide whether to add an optional model-backed briefing with a hard cost
       cap or submit with the deterministic briefing.
 - [ ] Confirm the public byline and short builder bio.

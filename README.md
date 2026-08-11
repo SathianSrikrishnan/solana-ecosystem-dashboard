@@ -94,10 +94,10 @@ cd "C:\Users\sathi\Projects\solana-ecosystem-dashboard"
 gh secret set DUNE_API_KEY
 ```
 
-The repository secret is configured. The workflow retrieves the latest stored
-results, but those results currently end on 2026-08-07 and do not satisfy the
-latest-complete-day contract. Executing the queries can consume Dune credits
-and remains a separate, explicitly approved action after billing caps are set.
+The repository secret is configured. An explicitly approved bounded execution
+on 2026-08-11 published adoption results through 2026-08-10, the latest complete
+UTC day, using 17.6844 included credits and $0 cash spend. Recurring query
+execution remains off until its cadence is explicitly approved.
 
 ### What Dune does—and does not do
 
@@ -111,7 +111,8 @@ This project does not require a paid Dune subscription. The account receipt in
 [`docs/COSTS.md`](docs/COSTS.md) records a free allowance, a $0 extra-credit
 limit, and $0 cash spend. Dune API executions and CSV/API result retrieval do
 consume credits; therefore the current workflow preserves and labels the last
-verified result instead of spending credits automatically. Dune's current
+verified result instead of spending execution credits automatically. A manual
+workflow switch executes all three queries only after explicit approval. Dune's current
 [billing documentation](https://docs.dune.com/api-reference/overview/billing)
 and [credit guide](https://docs.dune.com/resources/credits-billing/how-credits-work)
 explain that behavior.
@@ -158,8 +159,9 @@ records but cannot identify causes.
 
 ## Known boundaries
 
-- Dune authentication is configured, but fresh query execution is credit-gated;
-  stale results are preserved as evidence and visibly labeled.
+- Dune authentication and bounded execution are configured. Daily execution is
+  recommended but not scheduled; stale results remain visibly labeled if the
+  saved result falls behind.
 - RWA.xyz's no-key API returns unauthorized, and full API plus redistribution
   rights require an enterprise agreement. Tokenized-asset value is therefore
   not scraped or backfilled from press releases.

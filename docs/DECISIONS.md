@@ -161,3 +161,14 @@ definition, source, freshness, confidence, and limitation behind a claim.
 
 The product promise is: "Six questions. One living system. Every claim
 inspectable."
+
+### 2026-08-11 - Keep Dune execution manual until cadence is approved
+
+Sathian approved one bounded execution of the three adoption queries. It used
+17.6844 included credits and published results through the latest complete UTC
+day with $0 cash spend. The normal six-hour workflow continues retrieving saved
+results without silently executing paid-credit work.
+
+Daily execution is recommended because these are daily cohorts. It preserves
+freshness with substantial headroom under the 2,500-credit monthly Free
+allowance; changing the recurring cadence remains a separate approval decision.

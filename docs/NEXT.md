@@ -13,7 +13,7 @@ dashboard is now organized as a layered observatory around six health questions.
 - JSON, Markdown, and standalone dark HTML generation;
 - live Network, Adoption, Economy, and Validator measurements;
 - honest planned states for authenticated RWA and identifiable-payment evidence;
-- 116 passing foundation, contract, interface, query, adapter, and
+- 119 passing foundation, contract, interface, query, adapter, and
   import-command tests;
 - a clean six-hour GitHub refresh workflow;
 - enforced metric schema `0.3.0`, including a beginner-readable
@@ -49,9 +49,10 @@ dashboard is now organized as a layered observatory around six health questions.
 
 The GitHub Pages dashboard and refresh-to-deploy path are live and verified.
 `DUNE_API_KEY` is configured, the extra-credit limit is $0, and the per-query
-cap is 100 credits. The remaining Dune decision is whether to approve one
-bounded execution of the three saved queries; stored results currently end on
-2026-08-07 and are labeled stale when they fail freshness validation. RWA.xyz
+cap is 100 credits. One approved execution used 17.6844 included credits and
+published adoption results through 2026-08-10. The remaining Dune decision is
+whether to execute daily; the six-hour workflow continues retrieving saved
+results without spending execution credits. RWA.xyz
 remains unavailable unless API access and redistribution rights are granted.
 Identifiable payment volume remains deferred until a repeatable attribution
 source exists. Bot classification remains a named evidence gap until address-
@@ -67,6 +68,20 @@ six-question system map, exact-size share assets, social-preview metadata, and
 a short explanation of how the Observatory supports the family-product thesis.
 After submission, prioritize a weekly change brief, archive, opt-in alerts, and
 embeddable cards before adding more marginal metrics.
+
+## Open companion-product decision
+
+Sathian wants a concise Crypto 101 to Solana entry experience that can support
+the dashboard, social posts, Tooth Fairy Network, future real-world-asset
+learning, and longer-term Coliseum/hackathon work. The recommended shape is a
+separate companion page linked in both directions—not a mandatory splash screen
+that delays judges or returning dashboard users. Its four-beat historical arc
+must preserve the corrected Bitcoin, Ethereum, token/L2, and Solana chronology
+in `docs/research/dune-cost-and-crypto-timeline-fact-check.md`.
+
+The immediate decision is whether to schedule Dune execution daily. Once that
+operating cadence is settled, validate the companion-page architecture before
+building more images or interface components.
 
 ## Parallel learning track
 

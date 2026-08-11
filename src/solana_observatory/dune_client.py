@@ -6,10 +6,34 @@ import json
 import time
 from collections.abc import Callable
 from typing import Any
+from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 
 USER_AGENT = "Solana-Observatory/0.3 (+public-bounty-dashboard)"
+
+
+def _read_json_response(
+    request: Request,
+    *,
+    api_key: str,
+    opener: Callable[..., Any],
+    timeout: int,
+) -> dict[str, Any]:
+    try:
+        with opener(request, timeout=timeout) as response:
+            payload = response.read().decode("utf-8")
+    except HTTPError as error:
+        detail = error.read().decode("utf-8", errors="replace").replace(
+            api_key, "[redacted]"
+        )
+        raise RuntimeError(
+            f"Dune request failed with HTTP {error.code}: {detail[:500]}"
+        ) from error
+    parsed = json.loads(payload)
+    if not isinstance(parsed, dict):
+        raise RuntimeError("Dune returned a non-object JSON response")
+    return parsed
 
 
 def fetch_query_csv(
@@ -62,8 +86,9 @@ def execute_query(
         headers=headers,
         method="POST",
     )
-    with opener(request, timeout=timeout) as response:
-        submitted = json.loads(response.read().decode("utf-8"))
+    submitted = _read_json_response(
+        request, api_key=api_key, opener=opener, timeout=timeout
+    )
     execution_id = submitted.get("execution_id")
     if not isinstance(execution_id, str) or not execution_id:
         raise RuntimeError("Dune did not return an execution ID")
@@ -73,8 +98,9 @@ def execute_query(
             f"https://api.dune.com/api/v1/execution/{execution_id}/status",
             headers=headers,
         )
-        with opener(status_request, timeout=timeout) as response:
-            status = json.loads(response.read().decode("utf-8"))
+        status = _read_json_response(
+            status_request, api_key=api_key, opener=opener, timeout=timeout
+        )
         if status.get("is_execution_finished"):
             state = status.get("state", "unknown")
             if state != "QUERY_STATE_COMPLETED":

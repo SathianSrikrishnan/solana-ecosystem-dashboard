@@ -1,6 +1,8 @@
 import sys
 import unittest
+from io import BytesIO
 from pathlib import Path
+from urllib.error import HTTPError
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -93,6 +95,22 @@ class DuneClientTests(unittest.TestCase):
             )
 
         self.assertNotIn("secret-value", str(raised.exception))
+
+    def test_http_failure_surfaces_sanitized_provider_detail(self):
+        def opener(request, timeout):
+            raise HTTPError(
+                request.full_url,
+                400,
+                "Bad Request",
+                {},
+                BytesIO(b'{"error":"unsupported engine for secret-value"}'),
+            )
+
+        with self.assertRaisesRegex(RuntimeError, "unsupported engine") as raised:
+            execute_query(123, "secret-value", opener=opener)
+
+        self.assertNotIn("secret-value", str(raised.exception))
+        self.assertIn("[redacted]", str(raised.exception))
 
 
 if __name__ == "__main__":

@@ -2,6 +2,12 @@ name: Refresh Solana reports
 
 on:
   workflow_dispatch:
+    inputs:
+      execute_dune_queries:
+        description: Execute the three saved Dune queries before retrieving results
+        required: false
+        type: boolean
+        default: false
   schedule:
     - cron: '17 */6 * * *'
 
@@ -51,6 +57,12 @@ jobs:
 
       - name: Refresh official news and upgrades
         run: python scripts/refresh_updates.py --snapshot output/report.json --output output
+
+      - name: Execute Dune adoption queries after explicit approval
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_dune_queries }}
+        env:
+          DUNE_API_KEY: ${{ secrets.DUNE_API_KEY }}
+        run: python scripts/execute_dune_queries.py
 
       - name: Refresh Dune adoption metrics when configured
         env:

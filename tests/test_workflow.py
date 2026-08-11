@@ -27,7 +27,14 @@ class RefreshWorkflowTests(unittest.TestCase):
         self.assertIn("uses: actions/checkout@v7", workflow)
         self.assertIn("uses: actions/setup-python@v7", workflow)
         self.assertIn("DUNE_API_KEY", workflow)
+        self.assertIn("execute_dune_queries:", workflow)
+        self.assertIn("type: boolean", workflow)
+        self.assertIn("python scripts/execute_dune_queries.py", workflow)
         self.assertIn("python scripts/refresh_dune.py", workflow)
+        self.assertLess(
+            workflow.index("python scripts/execute_dune_queries.py"),
+            workflow.index("python scripts/refresh_dune.py"),
+        )
 
     def test_pages_workflow_publishes_the_static_output(self):
         workflow = (ROOT / ".github" / "workflows" / "pages.yml").read_text(encoding="utf-8")

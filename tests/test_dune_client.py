@@ -43,7 +43,7 @@ class DuneClientTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "DUNE_API_KEY"):
             fetch_query_csv(123, "")
 
-    def test_executes_on_small_engine_and_returns_reported_credit_cost(self):
+    def test_executes_on_default_engine_and_returns_reported_credit_cost(self):
         captured = []
         responses = iter(
             [
@@ -69,7 +69,7 @@ class DuneClientTests(unittest.TestCase):
         self.assertEqual(captured[0][0].method, "POST")
         self.assertEqual(
             captured[0][0].data,
-            b'{"performance":"small","query_parameters":{}}',
+            b'{"query_parameters":{}}',
         )
         self.assertIn("/query/123/execute", captured[0][0].full_url)
         self.assertIn("/execution/execution-1/status", captured[-1][0].full_url)

@@ -70,7 +70,7 @@ def execute_query(
     max_polls: int = 90,
     timeout: int = 30,
 ) -> float:
-    """Execute one saved query on Dune's small engine and return its credit cost."""
+    """Execute one saved query on its account-supported engine and return its cost."""
     if not api_key:
         raise ValueError("DUNE_API_KEY is required for a Dune query execution")
     if not isinstance(query_id, int) or query_id <= 0:
@@ -82,7 +82,7 @@ def execute_query(
     }
     request = Request(
         f"https://api.dune.com/api/v1/query/{query_id}/execute",
-        data=b'{"performance":"small","query_parameters":{}}',
+        data=b'{"query_parameters":{}}',
         headers=headers,
         method="POST",
     )

@@ -65,7 +65,10 @@ class DuneClientTests(unittest.TestCase):
 
         self.assertEqual(cost, 3.25)
         self.assertEqual(captured[0][0].method, "POST")
-        self.assertEqual(captured[0][0].data, b'{"performance":"small"}')
+        self.assertEqual(
+            captured[0][0].data,
+            b'{"performance":"small","query_parameters":{}}',
+        )
         self.assertIn("/query/123/execute", captured[0][0].full_url)
         self.assertIn("/execution/execution-1/status", captured[-1][0].full_url)
         self.assertTrue(

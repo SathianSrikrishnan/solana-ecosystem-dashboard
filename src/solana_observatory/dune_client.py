@@ -58,7 +58,7 @@ def execute_query(
     }
     request = Request(
         f"https://api.dune.com/api/v1/query/{query_id}/execute",
-        data=b'{"performance":"small"}',
+        data=b'{"performance":"small","query_parameters":{}}',
         headers=headers,
         method="POST",
     )

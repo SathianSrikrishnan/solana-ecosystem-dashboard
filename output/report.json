@@ -1,7 +1,7 @@
 {
   "analysis": {
     "current_reading": "Notable evidence: Solana chain fees increased by 25.3%; Solana REV (chain fees + tracked Jito tips) increased by 23.0%; Solana application fees increased by 16.9%.",
-    "generated_at": "2026-08-15T06:58:59.023624Z",
+    "generated_at": "2026-08-15T07:58:46.543367Z",
     "kind": "deterministic",
     "model": "deterministic-observatory-v1",
     "status": "ok",
@@ -440,7 +440,7 @@
       "status": "ok"
     }
   },
-  "generated_at": "2026-08-15T06:58:59.023624Z",
+  "generated_at": "2026-08-15T07:58:46.543367Z",
   "metrics": {
     "active_stake_sol": {
       "caveat": "Vote accounts are not necessarily distinct operators or organizations.",
@@ -583,8 +583,8 @@
       "why_it_matters": "A rising slot confirms that this observer sees the chain continuing to advance."
     },
     "daily_jupiter_fee_payer_overlap": {
-      "caveat": "This is an address intersection, not a count of people; sponsored or relayed transactions can fall outside it. Automatic refresh note: The saved Dune result is preserved but needs a fresh query execution.",
-      "collected_at": "2026-08-13T19:27:46.924528Z",
+      "caveat": "This is an address intersection, not a count of people; sponsored or relayed transactions can fall outside it.",
+      "collected_at": "2026-08-15T07:58:46.543367Z",
       "confidence": "high",
       "definition": "Jupiter Swap signer addresses that were also the successful transaction fee payer on the same UTC day.",
       "id": "daily_jupiter_fee_payer_overlap",
@@ -592,14 +592,6 @@
       "section": "adoption",
       "series": [
         {
-          "observed_at": "2026-08-06",
-          "value": 18275
-        },
-        {
-          "observed_at": "2026-08-07",
-          "value": 26816
-        },
-        {
           "observed_at": "2026-08-08",
           "value": 28992
         },
@@ -618,6 +610,14 @@
         {
           "observed_at": "2026-08-12",
           "value": 14316
+        },
+        {
+          "observed_at": "2026-08-13",
+          "value": 26557
+        },
+        {
+          "observed_at": "2026-08-14",
+          "value": 21869
         }
       ],
       "source": {
@@ -625,15 +625,15 @@
         "name": "Dune",
         "url": "https://dune.com/queries/8264526"
       },
-      "source_time": "2026-08-12",
-      "status": "stale",
+      "source_time": "2026-08-14",
+      "status": "ok",
       "unit": "wallet addresses",
-      "value": 14316,
+      "value": 21869,
       "why_it_matters": "The overlap reveals how often the visible application signer also pays the transaction fee."
     },
     "daily_unique_jupiter_swap_signers": {
-      "caveat": "Wallet addresses are not people, and this measures Jupiter Swap signers rather than users of a particular wallet app. Automatic refresh note: The saved Dune result is preserved but needs a fresh query execution.",
-      "collected_at": "2026-08-13T19:27:46.924528Z",
+      "caveat": "Wallet addresses are not people, and this measures Jupiter Swap signers rather than users of a particular wallet app.",
+      "collected_at": "2026-08-15T07:58:46.543367Z",
       "confidence": "high",
       "definition": "Distinct tx_signer addresses on intended swaps recorded by Dune's curated Jupiter aggregator table during the latest complete UTC day.",
       "id": "daily_unique_jupiter_swap_signers",
@@ -641,14 +641,6 @@
       "section": "adoption",
       "series": [
         {
-          "observed_at": "2026-08-06",
-          "value": 18275
-        },
-        {
-          "observed_at": "2026-08-07",
-          "value": 26816
-        },
-        {
           "observed_at": "2026-08-08",
           "value": 28992
         },
@@ -667,6 +659,14 @@
         {
           "observed_at": "2026-08-12",
           "value": 14316
+        },
+        {
+          "observed_at": "2026-08-13",
+          "value": 26557
+        },
+        {
+          "observed_at": "2026-08-14",
+          "value": 21869
         }
       ],
       "source": {
@@ -674,29 +674,21 @@
         "name": "Dune",
         "url": "https://dune.com/queries/8264526"
       },
-      "source_time": "2026-08-12",
-      "status": "stale",
+      "source_time": "2026-08-14",
+      "status": "ok",
       "unit": "wallet addresses",
-      "value": 14316,
+      "value": 21869,
       "why_it_matters": "It shows the scale of intended swap activity through one of Solana's major application routes."
     },
     "daily_unique_successful_fee_payers": {
-      "caveat": "Wallet addresses are not people: one person or bot can control many addresses, and relayers may pay fees for others. Automatic refresh note: The saved Dune result is preserved but needs a fresh query execution.",
-      "collected_at": "2026-08-13T19:27:46.924528Z",
+      "caveat": "Wallet addresses are not people: one person or bot can control many addresses, and relayers may pay fees for others.",
+      "collected_at": "2026-08-15T07:58:46.543367Z",
       "confidence": "high",
       "definition": "Distinct primary signer (fee payer) addresses on successful non-vote Solana transactions during the latest complete UTC day.",
       "id": "daily_unique_successful_fee_payers",
       "label": "Daily unique successful fee payers",
       "section": "adoption",
       "series": [
-        {
-          "observed_at": "2026-08-06",
-          "value": 2014997
-        },
-        {
-          "observed_at": "2026-08-07",
-          "value": 2046280
-        },
         {
           "observed_at": "2026-08-08",
           "value": 2009536
@@ -716,6 +708,14 @@
         {
           "observed_at": "2026-08-12",
           "value": 2040011
+        },
+        {
+          "observed_at": "2026-08-13",
+          "value": 2127714
+        },
+        {
+          "observed_at": "2026-08-14",
+          "value": 1932287
         }
       ],
       "source": {
@@ -723,29 +723,21 @@
         "name": "Dune",
         "url": "https://dune.com/queries/8213434"
       },
-      "source_time": "2026-08-12",
-      "status": "stale",
+      "source_time": "2026-08-14",
+      "status": "ok",
       "unit": "wallet addresses",
-      "value": 2040011,
+      "value": 1932287,
       "why_it_matters": "Fee payers approximate how many distinct addresses initiated successful activity and paid for execution."
     },
     "daily_unique_successful_signers": {
-      "caveat": "Wallet addresses are not people: one person or bot can control many addresses, and one transaction may require several signers. Automatic refresh note: The saved Dune result is preserved but needs a fresh query execution.",
-      "collected_at": "2026-08-13T19:27:46.924528Z",
+      "caveat": "Wallet addresses are not people: one person or bot can control many addresses, and one transaction may require several signers.",
+      "collected_at": "2026-08-15T07:58:46.543367Z",
       "confidence": "high",
       "definition": "Distinct signer addresses on successful non-vote Solana transactions during the latest complete UTC day.",
       "id": "daily_unique_successful_signers",
       "label": "Daily unique successful signers",
       "section": "adoption",
       "series": [
-        {
-          "observed_at": "2026-08-06",
-          "value": 3408461
-        },
-        {
-          "observed_at": "2026-08-07",
-          "value": 3628019
-        },
         {
           "observed_at": "2026-08-08",
           "value": 3480160
@@ -765,6 +757,14 @@
         {
           "observed_at": "2026-08-12",
           "value": 3720700
+        },
+        {
+          "observed_at": "2026-08-13",
+          "value": 3790784
+        },
+        {
+          "observed_at": "2026-08-14",
+          "value": 3500599
         }
       ],
       "source": {
@@ -772,10 +772,10 @@
         "name": "Dune",
         "url": "https://dune.com/queries/8264418"
       },
-      "source_time": "2026-08-12",
-      "status": "stale",
+      "source_time": "2026-08-14",
+      "status": "ok",
       "unit": "wallet addresses",
-      "value": 3720700,
+      "value": 3500599,
       "why_it_matters": "Successful signers capture a broader set of participating addresses than fee payers alone."
     },
     "delinquent_stake_share_pct": {
@@ -979,22 +979,14 @@
       "why_it_matters": "Total throughput shows network load, but must be separated from user activity because it includes validator votes."
     },
     "jupiter_swap_signer_7d_return_rate": {
-      "caveat": "Returning addresses are not necessarily returning people; bots and one person using several wallets remain included. Automatic refresh note: The saved Dune result is preserved but needs a fresh query execution.",
-      "collected_at": "2026-08-13T19:27:46.924528Z",
+      "caveat": "Returning addresses are not necessarily returning people; bots and one person using several wallets remain included.",
+      "collected_at": "2026-08-15T07:58:46.543367Z",
       "confidence": "high",
       "definition": "Share of the day's Jupiter Swap signer addresses also seen at least once during the preceding seven complete UTC days.",
       "id": "jupiter_swap_signer_7d_return_rate",
       "label": "Jupiter Swap seven-day return rate",
       "section": "adoption",
       "series": [
-        {
-          "observed_at": "2026-08-06",
-          "value": 38.65
-        },
-        {
-          "observed_at": "2026-08-07",
-          "value": 26.43
-        },
         {
           "observed_at": "2026-08-08",
           "value": 25.34
@@ -1014,6 +1006,14 @@
         {
           "observed_at": "2026-08-12",
           "value": 49.85
+        },
+        {
+          "observed_at": "2026-08-13",
+          "value": 30.86
+        },
+        {
+          "observed_at": "2026-08-14",
+          "value": 44.15
         }
       ],
       "source": {
@@ -1021,10 +1021,10 @@
         "name": "Dune",
         "url": "https://dune.com/queries/8264526"
       },
-      "source_time": "2026-08-12",
-      "status": "stale",
+      "source_time": "2026-08-14",
+      "status": "ok",
       "unit": "percent",
-      "value": 49.85,
+      "value": 44.15,
       "why_it_matters": "Return rate distinguishes repeat use from one-time address activity."
     },
     "latest_official_solana_news_age_days": {

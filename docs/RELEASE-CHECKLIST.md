@@ -35,8 +35,8 @@
       results now cover the latest complete UTC day.
 - [x] Approve a recurring three-day Dune execution cadence with a daily due
       check and a $0 cash-overage guard.
-- [ ] Decide whether to add an optional model-backed briefing with a hard cost
-      cap or submit with the deterministic briefing.
+- [x] Submit with the deterministic, evidence-bound briefing; a paid model is
+      not required for the verified report.
 - [ ] Confirm the public byline and short builder bio.
 - [x] Approve and complete the production deployment.
 - [ ] Review the final article, LinkedIn post, and X thread before publication.

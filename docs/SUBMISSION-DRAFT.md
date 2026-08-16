@@ -1,6 +1,6 @@
 # Superteam submission draft
 
-Status: release candidate; public links are verified and final byline/demo remain.
+Status: verified release branch; production merge, final byline, and demo remain.
 
 - Live dashboard: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/
 - Social cover: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/solana-observatory-cover.png
@@ -74,5 +74,9 @@ npm run test:a11y
 
 ## Final fields still needed
 
-- Sathian's public byline and 1–2 sentence builder bio.
+- Recommended byline: **Sathian Srikrishnan**.
+- Recommended builder bio, pending Sathian's approval: **Sathian Srikrishnan is
+  a Toronto builder learning in public at the intersection of AI, programmable
+  payments, and family-focused products on Solana.**
 - Final demo URL.
+- Action-time approval to submit the bounty.

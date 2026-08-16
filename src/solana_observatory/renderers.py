@@ -666,13 +666,13 @@ def render_html(snapshot: dict[str, Any]) -> str:
   <meta name="theme-color" content="#070a0e">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Solana Observatory">
-  <meta property="og:description" content="Six questions. One living system. Every claim inspectable.">
+  <meta property="og:description" content="A six-question guide to how Solana works. Every claim inspectable.">
   <meta property="og:image" content="https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/solana-observatory-cover.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Solana Observatory">
-  <meta name="twitter:description" content="Solana, without the fog.">
+  <meta name="twitter:description" content="A six-question guide to how Solana works.">
   <meta name="twitter:image" content="https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/solana-observatory-cover.png">
   <title>Solana Ecosystem Dashboard</title>
   <style>
@@ -857,6 +857,8 @@ def render_html(snapshot: dict[str, Any]) -> str:
     .era p span {{ display: block; margin-bottom: 4px; color: var(--text); font-size: .68rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }}
     .era a {{ color: var(--violet); font-size: .76rem; }}
     .learn-intro {{ max-width: 760px; margin-bottom: 24px; color: var(--muted); }}
+    .learn-bridge {{ max-width: 760px; margin: -10px 0 24px; color: var(--muted); font-size: .9rem; }}
+    .learn-bridge a {{ color: var(--green); font-weight: 700; text-underline-offset: 3px; }}
     .learn-guide {{ border-top: 1px solid var(--line); }}
     .learn-guide details {{ padding: 18px 0; border-bottom: 1px solid var(--line); font-size: .92rem; }}
     .learn-guide summary {{ display: flex; align-items: baseline; justify-content: space-between; gap: 20px; font-family: Bahnschrift, "Franklin Gothic Medium", sans-serif; font-size: 1.15rem; }}
@@ -936,9 +938,9 @@ def render_html(snapshot: dict[str, Any]) -> str:
   </header>
   <main id="main-content">
     <section id="overview">
-      <div class="eyebrow">Verified facts · direct RPC</div>
-      <h1>Solana,<br>without the fog.</h1>
-      <p class="lede">Six connected questions reveal whether Solana is working, attracting durable use, producing economic value, staying resilient, compounding its ecosystem, and becoming financial infrastructure. Wallets and transactions are measurements—not people.</p>
+      <div class="eyebrow">Six questions · every claim inspectable</div>
+      <h1>I want to understand<br>how Solana works.</h1>
+      <p class="lede">Start with six questions. The guide below takes you through the network systematically—from whether it is working to whether it is becoming financial infrastructure. Every number includes its definition, source, freshness, and limitation.</p>
       <div class="hero-meta">
         <span><strong>Snapshot</strong> {generated_at}</span>
         <span><strong>Contract</strong> {schema_version}</span>
@@ -1006,6 +1008,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
         <p>A short field guide to the dashboard, the network, and the project behind it.</p>
       </div>
       <p class="learn-intro">Start with the six questions. Open a metric only when you want its definition, interpretive risk, or source. A reporting badge describes the data feed; it is not a verdict on Solana.</p>
+      <p class="learn-bridge">Prefer the story before the instruments? <a href="crypto-101.html">Read the Crypto 101 companion</a>, then return here for the evidence.</p>
       <div class="learn-guide">
         <details open>
           <summary>How do I use this dashboard?</summary>

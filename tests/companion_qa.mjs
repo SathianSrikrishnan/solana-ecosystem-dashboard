@@ -28,16 +28,28 @@ try {
       failures.push(`${viewport.name}: horizontal overflow`);
     }
     if (consoleErrors.length) failures.push(`${viewport.name}: ${consoleErrors.join(" | ")}`);
-    if ((await page.locator("h1").innerText()).replace(/\s+/g, " ").trim() !== "Two Kinds of Power") {
+    if ((await page.locator("h1").innerText()).replace(/\s+/g, " ").trim() !== "Saraswati, Lakshmi, and the Ledger") {
       failures.push(`${viewport.name}: title mismatch`);
     }
-    if (!(await page.locator(".hero-art img").evaluate((image) => image.complete && image.naturalWidth > 0))) {
-      failures.push(`${viewport.name}: hero image did not load`);
+    const images = page.locator("main img");
+    if ((await images.count()) < 5) failures.push(`${viewport.name}: expected a visual story with at least five images`);
+    for (let index = 0; index < await images.count(); index += 1) {
+      if (!(await images.nth(index).evaluate((image) => image.complete && image.naturalWidth > 0))) {
+        failures.push(`${viewport.name}: image ${index + 1} did not load`);
+      }
+    }
+    const firstQuestion = page.locator("[data-test-question]").first();
+    await firstQuestion.check();
+    if (!(await page.locator("[data-test-result]").innerText()).includes("Saraswati")) {
+      failures.push(`${viewport.name}: framework test did not update`);
     }
     const axe = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
       .analyze();
-    for (const violation of axe.violations) failures.push(`${viewport.name}: ${violation.id}`);
+    for (const violation of axe.violations) {
+      const targets = violation.nodes.map((node) => node.target.join(" ")).join(", ");
+      failures.push(`${viewport.name}: ${violation.id} (${targets})`);
+    }
     await page.screenshot({ path: resolve(auditDir, `${viewport.name}.png`), fullPage: true });
     await context.close();
   }

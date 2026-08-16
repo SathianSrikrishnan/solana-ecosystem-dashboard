@@ -3,187 +3,471 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Two Kinds of Power — Crypto 101</title>
-  <meta name="description" content="A short personal introduction to knowledge, prosperity, public ledgers, and why Sathian is learning to build on Solana.">
-  <meta property="og:title" content="Two Kinds of Power">
-  <meta property="og:description" content="What Saraswati, Lakshmi, public ledgers, and two daughters taught me about programmable money.">
+  <title>Saraswati, Lakshmi, and the Ledger</title>
+  <meta name="description" content="An old framework for thinking about intelligence, programmable value, and what deserves to be built next.">
+  <meta property="og:title" content="Saraswati, Lakshmi, and the Ledger">
+  <meta property="og:description" content="Two ancient questions for the agentic age: does it deepen knowledge, and does it create durable value?">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/crypto-101-social.png">
+  <meta property="og:image" content="https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/media/flagship-hero.png">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink: #080806;
-      --panel: #11100c;
-      --paper: #f2ead8;
-      --muted: #b9b09d;
-      --brass: #c7953f;
-      --saffron: #df7c2d;
-      --vermilion: #ae382b;
-      --cyan: #6ce5dc;
-      --line: rgba(224, 198, 143, .22);
-      --space: clamp(22px, 4vw, 54px);
+      --carbon: #0a0907;
+      --carbon-soft: #12100c;
+      --paper: #f1e8d5;
+      --paper-bright: #fff9ea;
+      --stone: #a69b87;
+      --brass: #c89a43;
+      --vermilion: #b43b2f;
+      --cyan: #65d4d0;
+      --line: rgba(200, 154, 67, .24);
+      --gutter: clamp(18px, 4vw, 64px);
+      --measure: 720px;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
+      overflow-x: hidden;
       background:
-        linear-gradient(rgba(199,149,63,.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(199,149,63,.035) 1px, transparent 1px),
-        var(--ink);
+        linear-gradient(rgba(200, 154, 67, .028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200, 154, 67, .028) 1px, transparent 1px),
+        var(--carbon);
       background-size: 48px 48px;
       color: var(--paper);
-      font-family: "Palatino Linotype", Palatino, "Book Antiqua", serif;
-      line-height: 1.68;
+      font-family: "Libre Baskerville", Georgia, serif;
+      line-height: 1.72;
     }
-    a { color: inherit; }
-    a:focus-visible, .button:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
-    .skip { position: fixed; left: 12px; top: -80px; z-index: 5; padding: 10px 14px; background: var(--paper); color: var(--ink); }
-    .skip:focus { top: 12px; }
-    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--line); }
-    .wordmark, .eyebrow, .timeline b, .sources, .button {
-      font-family: Bahnschrift, "Franklin Gothic Medium", sans-serif;
-      letter-spacing: .12em;
+    img { display: block; max-width: 100%; }
+    figure { margin: 0; }
+    a { color: inherit; text-underline-offset: 4px; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    :focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
+    .skip { position: fixed; z-index: 30; top: -80px; left: 14px; padding: 10px 14px; background: var(--paper); color: var(--carbon); }
+    .skip:focus { top: 14px; }
+    .progress { position: fixed; z-index: 20; top: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,.06); }
+    .progress span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--vermilion), var(--brass), var(--cyan)); }
+    .shell { width: min(1320px, calc(100% - (2 * var(--gutter)))); margin: 0 auto; }
+    .reading { width: min(var(--measure), 100%); margin-inline: auto; }
+    .utility, .eyebrow, .button, .test-label, .source-list, .reel-count {
+      font-family: Manrope, "Arial Narrow", sans-serif;
+      letter-spacing: .13em;
       text-transform: uppercase;
     }
-    .wordmark { font-size: .72rem; color: var(--brass); text-decoration: none; }
-    nav a:last-child { font-size: .78rem; color: var(--muted); text-underline-offset: 4px; }
-    .hero { padding: clamp(54px, 8vw, 110px) 0 34px; }
-    .eyebrow { margin: 0 0 18px; color: var(--cyan); font-size: .68rem; }
-    h1 { max-width: 940px; margin: 0; font-size: clamp(3.4rem, 10vw, 8.8rem); line-height: .85; font-weight: 500; letter-spacing: -.065em; }
-    .dek { max-width: 680px; margin: 30px 0 0 auto; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.35rem); }
-    figure { margin: 0; }
-    .hero-art { position: relative; margin-top: 48px; border: 1px solid var(--line); background: #050504; overflow: hidden; }
-    .hero-art img { display: block; width: 100%; aspect-ratio: 1.91 / 1; object-fit: cover; object-position: center 54%; }
-    .hero-art figcaption { position: absolute; left: 0; bottom: 0; max-width: 620px; padding: 16px 20px; background: rgba(8,8,6,.84); color: var(--muted); font-size: .78rem; backdrop-filter: blur(8px); }
-    .essay-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: clamp(36px, 7vw, 100px); padding: clamp(64px, 10vw, 130px) 0; }
-    article { max-width: 700px; font-size: clamp(1.08rem, 1.6vw, 1.27rem); }
-    article p { margin: 0 0 1.35em; }
-    article p:first-child { font-size: 1.45em; line-height: 1.25; color: #fff8e9; }
-    article p:first-child::first-letter { color: var(--saffron); font-size: 2.9em; line-height: .72; float: left; padding: .13em .12em 0 0; }
-    .margin-note { align-self: start; position: sticky; top: 28px; padding: 22px 0; border-top: 1px solid var(--brass); border-bottom: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
-    .margin-note strong { display: block; margin-bottom: 10px; color: var(--paper); font-weight: 500; font-size: 1.1rem; }
-    blockquote { margin: 44px 0; padding: 4px 0 4px 28px; border-left: 2px solid var(--saffron); color: #fff5df; font-size: 1.45em; line-height: 1.35; }
-    .timeline-wrap { padding: 0 0 clamp(74px, 10vw, 130px); }
-    .timeline-wrap h2 { max-width: 640px; margin: 0 0 32px; font-size: clamp(2.1rem, 5vw, 4.6rem); font-weight: 500; line-height: .95; letter-spacing: -.04em; }
+    nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .wordmark { color: var(--brass); font-family: Manrope, sans-serif; font-size: .68rem; font-weight: 700; letter-spacing: .14em; text-decoration: none; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 20px; font: 600 .7rem Manrope, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+    .hero { padding: clamp(56px, 8vw, 126px) 0 0; }
+    .eyebrow { margin: 0 0 22px; color: var(--cyan); font-size: .66rem; }
+    h1, h2, h3 { font-family: "Cormorant Garamond", Georgia, serif; }
+    h1 { max-width: 1120px; margin: 0; font-size: clamp(3.7rem, 10vw, 9.4rem); font-weight: 600; letter-spacing: -.055em; line-height: .82; }
+    h1 span { display: block; margin-left: clamp(0px, 8vw, 110px); color: var(--brass); font-style: italic; font-weight: 500; }
+    .dek { width: min(680px, 90%); margin: 34px 0 56px auto; color: var(--stone); font-size: clamp(1.06rem, 2vw, 1.35rem); }
+    .hero-art { position: relative; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: #050403; }
+    .hero-art img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+    figcaption { color: var(--stone); font: 500 .72rem/1.55 Manrope, sans-serif; }
+    .hero-art figcaption { position: absolute; right: 0; bottom: 0; width: min(500px, 100%); padding: 14px 18px; background: rgba(10,9,7,.88); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+    .chapter { padding: clamp(80px, 11vw, 160px) 0; }
+    .chapter-head { margin-bottom: clamp(38px, 7vw, 84px); }
+    .chapter h2 { max-width: 850px; margin: 0; font-size: clamp(2.7rem, 6.4vw, 6.2rem); font-weight: 500; letter-spacing: -.045em; line-height: .9; }
+    .lead { color: var(--paper-bright); font-size: clamp(1.28rem, 2.4vw, 1.75rem); line-height: 1.45; }
+    .body-copy p { margin: 0 0 1.4em; }
+    .body-copy p:first-child::first-letter { float: left; padding: .12em .12em 0 0; color: var(--vermilion); font: 600 4.4em/.65 "Cormorant Garamond", serif; }
+    .quiet-note { margin: 42px 0 0; padding: 22px 0 0; border-top: 1px solid var(--line); color: var(--stone); font-size: .86rem; }
+    .portrait-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(18px, 3vw, 44px); margin-top: 68px; }
+    .portrait { position: relative; min-width: 0; }
+    .portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid var(--line); }
+    .portrait figcaption { padding: 14px 0 0; }
+    .portrait strong { display: block; margin-bottom: 4px; color: var(--paper); font: 600 1.45rem "Cormorant Garamond", serif; }
+    .prior-art { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(30px, 7vw, 110px); align-items: start; padding: clamp(50px, 8vw, 100px) 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .prior-art blockquote { margin: 0; color: var(--paper-bright); font: italic 500 clamp(2rem, 4.5vw, 4.4rem)/1 "Cormorant Garamond", serif; }
+    .prior-art p { margin: 0 0 1.2em; color: var(--stone); }
+    .prior-art a { color: var(--cyan); }
+    .tests-intro { max-width: 840px; margin: 0 0 54px; color: var(--stone); font-size: 1.08rem; }
+    .test-definitions { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .test-card { min-height: 360px; padding: clamp(28px, 5vw, 64px); background: var(--carbon-soft); }
+    .test-card:nth-child(2) { background: #180c08; }
+    .test-label { color: var(--cyan); font-size: .62rem; }
+    .test-card:nth-child(2) .test-label { color: #e6ad52; }
+    .test-card h3 { margin: 20px 0; font-size: clamp(2.3rem, 4vw, 4.2rem); font-weight: 500; line-height: .95; }
+    .test-card p { max-width: 480px; margin: 0; color: var(--stone); }
+    .question-list { display: grid; gap: 10px; margin: 28px 0 0; }
+    .question { position: relative; display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; padding: 14px; border: 1px solid rgba(241,232,213,.14); cursor: pointer; transition: border-color .18s ease, background .18s ease; }
+    .question:hover { border-color: rgba(101,212,208,.55); }
+    .question input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--cyan); }
+    .question span { font: 500 .82rem/1.5 Manrope, sans-serif; }
+    .balance-result { display: grid; grid-template-columns: minmax(260px, .8fr) 1.2fr; gap: clamp(30px, 6vw, 90px); align-items: center; margin-top: 1px; padding: clamp(32px, 6vw, 76px); background: #080706; border: 1px solid var(--line); }
+    .balance-visual { position: relative; height: 180px; }
+    .balance-beam { position: absolute; top: 58px; left: 10%; width: 80%; height: 4px; background: var(--brass); transform: rotate(var(--balance-angle, 0deg)); transform-origin: center; transition: transform .45s ease; }
+    .balance-beam::before, .balance-beam::after { content: ""; position: absolute; top: 4px; width: 1px; height: 62px; background: var(--brass); }
+    .balance-beam::before { left: 8%; }
+    .balance-beam::after { right: 8%; }
+    .pan { position: absolute; top: 64px; width: 32%; padding-top: 70px; text-align: center; font: 700 .63rem Manrope, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+    .pan::before { content: ""; position: absolute; top: 56px; left: 0; width: 100%; height: 18px; border: 1px solid var(--brass); border-top: 0; border-radius: 0 0 50% 50%; }
+    .pan-left { left: 0; color: var(--cyan); }
+    .pan-right { right: 0; color: #e6ad52; }
+    .fulcrum { position: absolute; top: 64px; left: 50%; width: 0; height: 0; transform: translateX(-50%); border-right: 34px solid transparent; border-bottom: 92px solid rgba(200,154,67,.4); border-left: 34px solid transparent; }
+    .result-copy .test-label { color: var(--brass); }
+    .result-copy h3 { margin: 12px 0; font-size: clamp(2rem, 4vw, 3.7rem); font-weight: 500; line-height: 1; }
+    .result-copy p { margin: 0; color: var(--stone); }
+    .reel-shell { position: relative; }
+    .reel-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .reel-controls { display: flex; gap: 8px; }
+    .reel-controls button { width: 46px; height: 46px; background: transparent; border: 1px solid var(--line); cursor: pointer; }
+    .reel-controls button:hover { color: var(--cyan); border-color: var(--cyan); }
+    .reel-count { color: var(--stone); font-size: .62rem; }
+    .reel { display: grid; grid-auto-flow: column; grid-auto-columns: min(76vw, 860px); gap: 18px; overflow-x: auto; padding: 0 max(var(--gutter), calc((100vw - 1320px) / 2)) 26px; scroll-padding-inline: max(var(--gutter), calc((100vw - 1320px) / 2)); scroll-snap-type: x mandatory; scrollbar-color: var(--brass) transparent; }
+    .reel-card { position: relative; min-height: min(74vw, 720px); overflow: hidden; background: #17130e; border: 1px solid var(--line); scroll-snap-align: start; }
+    .reel-card img { width: 100%; height: 100%; object-fit: cover; }
+    .reel-card.wide { aspect-ratio: 16 / 10; }
+    .reel-card.portrait { aspect-ratio: 4 / 5; }
+    .reel-caption { position: absolute; right: 0; bottom: 0; left: 0; padding: clamp(18px, 4vw, 38px); background: linear-gradient(transparent, rgba(6,5,4,.96)); }
+    .reel-caption b { display: block; margin-bottom: 6px; font: 700 .65rem Manrope, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+    .reel-caption span { display: block; max-width: 620px; font: 500 clamp(1.7rem, 3vw, 3rem)/1 "Cormorant Garamond", serif; }
     .timeline { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-    .moment { min-height: 245px; padding: 26px 24px 30px 0; }
-    .moment + .moment { padding-left: 24px; border-left: 1px solid var(--line); }
-    .moment b { display: block; color: var(--cyan); font-size: .64rem; }
-    .moment h3 { margin: 38px 0 10px; font-size: 1.35rem; font-weight: 500; }
-    .moment p { margin: 0; color: var(--muted); font-size: .9rem; }
-    .solana-heading { display: flex; align-items: center; gap: 10px; }
-    .solana-heading img { width: 24px; height: 24px; }
-    .cta { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; padding: var(--space); border: 1px solid var(--line); background: linear-gradient(120deg, rgba(174,56,43,.13), rgba(108,229,220,.05)); }
-    .cta h2 { margin: 0; max-width: 700px; font-size: clamp(2rem, 5vw, 4rem); line-height: 1; font-weight: 500; letter-spacing: -.045em; }
-    .cta p { margin: 0 0 20px; color: var(--muted); }
-    .button { display: inline-block; padding: 13px 16px; border: 1px solid var(--cyan); color: var(--cyan); text-decoration: none; font-size: .68rem; }
-    .sources { padding: 24px 0 42px; border-top: 1px solid var(--line); color: var(--muted); font-size: .61rem; line-height: 2; }
-    .sources a { text-underline-offset: 3px; }
-    @media (max-width: 760px) {
-      .shell { width: min(100% - 24px, 680px); }
-      nav { align-items: flex-start; gap: 20px; }
-      h1 { font-size: clamp(3.2rem, 20vw, 5.3rem); }
-      .dek { margin-left: 0; }
-      .hero-art img { aspect-ratio: 4 / 3; }
-      .hero-art figcaption { position: static; }
-      .essay-grid { grid-template-columns: 1fr; }
-      .margin-note { position: static; order: -1; }
+    .moment { min-height: 270px; padding: 28px 24px 34px; }
+    .moment + .moment { border-left: 1px solid var(--line); }
+    .moment b { color: var(--cyan); font: 700 .62rem Manrope, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+    .moment h3 { margin: 46px 0 12px; font-size: 1.75rem; font-weight: 500; line-height: 1; }
+    .moment p { margin: 0; color: var(--stone); font: 500 .83rem/1.6 Manrope, sans-serif; }
+    .solana-heading { display: flex; gap: 9px; align-items: center; }
+    .solana-heading img { width: 23px; height: 23px; }
+    .projects { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .project { min-height: 290px; padding: clamp(28px, 4vw, 50px); background: var(--carbon-soft); text-decoration: none; }
+    .project:hover { background: #18140e; }
+    .project .utility { color: var(--brass); font-size: .6rem; }
+    .project h3 { margin: 54px 0 12px; font-size: clamp(2rem, 3.4vw, 3.5rem); font-weight: 500; line-height: .95; }
+    .project p { max-width: 480px; margin: 0; color: var(--stone); font-size: .9rem; }
+    .breaks { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(40px, 8vw, 120px); align-items: start; }
+    .breaks img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border: 1px solid var(--line); }
+    .breaks h2 { margin-bottom: 34px; }
+    .break-list { display: grid; gap: 0; border-top: 1px solid var(--line); }
+    .break-item { padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .break-item b { display: block; margin-bottom: 6px; color: var(--paper); font: 700 .68rem Manrope, sans-serif; letter-spacing: .09em; text-transform: uppercase; }
+    .break-item p { margin: 0; color: var(--stone); font-size: .9rem; }
+    .closing { padding: clamp(60px, 10vw, 130px) 0; border-top: 1px solid var(--line); }
+    .closing blockquote { max-width: 1050px; margin: 0; color: var(--paper-bright); font: 500 clamp(2.8rem, 6vw, 6.8rem)/.95 "Cormorant Garamond", serif; letter-spacing: -.04em; }
+    .closing-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 44px; }
+    .button { display: inline-block; padding: 13px 17px; border: 1px solid var(--cyan); color: var(--cyan); font-size: .64rem; text-decoration: none; }
+    .button.secondary { border-color: var(--line); color: var(--paper); }
+    .source-list { padding: 28px 0 48px; border-top: 1px solid var(--line); color: var(--stone); font-size: .58rem; line-height: 2; }
+    .source-list a { margin-right: 12px; }
+    @media (max-width: 900px) {
+      .tests-intro { margin-left: 0; }
+      .prior-art, .breaks { grid-template-columns: 1fr; }
       .timeline { grid-template-columns: 1fr 1fr; }
       .moment:nth-child(3) { border-left: 0; border-top: 1px solid var(--line); }
       .moment:nth-child(4) { border-top: 1px solid var(--line); }
-      .cta { grid-template-columns: 1fr; align-items: start; }
     }
-    @media (max-width: 430px) {
+    @media (max-width: 680px) {
+      .nav-links a:not(:last-child) { display: none; }
+      h1 { font-size: clamp(3.4rem, 17vw, 5.4rem); }
+      h1 span { margin-left: 0; }
+      .dek { width: 100%; margin-left: 0; }
+      .hero-art img { aspect-ratio: 4 / 5; object-position: center; }
+      .hero-art figcaption { position: static; border-left: 0; }
+      .portrait-grid, .test-definitions, .balance-result, .projects { grid-template-columns: 1fr; }
+      .portrait-grid { gap: 48px; }
+      .test-card { min-height: auto; }
+      .balance-result { gap: 12px; }
+      .reel { grid-auto-columns: 86vw; }
+      .reel-card { min-height: 118vw; }
       .timeline { grid-template-columns: 1fr; }
-      .moment, .moment + .moment { min-height: auto; padding: 24px 0; border-left: 0; border-top: 1px solid var(--line); }
+      .moment, .moment + .moment { min-height: auto; border-top: 1px solid var(--line); border-left: 0; }
       .moment:first-child { border-top: 0; }
-      .moment h3 { margin-top: 20px; }
+      .moment h3 { margin-top: 24px; }
     }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .balance-beam { transition: none; }
+    }
   </style>
 </head>
 <body>
   <a class="skip" href="#article">Skip to article</a>
+  <div class="progress" aria-hidden="true"><span data-progress></span></div>
   <div class="shell">
     <nav aria-label="Primary">
       <a class="wordmark" href="index.html">Solana Observatory / Field Note 01</a>
-      <a href="#timeline">90-second Crypto 101</a>
+      <div class="nav-links">
+        <a href="#origin">Origin</a>
+        <a href="#framework-test">Try the tests</a>
+        <a href="#crypto-101">Crypto 101</a>
+        <a href="index.html">Observatory</a>
+      </div>
     </nav>
 
     <header class="hero">
-      <p class="eyebrow">Knowledge · prosperity · verifiable truth</p>
-      <h1>Two Kinds<br>of Power</h1>
-      <p class="dek">What Saraswati, Lakshmi, public ledgers, and two daughters taught me about programmable money.</p>
-      <figure class="hero-art">
-        <img src="media/crypto-101-balance.png" alt="A balanced brass scale: a blank manuscript and musical instrument on one side, a lotus and grain on the other, over a precise ledger grid.">
-        <figcaption>A personal metaphor, not a claim about Hindu doctrine: grow knowledge, then use value wisely.</figcaption>
-      </figure>
+      <p class="eyebrow">A working framework for the agentic age</p>
+      <h1>Saraswati, Lakshmi,<span>and the Ledger</span></h1>
+      <p class="dek">AI is making capability easier to access. Crypto is making value easier to program. An old pair of questions helps me decide what deserves to be built next.</p>
     </header>
-
-    <main id="article">
-      <section class="essay-grid" aria-label="Article">
-        <article>
-          <p>I have twin daughters, so I notice pairs.</p>
-          <p>In the Hindu stories and symbols I grew up around, Saraswati represents knowledge, learning, speech, and music. Lakshmi represents prosperity, abundance, and good fortune. They are not a neat binary, and Hindu traditions do not all read them the same way. But I return to them as a personal shorthand: learn deeply, then use value wisely.</p>
-          <p>That balance feels newly urgent.</p>
-          <p>Artificial intelligence is making knowledge cheaper to produce and easier to act on. Crypto is trying to make ownership and settlement programmable. One system can decide. The other can keep the receipt.</p>
-          <p>Bitcoin’s 2008 whitepaper described digital money that strangers could verify without one central bookkeeper. Ethereum made that shared ledger programmable. Solana pushed the idea toward fast, inexpensive execution—closer to the speed and cost ordinary products need.</p>
-          <p>That does not make Solana magic. Its performance comes with real trade-offs: demanding validator hardware, concentrated stake, and an operational history worth inspecting. Crypto also earned some of its reputation for scams. A cheap, open rail gives builders room to create; it gives bandits room to operate too.</p>
-          <p>I am learning by building instead of pretending I already know the answer. The Solana Observatory tests whether the network is reliable, used, economically productive, and becoming real financial infrastructure. Tooth Fairy Network tests a smaller, more personal question: can programmable money help families preserve memories and create longer-term incentives for children?</p>
-          <p>Saraswati and Lakshmi are not technology predictions. They are a reminder that intelligence without judgment can become noise, and prosperity without wisdom can become extraction.</p>
-          <blockquote>The future will be shaped by what we know, what we value, and what the ledger can prove.</blockquote>
-        </article>
-        <aside class="margin-note">
-          <strong>Why a ledger?</strong>
-          A ledger is simply a record of who owns what and what happened. A public blockchain makes that record independently checkable. It does not make every entry wise, fair, or true about the outside world.
-        </aside>
-      </section>
-
-      <section class="timeline-wrap" id="timeline" aria-labelledby="timeline-title">
-        <p class="eyebrow">Four technical turns</p>
-        <h2 id="timeline-title">From digital money to agentic rails.</h2>
-        <div class="timeline">
-          <section class="moment">
-            <b>2008 / Bitcoin</b>
-            <h3>Truth without one bookkeeper</h3>
-            <p>A public ledger made digital scarcity and peer-to-peer settlement work without a central payment operator.</p>
-          </section>
-          <section class="moment">
-            <b>2015 / Ethereum</b>
-            <h3>The ledger becomes programmable</h3>
-            <p>General-purpose smart contracts let applications share rules, assets, and settlement onchain.</p>
-          </section>
-          <section class="moment">
-            <b>2020 / Solana</b>
-            <h3 class="solana-heading"><img src="media/solana-logomark.svg" alt="">Faster, cheaper execution</h3>
-            <p>Solana redesigned a layer one around verifiable ordering, parallel execution, and low-cost activity.</p>
-          </section>
-          <section class="moment">
-            <b>Next / Agentic rails</b>
-            <h3>Software can act—and settle</h3>
-            <p>Agents can make decisions. Open rails can give those decisions transparent rules, ownership, and receipts.</p>
-          </section>
-        </div>
-      </section>
-
-      <section class="cta" aria-labelledby="proof-title">
-        <h2 id="proof-title">Bullish is a thesis.<br>Evidence is the work.</h2>
-        <div>
-          <p>The Observatory follows the network, adoption, economy, validators, builders, and financial rails—with every claim open to inspection.</p>
-          <a class="button" href="index.html">Open the Solana Observatory →</a>
-        </div>
-      </section>
-    </main>
-
-    <footer class="sources">
-      Primary reading:
-      <a href="https://www.metzdowd.com/pipermail/cryptography/2008-October/014810.html">Bitcoin announcement</a> ·
-      <a href="https://ethereum.org/whitepaper/">Ethereum whitepaper</a> ·
-      <a href="https://solana.com/solana-whitepaper.pdf">Solana whitepaper</a> ·
-      <a href="https://asia.si.edu/whats-on/exhibitions/wisdom-of-the-goddess/">Smithsonian goddess overview</a>
-    </footer>
   </div>
+
+  <figure class="hero-art">
+    <img src="media/flagship-hero.png" alt="A contemporary generated interpretation of Saraswati and Lakshmi connected by water, brass ledger lines, and cyan computational paths.">
+    <figcaption>Contemporary generated interpretation. The imagery is personal and symbolic, not a claim of canonical Hindu iconography.</figcaption>
+  </figure>
+
+  <main id="article">
+    <section class="chapter shell" id="origin" data-reveal>
+      <header class="chapter-head">
+        <h2>Two kinds of power.</h2>
+      </header>
+      <div class="reading body-copy">
+        <p>I do not see my daughters every day. But every time we are together, they leave me with at least one question I am still thinking about after they go home. At seven, they ask why different gods hold different things. Why one sits on a flower. Why knowledge has music.</p>
+        <p>I was born into Hinduism, but their questions have made me study parts of it more carefully than I did as a child. Every answer seems to produce another question. I have spent more time following the strange side paths of those conversations than I care to admit.</p>
+        <p>Eventually I gave them a simple mnemonic: two kinds of power. Saraswati is associated with learning, speech, music, memory, and discernment. Lakshmi is associated with prosperity, abundance, good fortune, and flourishing. One asks what you understand. The other asks what you do with what you have.</p>
+        <p>That is not a complete map of Hinduism. Hindu traditions are plural, regional, and full of overlapping meanings. What I like about the frame is that one figure is never asked to carry every human need. Knowledge, prosperity, protection, destruction, and devotion can have different faces. The stories can disagree and still leave something useful behind.</p>
+        <p class="quiet-note">The personal photograph belongs in this chapter before publication. The daughters remain part of the reason for the piece, not its promotional subject.</p>
+      </div>
+      <div class="portrait-grid">
+        <figure class="portrait">
+          <img src="media/flagship-saraswati.png" alt="Generated editorial portrait inspired by Saraswati with a veena, manuscript, water, swan, and circuit-like lines.">
+          <figcaption><strong>Knowledge is more than information.</strong> The Saraswati side asks whether a system helps us learn, create, discern, and act.</figcaption>
+        </figure>
+        <figure class="portrait">
+          <img src="media/flagship-lakshmi.png" alt="Generated editorial portrait inspired by Lakshmi with a lotus, grain, flowing water, and elephants.">
+          <figcaption><strong>Prosperity is more than money.</strong> The Lakshmi side asks what value is created, who shares it, and whether it can endure.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="prior-art shell" aria-labelledby="polytheistic-title" data-reveal>
+      <blockquote id="polytheistic-title">What if AI is polytheistic?</blockquote>
+      <div>
+        <p>I encountered a modern version of this frame through Balaji Srinivasan and the Network School. His phrase is blunt: “AI is polytheistic, not monotheistic.” There may never be one all-knowing model. There are many models, built by different groups, with different strengths, limitations, values, and patrons.</p>
+        <p>That felt immediately familiar. In the Hindu frame, different forms of divinity help people think about different forces. You do not ask one symbol to explain everything. I now look at the frontier AI labs in a similar way: not one oracle, but a pantheon of imperfect intelligences. The model you choose matters. So does who built it, what it was trained to reward, and what you ask it to do.</p>
+        <p>The analogy is imperfect, but it gives me a better question than “Which AI wins?” What kind of power does this model offer—and what is missing from it? That is where the Saraswati and Lakshmi tests begin.</p>
+        <p><a href="https://balajis.com/p/ai-is-polytheistic-not-monotheistic">Balaji: AI is polytheistic, not monotheistic</a> · <a href="https://balajis.com/p/network-school">The Network School</a></p>
+      </div>
+    </section>
+
+    <section class="chapter shell" id="framework-test" data-reveal>
+      <header class="chapter-head">
+        <h2>The Saraswati test and the Lakshmi test.</h2>
+      </header>
+      <p class="tests-intro">Choose a product, protocol, company, or policy. Answer these six questions honestly. The balance is not a universal score; it is a way to expose what your enthusiasm may be hiding.</p>
+      <div class="test-definitions">
+        <section class="test-card" aria-labelledby="saraswati-test-title">
+          <p class="test-label">The Saraswati test</p>
+          <h3 id="saraswati-test-title">Does it deepen human capability?</h3>
+          <p>Look for truth, learning, understandable rules, and better judgment—not merely faster output.</p>
+          <div class="question-list">
+            <label class="question"><input type="checkbox" data-test-question data-axis="saraswati"><span>It makes important claims easier to verify.</span></label>
+            <label class="question"><input type="checkbox" data-test-question data-axis="saraswati"><span>It helps people learn or make better decisions.</span></label>
+            <label class="question"><input type="checkbox" data-test-question data-axis="saraswati"><span>Its rules and limitations can be understood.</span></label>
+          </div>
+        </section>
+        <section class="test-card" aria-labelledby="lakshmi-test-title">
+          <p class="test-label">The Lakshmi test</p>
+          <h3 id="lakshmi-test-title">Does it create durable flourishing?</h3>
+          <p>Look beyond price. Ask who receives the value, who bears the risk, and what remains after the excitement.</p>
+          <div class="question-list">
+            <label class="question"><input type="checkbox" data-test-question data-axis="lakshmi"><span>It solves a real problem people will return to.</span></label>
+            <label class="question"><input type="checkbox" data-test-question data-axis="lakshmi"><span>The people carrying the risk can share the upside.</span></label>
+            <label class="question"><input type="checkbox" data-test-question data-axis="lakshmi"><span>Its value can survive without constant promotion.</span></label>
+          </div>
+        </section>
+      </div>
+      <div class="balance-result">
+        <div class="balance-visual" aria-hidden="true">
+          <div class="fulcrum"></div>
+          <div class="balance-beam" data-balance-beam></div>
+          <div class="pan pan-left">Saraswati <span data-saraswati-score>0</span>/3</div>
+          <div class="pan pan-right">Lakshmi <span data-lakshmi-score>0</span>/3</div>
+        </div>
+        <div class="result-copy" aria-live="polite">
+          <p class="test-label">Your reading</p>
+          <h3 data-test-result>Start with the questions.</h3>
+          <p data-test-explanation>A useful system needs more than intelligence or money. Mark only what you can defend.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" aria-labelledby="reel-title" data-reveal>
+      <div class="shell">
+        <header class="chapter-head">
+          <h2 id="reel-title">Flip through the idea.</h2>
+        </header>
+        <div class="reel-nav">
+          <span class="reel-count">Five frames · swipe or use arrows</span>
+          <div class="reel-controls">
+            <button type="button" data-reel-prev aria-label="Previous frame">←</button>
+            <button type="button" data-reel-next aria-label="Next frame">→</button>
+          </div>
+        </div>
+      </div>
+      <div class="reel" data-reel tabindex="0" aria-label="Five-frame visual story">
+        <figure class="reel-card wide">
+          <img src="media/flagship-hero.png" alt="Saraswati and Lakshmi connected by a luminous ledger.">
+          <figcaption class="reel-caption"><b>01 / An old balance</b><span>Knowledge and prosperity are powerful together—and dangerous when separated from judgment.</span></figcaption>
+        </figure>
+        <figure class="reel-card portrait">
+          <img src="media/flagship-saraswati.png" alt="Saraswati-inspired portrait with manuscript, music, water, and circuits.">
+          <figcaption class="reel-caption"><b>02 / Capability</b><span>AI can make intelligence abundant. It can also make confident nonsense abundant.</span></figcaption>
+        </figure>
+        <figure class="reel-card portrait">
+          <img src="media/flagship-lakshmi.png" alt="Lakshmi-inspired portrait with lotus, grain, water, and elephants.">
+          <figcaption class="reel-caption"><b>03 / Flourishing</b><span>Crypto can program value. It cannot tell us which values deserve to be programmed.</span></figcaption>
+        </figure>
+        <figure class="reel-card wide">
+          <img src="media/flagship-agentic-ledger.png" alt="Family memories and computational paths flowing into a luminous ledger.">
+          <figcaption class="reel-caption"><b>04 / The receipt</b><span>A ledger can preserve rules and receipts. It cannot prove that every outside claim was honest.</span></figcaption>
+        </figure>
+        <figure class="reel-card wide">
+          <img src="media/crypto-101-balance.png" alt="A brass scale balancing manuscript and music against lotus and grain over a ledger grid.">
+          <figcaption class="reel-caption"><b>05 / The practice</b><span>Build small. Inspect the evidence. Ask both questions again.</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="chapter shell" id="crypto-101" data-reveal>
+      <header class="chapter-head">
+        <h2>From digital money to software that can spend.</h2>
+      </header>
+      <p class="tests-intro">Bitcoin, Ethereum, Solana, and agentic payments are not the same technology. This is the shortest map I know from a digital receipt to software that can act on one.</p>
+      <div class="timeline">
+        <section class="moment">
+          <b>2008 / Bitcoin</b>
+          <h3>Scarcity strangers can check</h3>
+          <p>A public ledger made digital ownership and settlement possible without one central bookkeeper. <a href="https://sathian.ai/writings/nine-pages">Read Nine Pages</a>.</p>
+        </section>
+        <section class="moment">
+          <b>2015 / Ethereum</b>
+          <h3>The ledger becomes programmable</h3>
+          <p>Smart contracts let applications share executable rules, assets, and settlement.</p>
+        </section>
+        <section class="moment">
+          <b>2020 / Solana</b>
+          <h3 class="solana-heading"><img src="media/solana-logomark.svg" alt="">Lower-cost execution</h3>
+          <p>Solana optimized a layer one for fast, inexpensive activity, with real validator hardware and stake-distribution trade-offs.</p>
+        </section>
+        <section class="moment">
+          <b>Next / Agentic</b>
+          <h3>Software can act—and settle</h3>
+          <p>Agents can choose and transact. The hard part is giving them limits, accountability, and receipts.</p>
+        </section>
+      </div>
+    </section>
+
+    <section class="chapter shell" data-reveal>
+      <header class="chapter-head">
+        <h2>What I am testing in public.</h2>
+      </header>
+      <div class="projects">
+        <a class="project" href="index.html">
+          <span class="utility">Inspect the rails →</span>
+          <h3>Solana Observatory</h3>
+          <p>Is the network reliable, used, economically meaningful, and becoming real financial infrastructure? The evidence stays attached to every claim.</p>
+        </a>
+        <a class="project" href="https://toothfairy.network">
+          <span class="utility">Family memory →</span>
+          <h3>Tooth Fairy Network</h3>
+          <p>Can a childhood ritual become a durable memory object with transparent, longer-term incentives for families?</p>
+        </a>
+        <a class="project" href="https://sathian.ai/writings/agent-allowance-lab">
+          <span class="utility">Bounded agency →</span>
+          <h3>Agent Allowance Lab</h3>
+          <p>Can software receive a useful budget without receiving an unlimited wallet? This is the smallest version of accountable agentic payments.</p>
+        </a>
+        <a class="project" href="https://sathian.ai">
+          <span class="utility">Public interface →</span>
+          <h3>The site assistant</h3>
+          <p>Can my research, writing, and working memory become easier to question without turning an AI answer into unquestioned authority?</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="chapter shell breaks" data-reveal>
+      <figure>
+        <img src="media/flagship-agentic-ledger.png" alt="A luminous ledger receiving streams of human memory and computational action.">
+        <figcaption>The ledger preserves the receipt. Human judgment still decides what the receipt means.</figcaption>
+      </figure>
+      <div>
+        <h2>Where the metaphor breaks.</h2>
+        <div class="break-list">
+          <div class="break-item"><b>AI is not wisdom</b><p>It predicts plausible outputs. It can accelerate learning and manipulation with the same machinery.</p></div>
+          <div class="break-item"><b>Crypto is not prosperity</b><p>Programmable ownership can coordinate real value or manufacture a faster casino.</p></div>
+          <div class="break-item"><b>A ledger is not truth itself</b><p>It can prove what was recorded and under which rules. It cannot automatically verify the physical world.</p></div>
+          <div class="break-item"><b>Solana is not magic</b><p>Low cost and speed matter, but so do validator demands, stake concentration, security, and operational history.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="shell">
+        <blockquote>What do we know? Who flourishes? What can the ledger actually prove?</blockquote>
+        <div class="closing-actions">
+          <a class="button" href="index.html">Open the Solana Observatory →</a>
+          <a class="button secondary" href="https://sathian.ai">Explore the rest of the work →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="source-list shell">
+    Sources and influences:
+    <a href="https://asia.si.edu/whats-on/exhibitions/wisdom-of-the-goddess/">Smithsonian goddess overview</a>
+    <a href="https://www.uwa.edu.au/lwag/exhibitions/expressions-of-india/kalighat">UWA Kalighat collection</a>
+    <a href="https://balajis.com/p/network-school">The Network School</a>
+    <a href="https://balajis.com/p/ai-is-polytheistic-not-monotheistic">AI is polytheistic</a>
+    <a href="https://www.metzdowd.com/pipermail/cryptography/2008-October/014810.html">Bitcoin announcement</a>
+    <a href="https://ethereum.org/whitepaper/">Ethereum whitepaper</a>
+    <a href="https://solana.com/solana-whitepaper.pdf">Solana whitepaper</a>
+  </footer>
+
+  <script>
+    const questions = [...document.querySelectorAll("[data-test-question]")];
+    const beam = document.querySelector("[data-balance-beam]");
+    const saraswatiScore = document.querySelector("[data-saraswati-score]");
+    const lakshmiScore = document.querySelector("[data-lakshmi-score]");
+    const result = document.querySelector("[data-test-result]");
+    const explanation = document.querySelector("[data-test-explanation]");
+
+    function updateFrameworkTest() {
+      const saraswati = questions.filter((question) => question.dataset.axis === "saraswati" && question.checked).length;
+      const lakshmi = questions.filter((question) => question.dataset.axis === "lakshmi" && question.checked).length;
+      saraswatiScore.textContent = saraswati;
+      lakshmiScore.textContent = lakshmi;
+      beam.style.setProperty("--balance-angle", `${(saraswati - lakshmi) * -4}deg`);
+
+      if (saraswati === 0 && lakshmi === 0) {
+        result.textContent = "Start with the questions.";
+        explanation.textContent = "A useful system needs more than intelligence or money. Mark only what you can defend.";
+      } else if (saraswati >= 2 && lakshmi >= 2 && Math.abs(saraswati - lakshmi) <= 1) {
+        result.textContent = "The two tests are in conversation.";
+        explanation.textContent = "This is worth examining further. Now look for the people or evidence that could disprove your answers.";
+      } else if (saraswati - lakshmi >= 2 || (saraswati > 0 && lakshmi === 0)) {
+        result.textContent = "Strong Saraswati. Ask where Lakshmi goes.";
+        explanation.textContent = "Capability is visible. The unresolved question is whether it produces durable value and who gets to share it.";
+      } else if (lakshmi - saraswati >= 2 || (lakshmi > 0 && saraswati === 0)) {
+        result.textContent = "Strong Lakshmi. Ask what Saraswati can verify.";
+        explanation.textContent = "Value is visible. The unresolved question is whether people understand the system and can inspect its claims.";
+      } else {
+        result.textContent = "The imbalance is the useful part.";
+        explanation.textContent = "A missing answer is not failure. It is the next question to investigate before trust or capital compounds.";
+      }
+    }
+    questions.forEach((question) => question.addEventListener("change", updateFrameworkTest));
+
+    const reel = document.querySelector("[data-reel]");
+    const step = () => Math.min(reel.clientWidth * .82, 880);
+    document.querySelector("[data-reel-prev]").addEventListener("click", () => reel.scrollBy({ left: -step(), behavior: "smooth" }));
+    document.querySelector("[data-reel-next]").addEventListener("click", () => reel.scrollBy({ left: step(), behavior: "smooth" }));
+
+    const progress = document.querySelector("[data-progress]");
+    function updateProgress() {
+      const available = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = `${available > 0 ? Math.min(100, (window.scrollY / available) * 100) : 0}%`;
+    }
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
+
+  </script>
 </body>
 </html>

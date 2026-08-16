@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { chromium } from "playwright";
@@ -8,6 +9,10 @@ const assets = [
   ["assets/brand/social-cover.html", 1200, 630],
   ["assets/brand/six-question-map.html", 1200, 1200],
 ];
+
+const flagshipSocial = readFileSync("assets/brand/crypto-101-social.html", "utf8");
+assert.match(flagshipSocial, /Saraswati, Lakshmi/);
+assert.match(flagshipSocial, /flagship-hero\.png/);
 
 const browser = await chromium.launch({ headless: true });
 try {

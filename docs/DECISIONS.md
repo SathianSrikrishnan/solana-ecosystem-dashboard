@@ -183,3 +183,27 @@ it does not trigger execution or expose `DUNE_API_KEY`.
 
 At the measured 17.72-credit cycle, this cadence is approximately 180 included
 credits per month. The $0 extra-credit limit remains the hard cash-spend guard.
+
+### 2026-08-11 - Make the companion a flagship framework, not a longer Crypto 101
+
+The companion page is now organized around **the Saraswati test** and **the
+Lakshmi test**. The working title is *Saraswati, Lakshmi, and the Ledger*;
+*Two Kinds of Power* remains a supporting phrase rather than the headline.
+
+The article introduces Sathian's seven-year-old daughters as the reason he
+revisited inherited symbols, while stating honestly that he does not see them
+every day and without turning them into promotional content. **Two kinds of
+power** is the mnemonic he uses with them.
+
+The weak prior-art catalogue is removed. The modern bridge instead credits
+Balaji Srinivasan's "AI is polytheistic, not monotheistic" argument and uses it
+to ask what kind of power each model offers, what incentives shaped it, and
+what is missing. Its distinctive contribution remains a two-axis test applied
+to AI, crypto, and Sathian's working projects.
+
+The approved companion uses a visual editorial structure, four original
+generated images, a five-frame scroll-snap story reel, an accessible six-
+question self-test, a compact technical history, and links to the Observatory,
+Tooth Fairy Network, Agent Allowance Lab, and sathian.ai. Sathian approved the
+voice, imagery, product claims, and mobile treatment for publication; the
+Observatory copy ships with this release candidate.

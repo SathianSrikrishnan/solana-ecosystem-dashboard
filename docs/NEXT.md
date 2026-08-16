@@ -60,9 +60,13 @@ source exists. Bot classification remains a named evidence gap until address-
 level frequency, timing, program breadth, funding, and instruction-pattern
 features are reproducibly available.
 
-The dashboard is feature-complete for the release candidate. The article target
-is 325–450 words: a concise low-cost builder and financial-rails thesis, a
-compressed seven-era arc, and a factual connection to Tooth Fairy Network.
+The dashboard is feature-complete for the release candidate. The earlier short
+article concept has become a separate flagship visual essay. Its main copy is
+700-950 words, while progressive disclosure keeps the primary reading path
+under five minutes. It uses an honest personal opening, the "two kinds of
+power" mnemonic, Balaji Srinivasan's polytheistic-AI bridge, a two-test
+framework, a visual reel, a compact technical arc, and factual connections to
+Sathian's projects.
 
 The final readability release adds a thirty-second Start Here path, a linked
 six-question system map, exact-size share assets, social-preview metadata, and
@@ -70,7 +74,7 @@ a short explanation of how the Observatory supports the family-product thesis.
 After submission, prioritize a weekly change brief, archive, opt-in alerts, and
 embeddable cards before adding more marginal metrics.
 
-## Open companion-product decision
+## Companion-product review
 
 Sathian wants a concise Crypto 101 to Solana entry experience that can support
 the dashboard, social posts, Tooth Fairy Network, future real-world-asset
@@ -80,11 +84,17 @@ that delays judges or returning dashboard users. Its four-beat historical arc
 must preserve the corrected Bitcoin, Ethereum, token/L2, and Solana chronology
 in `docs/research/dune-cost-and-crypto-timeline-fact-check.md`.
 
-The Dune cadence decision is settled at three days. Next, validate the
-companion-page architecture before building more images or interface
-components. The Ukraine beginner bounty is region-restricted, so this page is
-a personal-site, portfolio, and future-hackathon asset unless the sponsor gives
-written eligibility confirmation.
+The Dune cadence decision is settled at three days. The flagship companion is
+implemented at `output/crypto-101.html`, with its approved article source in
+`docs/articles/2026-08-11-two-kinds-of-power-draft.md`. Sathian approved the
+headline, personal opening, two tests, project descriptions, generated imagery,
+closing, and mobile treatment. The dashboard and companion now link to each
+other. Remaining launch work is operational: merge the verified release,
+confirm the public Pages build, record the short demo, and submit the bounty.
+
+The Ukraine beginner bounty is region-restricted, so this page is a personal-
+site, portfolio, and future-hackathon asset unless the sponsor gives written
+eligibility confirmation.
 
 ## Parallel learning track
 

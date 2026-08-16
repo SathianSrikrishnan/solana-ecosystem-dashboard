@@ -481,6 +481,8 @@ class RendererTests(unittest.TestCase):
         self.assertIn('id="learn"', rendered)
         self.assertIn("How do I use this dashboard?", rendered)
         self.assertIn("How do I learn the concepts?", rendered)
+        self.assertIn('href="crypto-101.html"', rendered)
+        self.assertIn("Read the Crypto 101 companion", rendered)
         self.assertIn("Why might Solana matter?", rendered)
         self.assertIn("Why was this built?", rendered)
         self.assertIn("What does this have to do with families?", rendered)
@@ -488,6 +490,15 @@ class RendererTests(unittest.TestCase):
         self.assertIn("Tooth Fairy Network", rendered)
         self.assertIn("planned", rendered.lower())
         self.assertIn("Start with the six questions", rendered)
+
+    def test_html_opens_with_a_beginner_question_and_guided_promise(self):
+        rendered = render_html(self.snapshot)
+
+        self.assertIn("I want to understand<br>how Solana works.", rendered)
+        self.assertIn("Start with six questions", rendered)
+        self.assertIn("takes you through the network systematically", rendered)
+        self.assertIn("definition, source, freshness, and limitation", rendered)
+        self.assertNotIn("Solana,<br>without the fog.", rendered)
 
     def test_html_shows_an_honest_identity_and_automation_lens(self):
         base = self.snapshot["metrics"]["active_validators"]

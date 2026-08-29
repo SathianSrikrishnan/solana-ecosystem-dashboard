@@ -44,7 +44,11 @@ def parse_official_updates(
     age_days = round((collected - published).total_seconds() / 86400, 1)
 
     normalized_alpenglow = re.sub(r"\s+", " ", alpenglow_html).lower()
-    if "under development" not in normalized_alpenglow or "q3 2026" not in normalized_alpenglow:
+    recognized_status = any(
+        status in normalized_alpenglow
+        for status in ("in development", "under development")
+    )
+    if not recognized_status or "q3 2026" not in normalized_alpenglow:
         raise ValueError("Alpenglow page no longer exposes the expected status")
     status_match = re.search(
         r"^status\s*(?:\||:)\s*['\"]?([^'\"\r\n]+)",
@@ -66,7 +70,7 @@ def parse_official_updates(
         ),
         "alpenglow_upgrade_status": _metric(
             "alpenglow_upgrade_status", "Alpenglow upgrade status",
-            "Under development · Q3 2026", "official roadmap",
+            "In development · Q3 2026", "official roadmap",
             "Current phase and expected activation window shown on Solana's official upgrade page.",
             "It tracks the named consensus upgrade without implying that a roadmap date is guaranteed.",
             "Alpenglow Phase 1 - Votor", ALPENGLOW_URL, collected_at, None,

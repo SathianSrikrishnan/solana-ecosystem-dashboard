@@ -34,15 +34,21 @@ jobs:
 
       - name: Execute bounded Dune adoption queries
         if: ${{ github.event_name == 'workflow_dispatch' || steps.due.outputs.due == 'true' }}
+        id: execute
+        continue-on-error: true
         env:
           DUNE_API_KEY: ${{ secrets.DUNE_API_KEY }}
         run: python scripts/execute_dune_queries.py
 
       - name: Publish refreshed Dune adoption metrics
-        if: ${{ github.event_name == 'workflow_dispatch' || steps.due.outputs.due == 'true' }}
+        if: ${{ (github.event_name == 'workflow_dispatch' || steps.due.outputs.due == 'true') && steps.execute.outcome == 'success' }}
         env:
           DUNE_API_KEY: ${{ secrets.DUNE_API_KEY }}
         run: python scripts/refresh_dune.py --snapshot output/report.json --output output
+
+      - name: Preserve verified Dune values as stale
+        if: ${{ (github.event_name == 'workflow_dispatch' || steps.due.outputs.due == 'true') && steps.execute.outcome == 'failure' }}
+        run: python scripts/mark_dune_stale.py --snapshot output/report.json --output output
 
       - name: Commit changed reports
         shell: bash

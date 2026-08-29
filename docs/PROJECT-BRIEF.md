@@ -49,9 +49,11 @@ Secondary:
    labeled hypotheses. PR 6 will implement generation; deterministic reports
    remain the source of truth and still publish when analysis is unavailable.
 
-## Deadline
+## Submission timing
 
-Submission deadline: 2026-08-17 at 23:59 America/Toronto.
+The official listing was open when rechecked on 2026-08-29. Its live countdown
+is the authority; confirm it immediately before submission rather than relying
+on the original August date recorded in this repository.
 
 ## Current product milestone
 

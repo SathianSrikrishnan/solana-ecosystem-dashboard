@@ -1,6 +1,6 @@
 # Superteam submission draft
 
-Status: verified release branch; production merge, final byline, and demo remain.
+Status: release candidate; production merge, fresh GitHub Actions proof, and the recorded demo remain.
 
 - Live dashboard: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/
 - Social cover: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/solana-observatory-cover.png
@@ -13,6 +13,10 @@ Status: verified release branch; production merge, final byline, and demo remain
 Solana Observatory is a living, source-visible dashboard that explains whether
 Solana is working, attracting durable use, producing economic value, remaining
 decentralized, compounding its ecosystem, and becoming financial infrastructure.
+
+It stands alone as the dashboard submission. [Inside MonkeDAO](https://sathian.ai/writings/inside-monkedao)
+is optional supporting fieldwork: the Observatory is the system view; the field
+report is the community view.
 
 ## Short description
 
@@ -62,15 +66,12 @@ npx playwright install chromium
 npm run test:a11y
 ```
 
-## Demo outline (75 seconds)
+## Demo
 
-1. **0–10s:** “Most dashboards show activity. This one shows what the activity
-   means—and what it cannot prove.”
-2. **10–25s:** Show Start Here, the six questions, and the evidence briefing.
-3. **25–40s:** Open Economy; compare app fees, app revenue, chain fees, and REV.
-4. **40–52s:** Open one evidence drawer: definition, source, freshness, caveat.
-5. **52–62s:** Show Financial Rails and explain why transfers are not payments.
-6. **62–75s:** Show JSON/Markdown outputs and the six-hour refresh workflow.
+Use [`DEMO-SCRIPT.md`](DEMO-SCRIPT.md) for one 10–12 minute walkthrough recorded
+inside a bounded 30-minute session. The demo leads with the public user
+experience, then proves one evidence path, the generated outputs, and the
+automation/failure behavior.
 
 ## Final fields still needed
 

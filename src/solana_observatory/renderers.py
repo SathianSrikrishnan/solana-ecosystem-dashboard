@@ -664,6 +664,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A source-visible Solana ecosystem observatory.">
   <meta name="theme-color" content="#070a0e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='19' y='19' width='26' height='26' rx='2' fill='none' stroke='%234df0a8' stroke-width='6' transform='rotate(45 32 32)'/%3E%3C/svg%3E">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Solana Observatory">
   <meta property="og:description" content="A six-question guide to how Solana works. Every claim inspectable.">
@@ -859,6 +860,11 @@ def render_html(snapshot: dict[str, Any]) -> str:
     .learn-intro {{ max-width: 760px; margin-bottom: 24px; color: var(--muted); }}
     .learn-bridge {{ max-width: 760px; margin: -10px 0 24px; color: var(--muted); font-size: .9rem; }}
     .learn-bridge a {{ color: var(--green); font-weight: 700; text-underline-offset: 3px; }}
+    .learning-layers {{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0 0 30px; }}
+    .learning-layer {{ padding: 20px; border: 1px solid var(--line); background: rgba(16,22,28,.72); }}
+    .learning-layer h3 {{ margin: 8px 0; font-size: 1.2rem; }}
+    .learning-layer p {{ margin: 0; color: var(--muted); font-size: .86rem; }}
+    .learning-layer a {{ color: var(--green); font-weight: 700; text-underline-offset: 3px; }}
     .learn-guide {{ border-top: 1px solid var(--line); }}
     .learn-guide details {{ padding: 18px 0; border-bottom: 1px solid var(--line); font-size: .92rem; }}
     .learn-guide summary {{ display: flex; align-items: baseline; justify-content: space-between; gap: 20px; font-family: Bahnschrift, "Franklin Gothic Medium", sans-serif; font-size: 1.15rem; }}
@@ -866,6 +872,9 @@ def render_html(snapshot: dict[str, Any]) -> str:
     .learn-guide details[open] summary::after {{ content: "−"; }}
     .learn-guide details > div {{ max-width: 780px; padding-top: 14px; color: var(--muted); }}
     .learn-guide strong {{ color: var(--text); }}
+    .proof-links {{ display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }}
+    .proof-links a {{ padding: 8px 10px; border: 1px solid var(--line); color: var(--green); font: .72rem/1.2 "Cascadia Mono", Consolas, monospace; text-decoration: none; }}
+    .proof-links a:hover, .proof-links a:focus-visible {{ border-color: var(--green); }}
     .identity-lens {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px; padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }}
     .identity-lens h3 {{ margin: 8px 0 0; font-size: 1.5rem; }}
     .identity-lens > p {{ grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: .82rem; }}
@@ -906,7 +915,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
       main {{ padding-top: 48px; }}
       .reading, .orientation, .section-heading, .methods-grid, .era, .identity-lens, .leaderboard-heading, .anomaly-monitor {{ grid-template-columns: 1fr; }}
       .source-health {{ padding: 20px 0 0; border: 0; border-top: 1px solid var(--line); }}
-      .signal-grid, .metric-grid {{ grid-template-columns: 1fr; }}
+      .signal-grid, .metric-grid, .learning-layers {{ grid-template-columns: 1fr; }}
       .system-map {{ grid-template-columns: repeat(2, 1fr); }}
       .state-legend {{ grid-template-columns: 1fr; }}
       .dashboard-section {{ padding-top: 58px; }}
@@ -1009,6 +1018,18 @@ def render_html(snapshot: dict[str, Any]) -> str:
       </div>
       <p class="learn-intro">Start with the six questions. Open a metric only when you want its definition, interpretive risk, or source. A reporting badge describes the data feed; it is not a verdict on Solana.</p>
       <p class="learn-bridge">Prefer the story before the instruments? <a href="crypto-101.html">Read the Crypto 101 companion</a>, then return here for the evidence.</p>
+      <div class="learning-layers" aria-label="Two ways to understand Solana">
+        <article class="learning-layer">
+          <span class="eyebrow">System layer</span>
+          <h3>Understand the network through evidence</h3>
+          <p>Solana Observatory follows six questions across network health, adoption, economics, validators, ecosystem change, and financial rails.</p>
+        </article>
+        <article class="learning-layer">
+          <span class="eyebrow">Community layer</span>
+          <h3>See what participation feels like</h3>
+          <p><a href="https://sathian.ai/writings/inside-monkedao">Inside MonkeDAO</a> is a separate firsthand interview and field report on one Solana community.</p>
+        </article>
+      </div>
       <div class="learn-guide">
         <details open>
           <summary>How do I use this dashboard?</summary>
@@ -1050,6 +1071,11 @@ def render_html(snapshot: dict[str, Any]) -> str:
           <p>Automatic explanations may use only validated facts from this snapshot. Evidence IDs, uncertainty, generation time, and model stay visible; if analysis fails, the verified report still publishes.</p>
         </aside>
       </div>
+      <nav class="proof-links" aria-label="Public project proof">
+        <a href="https://github.com/SathianSrikrishnan/solana-ecosystem-dashboard">View source code &#8599;</a>
+        <a href="report.md">Read the Markdown report</a>
+        <a href="report.json">Inspect the JSON data</a>
+      </nav>
     </section>
   </main>
   <script id="snapshot" type="application/json">{embedded_snapshot}</script>

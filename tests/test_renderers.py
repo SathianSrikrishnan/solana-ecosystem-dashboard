@@ -189,9 +189,27 @@ class RendererTests(unittest.TestCase):
             self.assertIn(f'href="#{section}"', rendered)
         self.assertIn("Six questions. One living system.", rendered)
 
+    def test_html_links_the_system_and_community_views_with_public_proof(self):
+        rendered = render_html(self.snapshot)
+
+        self.assertIn("Two ways to understand Solana", rendered)
+        self.assertIn("System layer", rendered)
+        self.assertIn("Community layer", rendered)
+        self.assertIn(
+            'href="https://sathian.ai/writings/inside-monkedao"',
+            rendered,
+        )
+        self.assertIn(
+            'href="https://github.com/SathianSrikrishnan/solana-ecosystem-dashboard"',
+            rendered,
+        )
+        self.assertIn('href="report.md"', rendered)
+        self.assertIn('href="report.json"', rendered)
+
     def test_html_publishes_exact_social_preview_metadata(self):
         rendered = render_html(self.snapshot)
 
+        self.assertIn('rel="icon"', rendered)
         self.assertIn('property="og:title" content="Solana Observatory"', rendered)
         self.assertIn(
             'property="og:image" content="https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/solana-observatory-cover.png"',

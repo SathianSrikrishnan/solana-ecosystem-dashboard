@@ -58,6 +58,11 @@ class RefreshWorkflowTests(unittest.TestCase):
         self.assertIn("steps.due.outputs.due == 'true'", workflow)
         self.assertIn("python scripts/refresh_dune.py", workflow)
         self.assertIn("DUNE_API_KEY", workflow)
+        self.assertIn("id: execute", workflow)
+        self.assertIn("continue-on-error: true", workflow)
+        self.assertIn("steps.execute.outcome == 'success'", workflow)
+        self.assertIn("steps.execute.outcome == 'failure'", workflow)
+        self.assertIn("python scripts/mark_dune_stale.py", workflow)
 
 
 if __name__ == "__main__":

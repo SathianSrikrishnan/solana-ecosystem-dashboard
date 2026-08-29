@@ -85,7 +85,10 @@ reach `main`. Concurrency guards prevent overlapping refreshes and deployments.
 `.github/workflows/dune-adoption.yml` checks once a day whether the oldest
 verified Dune adoption date is at least three UTC days old. Only then does it
 execute the three bounded queries, refresh the five adoption measurements, and
-commit the new outputs. The dashboard's **Check for latest data** button only
+commit the new outputs. If provider capacity prevents execution, the workflow
+preserves the last verified values, marks them stale, and continues publishing
+the no-key core instead of purchasing capacity or hiding the failure. The
+dashboard's **Check for latest data** button only
 checks for a newer published `report.json`; it cannot run a query, access the
 secret, or consume credits.
 

@@ -71,4 +71,3 @@ the generated artifacts, source code, and the automation/degradation story.
   provenance.
 - No production push, merge, or bounty submission occurs without the final
   action-time review.
-

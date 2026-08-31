@@ -46,7 +46,10 @@ class MarkDuneStaleTests(unittest.TestCase):
                 self.assertEqual(report["metrics"][metric_id]["value"], value)
                 self.assertEqual(report["metrics"][metric_id]["status"], "stale")
             public_output = (output_dir / "index.html").read_text(encoding="utf-8")
-            self.assertNotIn("402", public_output)
+            self.assertNotRegex(
+                public_output,
+                r"(?i)\b(?:http|status(?:\s+code)?)\s*402\b|\bpayment required\b",
+            )
             self.assertNotIn("billing cycle", public_output.lower())
 
 

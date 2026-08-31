@@ -1,11 +1,12 @@
 # Superteam submission draft
 
-Status: release candidate. The current automated refresh and GitHub Pages deployment are green, and a private 3:03 demo review cut is ready. The final public demo URL and action-time submission approval remain.
+Status: final candidate. The current automated refresh and GitHub Pages deployment are green, the 3:03 demo is owner-approved, and its public project URL is prepared. Action-time submission approval remains.
 
 - Live dashboard: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/
 - Social cover: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/solana-observatory-cover.png
 - One-page guide: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/solana-six-question-map.png
 - Public repository: https://github.com/SathianSrikrishnan/solana-ecosystem-dashboard
+- Public project and walkthrough: https://sathian.ai/projects/solana-observatory
 - Official bounty: https://superteam.fun/earn/listing/develop-solana-ecosystem-auto-updating-report-and-interactive-dashboard
 
 ## One-line pitch
@@ -69,12 +70,12 @@ npm run test:a11y
 ## Demo
 
 Use [`DEMO-SCRIPT-3-MINUTE.md`](DEMO-SCRIPT-3-MINUTE.md) for the 3:03 product
-walkthrough. The private review cut combines the live dashboard sequence with
+walkthrough. The owner-approved cut combines the live dashboard sequence with
 Sathian's complete narration and a small presenter window. It covers the six
 product questions, all six dashboard layers, the evidence contract, honest
 source degradation, and the automated output pipeline without opening private
-tabs or exposing credentials. Add the public video URL only after owner playback
-approval.
+tabs or exposing credentials. The public walkthrough is embedded at
+https://sathian.ai/projects/solana-observatory.
 
 ## Current proof snapshot
 
@@ -89,5 +90,4 @@ approval.
 - Recommended builder bio, pending Sathian's approval: **Sathian Srikrishnan is
   a Toronto builder learning in public at the intersection of AI, programmable
   payments, and family-focused products on Solana.**
-- Final public demo URL after playback approval.
 - Action-time approval to submit the bounty.

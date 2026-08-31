@@ -1,6 +1,6 @@
 # Superteam submission draft
 
-Status: release candidate; production merge, fresh GitHub Actions proof, and the recorded demo remain.
+Status: release candidate. The current automated refresh and GitHub Pages deployment are green, and a private 3:03 demo review cut is ready. The final public demo URL and action-time submission approval remain.
 
 - Live dashboard: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/
 - Social cover: https://sathiansrikrishnan.github.io/solana-ecosystem-dashboard/solana-observatory-cover.png
@@ -68,10 +68,20 @@ npm run test:a11y
 
 ## Demo
 
-Use [`DEMO-SCRIPT.md`](DEMO-SCRIPT.md) for one 10–12 minute walkthrough recorded
-inside a bounded 30-minute session. The demo leads with the public user
-experience, then proves one evidence path, the generated outputs, and the
-automation/failure behavior.
+Use [`DEMO-SCRIPT-3-MINUTE.md`](DEMO-SCRIPT-3-MINUTE.md) for the 3:03 product
+walkthrough. The private review cut combines the live dashboard sequence with
+Sathian's complete narration and a small presenter window. It covers the six
+product questions, all six dashboard layers, the evidence contract, honest
+source degradation, and the automated output pipeline without opening private
+tabs or exposing credentials. Add the public video URL only after owner playback
+approval.
+
+## Current proof snapshot
+
+- 45 source-carrying records: 36 current, five visibly stale, four unavailable.
+- 130 Python tests pass on the current merged submission branch.
+- Social, companion-page, refresh-control, WCAG A/AA, and desktop/mobile visual checks pass.
+- The latest public refresh and GitHub Pages deployment completed successfully on 2026-08-30.
 
 ## Final fields still needed
 
@@ -79,5 +89,5 @@ automation/failure behavior.
 - Recommended builder bio, pending Sathian's approval: **Sathian Srikrishnan is
   a Toronto builder learning in public at the intersection of AI, programmable
   payments, and family-focused products on Solana.**
-- Final demo URL.
+- Final public demo URL after playback approval.
 - Action-time approval to submit the bounty.

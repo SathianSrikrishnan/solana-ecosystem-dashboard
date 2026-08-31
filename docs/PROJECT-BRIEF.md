@@ -58,9 +58,10 @@ on the original August date recorded in this repository.
 ## Current product milestone
 
 The release candidate uses normalized schema `0.3.0` and 45 metrics across
-Network, Adoption, Economy, Validators, Ecosystem, and Financial Rails. Forty-
-one metrics report live and four important gaps remain explicit because their
-dependable sources require authentication or a stronger attribution contract.
+Network, Adoption, Economy, Validators, Ecosystem, and Financial Rails. The
+2026-08-30 snapshot contains 36 current records, five visibly stale Dune records,
+and four unavailable gaps whose dependable sources require authentication or a
+stronger attribution contract.
 The product includes deterministic comparisons, anomaly review, an evidence-
 bound briefing, a sourced seven-era history, mobile/desktop QA, and automated
 Axe checks. Deployment and bounty submission still require Sathian's approval.

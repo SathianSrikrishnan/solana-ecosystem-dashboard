@@ -52,7 +52,8 @@
 - [x] Confirm no secret-like values appear in the public JSON or HTML output.
 - [x] Check all 19 current external metric-source links (19/19 returned a
       successful or content-range response on 2026-08-10).
-- [ ] Record a 60-90 second product demo.
+- [x] Render a 3:03 private product-demo review cut; public hosting remains an owner-approval gate.
 - [x] Capture final desktop and mobile screenshots.
 - [x] Confirm the share images match exact target dimensions without clipping.
-- [ ] Verify the official requirements and character limits line by line.
+- [x] Verify the official requirements line by line against the live listing on 2026-08-30.
+- [ ] Confirm any submission-form character limits immediately before submission.

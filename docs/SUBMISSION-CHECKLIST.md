@@ -13,14 +13,14 @@ Status: release candidate. Do not submit until Sathian gives explicit action-tim
 
 ## Release gate
 
-- [ ] Full Python suite passes from a clean checkout.
-- [ ] Deterministic generation produces HTML, Markdown, and JSON.
-- [ ] Desktop and mobile accessibility checks pass.
-- [ ] GitHub Actions refresh workflow is green.
-- [ ] GitHub Pages deployment is green and the snapshot date is current.
-- [ ] Dune values are fresh or visibly marked stale; no billing detail is public.
-- [ ] Public links, evidence drawers, cover image, and mobile layout are checked.
-- [ ] Walkthrough contains no private tabs, secrets, wallet addresses, or raw interview material.
+- [x] Full Python suite passes on the current merged submission branch: 130/130 on 2026-08-30.
+- [x] The automated refresh generated and published HTML, Markdown, and JSON from one validated snapshot.
+- [x] Desktop and mobile accessibility checks pass at WCAG 2.1 A/AA.
+- [x] GitHub Actions refresh workflow is green.
+- [x] GitHub Pages deployment is green and the public snapshot is dated 2026-08-30.
+- [x] Dune values are visibly marked stale; no secret or billing value appears in the public outputs.
+- [x] Public dashboard, Markdown, JSON, cover, and six-question map return successfully.
+- [x] The private walkthrough frame sweep shows no private tabs, secrets, wallet addresses, or raw interview material.
 - [ ] Final video URL is added to the submission draft.
 - [ ] Sathian has reviewed the final public URLs and given explicit action-time approval.
 

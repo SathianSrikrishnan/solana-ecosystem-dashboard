@@ -1,13 +1,12 @@
 {
   "analysis": {
-    "current_reading": "Notable evidence: TPS change crossed its 25% review threshold.; SOL 24-hour price move crossed its 10% review threshold..",
-    "generated_at": "2026-09-18T20:56:17.716438Z",
+    "current_reading": "Notable evidence: Solana daily DEX volume decreased by 19.0%.",
+    "generated_at": "2026-09-19T04:41:03.880568Z",
     "kind": "deterministic",
     "model": "deterministic-observatory-v1",
     "status": "ok",
     "supporting_metric_ids": [
-      "estimated_non_vote_tps_vs_recent_median_pct",
-      "sol_price_24h_change_pct"
+      "solana_dex_volume_usd"
     ],
     "uncertainty": "Direction is not automatically good or bad, and this briefing cannot identify causes. 5 comparison(s) lack sufficient evidence."
   },
@@ -75,11 +74,11 @@
       "direction": "increased",
       "kind": "threshold",
       "known_gap": null,
-      "message": "TPS change crossed its 25% review threshold.",
+      "message": "TPS change remained within its 25% review threshold.",
       "metric_id": "estimated_non_vote_tps_vs_recent_median_pct",
-      "observed_change_pct": 27.37,
+      "observed_change_pct": 20.32,
       "previous_window": null,
-      "status": "notable",
+      "status": "within_range",
       "threshold_pct": 25.0
     },
     "estimated_slot_time_vs_recent_median_pct": {
@@ -90,7 +89,7 @@
       "known_gap": null,
       "message": "slot-time change remained within its 20% review threshold.",
       "metric_id": "estimated_slot_time_vs_recent_median_pct",
-      "observed_change_pct": 2.27,
+      "observed_change_pct": 1.35,
       "previous_window": null,
       "status": "within_range",
       "threshold_pct": 20.0
@@ -112,26 +111,26 @@
       "direction": "increased",
       "kind": "threshold",
       "known_gap": null,
-      "message": "SOL 24-hour price move crossed its 10% review threshold.",
+      "message": "SOL 24-hour price move remained within its 10% review threshold.",
       "metric_id": "sol_price_24h_change_pct",
-      "observed_change_pct": 12.24,
+      "observed_change_pct": 7.09,
       "previous_window": null,
-      "status": "notable",
+      "status": "within_range",
       "threshold_pct": 10.0
     },
     "solana_app_fees_usd": {
       "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter.",
       "current_window": [
-        "2026-09-11",
-        "2026-09-17"
+        "2026-09-12",
+        "2026-09-18"
       ],
-      "direction": "increased",
+      "direction": "decreased",
       "known_gap": null,
       "metric_id": "solana_app_fees_usd",
-      "observed_change_pct": 5.24,
+      "observed_change_pct": -4.83,
       "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
+        "2026-09-05",
+        "2026-09-11"
       ],
       "status": "within_range",
       "threshold_pct": 15.0
@@ -139,33 +138,16 @@
     "solana_app_revenue_usd": {
       "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter.",
       "current_window": [
-        "2026-09-11",
-        "2026-09-17"
+        "2026-09-12",
+        "2026-09-18"
       ],
       "direction": "decreased",
       "known_gap": null,
       "metric_id": "solana_app_revenue_usd",
-      "observed_change_pct": -1.76,
+      "observed_change_pct": -13.13,
       "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
-      ],
-      "status": "within_range",
-      "threshold_pct": 15.0
-    },
-    "solana_chain_fees_usd": {
-      "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter.",
-      "current_window": [
-        "2026-09-11",
-        "2026-09-17"
-      ],
-      "direction": "increased",
-      "known_gap": null,
-      "metric_id": "solana_chain_fees_usd",
-      "observed_change_pct": 5.86,
-      "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
+        "2026-09-05",
+        "2026-09-11"
       ],
       "status": "within_range",
       "threshold_pct": 15.0
@@ -173,16 +155,16 @@
     "solana_defi_tvl_usd": {
       "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter.",
       "current_window": [
-        "2026-09-11",
-        "2026-09-17"
+        "2026-09-12",
+        "2026-09-18"
       ],
       "direction": "decreased",
       "known_gap": null,
       "metric_id": "solana_defi_tvl_usd",
-      "observed_change_pct": -1.56,
+      "observed_change_pct": -0.64,
       "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
+        "2026-09-05",
+        "2026-09-11"
       ],
       "status": "within_range",
       "threshold_pct": 15.0
@@ -190,50 +172,33 @@
     "solana_dex_volume_usd": {
       "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter.",
       "current_window": [
-        "2026-09-11",
-        "2026-09-17"
+        "2026-09-12",
+        "2026-09-18"
       ],
       "direction": "decreased",
       "known_gap": null,
       "metric_id": "solana_dex_volume_usd",
-      "observed_change_pct": -5.59,
+      "observed_change_pct": -19.04,
       "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
+        "2026-09-05",
+        "2026-09-11"
       ],
-      "status": "within_range",
-      "threshold_pct": 15.0
-    },
-    "solana_rev_usd": {
-      "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter.",
-      "current_window": [
-        "2026-09-11",
-        "2026-09-17"
-      ],
-      "direction": "increased",
-      "known_gap": null,
-      "metric_id": "solana_rev_usd",
-      "observed_change_pct": 6.81,
-      "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
-      ],
-      "status": "within_range",
+      "status": "notable",
       "threshold_pct": 15.0
     },
     "solana_stablecoin_value_usd": {
       "caveat": "Crossing the review threshold is not a health verdict; the metric definition and companion evidence still matter.",
       "current_window": [
-        "2026-09-11",
-        "2026-09-17"
+        "2026-09-12",
+        "2026-09-18"
       ],
       "direction": "decreased",
       "known_gap": null,
       "metric_id": "solana_stablecoin_value_usd",
-      "observed_change_pct": -2.26,
+      "observed_change_pct": -2.59,
       "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
+        "2026-09-05",
+        "2026-09-11"
       ],
       "status": "within_range",
       "threshold_pct": 15.0
@@ -306,144 +271,106 @@
       "status": "unavailable"
     },
     "solana_app_fees_usd": {
-      "absolute_change": 687070.23,
-      "current_average": 13787334.15,
+      "absolute_change": -675131.65,
+      "current_average": 13296992.85,
       "current_window": [
-        "2026-09-11",
-        "2026-09-17"
+        "2026-09-12",
+        "2026-09-18"
       ],
-      "direction": "increased",
+      "direction": "decreased",
       "grain": "daily",
       "metric_id": "solana_app_fees_usd",
-      "percent_change": 5.24,
-      "previous_average": 13100263.92,
+      "percent_change": -4.83,
+      "previous_average": 13972124.5,
       "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
+        "2026-09-05",
+        "2026-09-11"
       ],
       "reason": null,
       "status": "ok"
     },
     "solana_app_revenue_usd": {
-      "absolute_change": -100936.9,
-      "current_average": 5627494.17,
+      "absolute_change": -791751.65,
+      "current_average": 5239321.67,
       "current_window": [
-        "2026-09-11",
-        "2026-09-17"
+        "2026-09-12",
+        "2026-09-18"
       ],
       "direction": "decreased",
       "grain": "daily",
       "metric_id": "solana_app_revenue_usd",
-      "percent_change": -1.76,
-      "previous_average": 5728431.07,
+      "percent_change": -13.13,
+      "previous_average": 6031073.32,
       "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
-      ],
-      "reason": null,
-      "status": "ok"
-    },
-    "solana_chain_fees_usd": {
-      "absolute_change": 39986.57,
-      "current_average": 722373.43,
-      "current_window": [
-        "2026-09-11",
-        "2026-09-17"
-      ],
-      "direction": "increased",
-      "grain": "daily",
-      "metric_id": "solana_chain_fees_usd",
-      "percent_change": 5.86,
-      "previous_average": 682386.86,
-      "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
+        "2026-09-05",
+        "2026-09-11"
       ],
       "reason": null,
       "status": "ok"
     },
     "solana_defi_tvl_usd": {
-      "absolute_change": -92227226.43,
-      "current_average": 5831309509.71,
+      "absolute_change": -37889600.14,
+      "current_average": 5859840065.14,
       "current_window": [
-        "2026-09-11",
-        "2026-09-17"
+        "2026-09-12",
+        "2026-09-18"
       ],
       "direction": "decreased",
       "grain": "daily",
       "metric_id": "solana_defi_tvl_usd",
-      "percent_change": -1.56,
-      "previous_average": 5923536736.14,
+      "percent_change": -0.64,
+      "previous_average": 5897729665.29,
       "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
+        "2026-09-05",
+        "2026-09-11"
       ],
       "reason": null,
       "status": "ok"
     },
     "solana_dex_volume_usd": {
-      "absolute_change": -147620194.25,
-      "current_average": 2491211849.59,
+      "absolute_change": -538888834.32,
+      "current_average": 2291951378.44,
       "current_window": [
-        "2026-09-11",
-        "2026-09-17"
+        "2026-09-12",
+        "2026-09-18"
       ],
       "direction": "decreased",
       "grain": "daily",
       "metric_id": "solana_dex_volume_usd",
-      "percent_change": -5.59,
-      "previous_average": 2638832043.84,
+      "percent_change": -19.04,
+      "previous_average": 2830840212.76,
       "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
-      ],
-      "reason": null,
-      "status": "ok"
-    },
-    "solana_rev_usd": {
-      "absolute_change": 54734.71,
-      "current_average": 858454.86,
-      "current_window": [
-        "2026-09-11",
-        "2026-09-17"
-      ],
-      "direction": "increased",
-      "grain": "daily",
-      "metric_id": "solana_rev_usd",
-      "percent_change": 6.81,
-      "previous_average": 803720.14,
-      "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
+        "2026-09-05",
+        "2026-09-11"
       ],
       "reason": null,
       "status": "ok"
     },
     "solana_stablecoin_value_usd": {
-      "absolute_change": -376009304.71,
-      "current_average": 16280539672.57,
+      "absolute_change": -429807484.14,
+      "current_average": 16188360939.29,
       "current_window": [
-        "2026-09-11",
-        "2026-09-17"
+        "2026-09-12",
+        "2026-09-18"
       ],
       "direction": "decreased",
       "grain": "daily",
       "metric_id": "solana_stablecoin_value_usd",
-      "percent_change": -2.26,
-      "previous_average": 16656548977.29,
+      "percent_change": -2.59,
+      "previous_average": 16618168423.43,
       "previous_window": [
-        "2026-09-04",
-        "2026-09-10"
+        "2026-09-05",
+        "2026-09-11"
       ],
       "reason": null,
       "status": "ok"
     }
   },
-  "generated_at": "2026-09-18T20:56:17.716438Z",
+  "generated_at": "2026-09-19T04:41:03.880568Z",
   "metrics": {
     "active_stake_sol": {
       "caveat": "Vote accounts are not necessarily distinct operators or organizations.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Activated stake assigned to currently active vote accounts.",
       "id": "active_stake_sol",
@@ -458,12 +385,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "SOL",
-      "value": 439435801.55,
+      "value": 439453837.63,
       "why_it_matters": "It shows how much voting power is currently participating."
     },
     "active_validators": {
       "caveat": "A validator count does not describe how evenly stake is distributed.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Vote accounts currently classified as active by the RPC response.",
       "id": "active_validators",
@@ -478,12 +405,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "validators",
-      "value": 676,
+      "value": 677,
       "why_it_matters": "Active vote accounts show how many validators are currently participating, before considering stake concentration."
     },
     "agave_latest_stable_release_age_days": {
       "caveat": "A recent release is not automatically safe or widely adopted, and release age is not a developer-count metric.",
-      "collected_at": "2026-09-18T20:56:15.972412Z",
+      "collected_at": "2026-09-19T04:41:02.282862Z",
       "confidence": "medium",
       "definition": "Elapsed days since the newest non-draft, non-prerelease Agave release.",
       "id": "agave_latest_stable_release_age_days",
@@ -498,12 +425,12 @@
       "source_time": "2026-09-11T14:39:49Z",
       "status": "ok",
       "unit": "days",
-      "value": 7.3,
+      "value": 7.6,
       "why_it_matters": "Release recency is one bounded sign of maintained core software."
     },
     "agave_stable_releases_90d": {
       "caveat": "Release count is not adoption, code quality, contributor count, or proof that validators upgraded.",
-      "collected_at": "2026-09-18T20:56:15.972412Z",
+      "collected_at": "2026-09-19T04:41:02.282862Z",
       "confidence": "medium",
       "definition": "Non-draft, non-prerelease Agave releases published in the trailing 90 days.",
       "id": "agave_stable_releases_90d",
@@ -523,7 +450,7 @@
     },
     "alpenglow_upgrade_status": {
       "caveat": "Roadmap dates can move; announced development is not mainnet activation.",
-      "collected_at": "2026-09-18T20:56:17.716438Z",
+      "collected_at": "2026-09-19T04:41:03.880568Z",
       "confidence": "high",
       "definition": "Current phase and expected activation window shown on Solana's official upgrade page.",
       "id": "alpenglow_upgrade_status",
@@ -543,7 +470,7 @@
     },
     "block_height": {
       "caveat": "This is network progress, not a measure of user adoption.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Current block height reported by the selected RPC node.",
       "id": "block_height",
@@ -558,12 +485,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "block",
-      "value": 426238505,
+      "value": 426343032,
       "why_it_matters": "Block height is a second progress marker that helps detect a stalled or lagging data source."
     },
     "current_slot": {
       "caveat": "Different RPC nodes can be a few slots apart.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Latest slot reported by the selected public RPC node.",
       "id": "current_slot",
@@ -578,7 +505,7 @@
       "source_time": null,
       "status": "ok",
       "unit": "slot",
-      "value": 448197585,
+      "value": 448302172,
       "why_it_matters": "A rising slot confirms that this observer sees the chain continuing to advance."
     },
     "daily_jupiter_fee_payer_overlap": {
@@ -779,7 +706,7 @@
     },
     "delinquent_stake_share_pct": {
       "caveat": "One RPC snapshot can change quickly as validators recover or fall behind.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Delinquent activated stake as a share of all activated stake in this response.",
       "id": "delinquent_stake_share_pct",
@@ -799,7 +726,7 @@
     },
     "delinquent_stake_sol": {
       "caveat": "Delinquency can be temporary and does not imply malicious behavior.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Activated stake assigned to vote accounts currently classified as delinquent.",
       "id": "delinquent_stake_sol",
@@ -814,12 +741,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "SOL",
-      "value": 176606.13,
+      "value": 158570.06,
       "why_it_matters": "It sizes the voting power currently failing to participate normally."
     },
     "delinquent_validators": {
       "caveat": "Temporary delinquency can recover and is not automatically malicious behavior.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Vote accounts currently classified as delinquent by the RPC response.",
       "id": "delinquent_validators",
@@ -834,12 +761,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "validators",
-      "value": 12,
+      "value": 11,
       "why_it_matters": "Delinquency is an early operational signal that part of the validator set is falling behind."
     },
     "epoch_progress": {
       "caveat": "Epoch progress describes validator timing, not economic growth.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Share of the current epoch's slots already completed.",
       "id": "epoch_progress",
@@ -854,12 +781,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "percent",
-      "value": 49.44,
+      "value": 73.65,
       "why_it_matters": "Epoch progress provides timing context for validator rewards, stake activation, and network operations."
     },
     "estimated_median_transaction_fee_lamports": {
       "caveat": "This is an estimate for a one-signature transaction using one RPC node's recent cache, not the median fee of every executed transaction.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "medium",
       "definition": "One-signature base fee plus the median recent prioritization fee reported by the selected RPC node.",
       "id": "estimated_median_transaction_fee_lamports",
@@ -879,7 +806,7 @@
     },
     "estimated_non_vote_tps": {
       "caveat": "Non-vote transactions can still include bots and automated programs.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Non-vote transactions in the latest RPC performance sample divided by sample seconds.",
       "id": "estimated_non_vote_tps",
@@ -894,12 +821,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "transactions/second",
-      "value": 2860.32,
+      "value": 1955.07,
       "why_it_matters": "This is the closest live RPC measure of application and user transaction throughput."
     },
     "estimated_non_vote_tps_vs_recent_median_pct": {
       "caveat": "The RPC sample window is short and non-vote transactions can include automation.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "medium",
       "definition": "Latest non-vote TPS relative to the median of earlier RPC performance samples.",
       "id": "estimated_non_vote_tps_vs_recent_median_pct",
@@ -914,12 +841,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "percent",
-      "value": 27.37,
+      "value": 20.32,
       "why_it_matters": "It detects short-run throughput drops or spikes without calling them good or bad."
     },
     "estimated_slot_time": {
       "caveat": "This is a short recent estimate and can move between samples.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Latest performance sample duration divided by slots produced.",
       "id": "estimated_slot_time",
@@ -934,12 +861,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "seconds",
-      "value": 0.273,
+      "value": 0.269,
       "why_it_matters": "Slot time indicates how quickly the chain is advancing in the most recent sample."
     },
     "estimated_slot_time_vs_recent_median_pct": {
       "caveat": "This compares a bounded set of recent samples from one RPC endpoint.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "medium",
       "definition": "Latest estimated slot time relative to the median of earlier RPC performance samples.",
       "id": "estimated_slot_time_vs_recent_median_pct",
@@ -954,12 +881,12 @@
       "source_time": null,
       "status": "ok",
       "unit": "percent",
-      "value": 2.27,
+      "value": 1.35,
       "why_it_matters": "It detects a short-run slowdown in chain progression."
     },
     "estimated_tps": {
       "caveat": "Includes validator votes, so it is not the same as user activity.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "All transactions in the latest RPC performance sample divided by sample seconds.",
       "id": "estimated_tps",
@@ -974,7 +901,7 @@
       "source_time": null,
       "status": "ok",
       "unit": "transactions/second",
-      "value": 5326.7,
+      "value": 4456.67,
       "why_it_matters": "Total throughput shows network load, but must be separated from user activity because it includes validator votes."
     },
     "jupiter_swap_signer_7d_return_rate": {
@@ -1028,7 +955,7 @@
     },
     "latest_official_solana_news_age_days": {
       "caveat": "This is one official editorial feed, not a complete view of community news or sentiment.",
-      "collected_at": "2026-09-18T20:56:17.716438Z",
+      "collected_at": "2026-09-19T04:41:03.880568Z",
       "confidence": "high",
       "definition": "Elapsed days since the newest item in Solana's official RSS feed.",
       "id": "latest_official_solana_news_age_days",
@@ -1043,12 +970,12 @@
       "source_time": "2026-09-16T00:56:00Z",
       "status": "ok",
       "unit": "days",
-      "value": 2.8,
+      "value": 3.2,
       "why_it_matters": "It keeps current ecosystem developments visible without treating social sentiment as fact."
     },
     "median_commission_pct": {
       "caveat": "The median does not include operating cost, MEV, or total validator profitability.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Median advertised commission among active vote accounts with valid values.",
       "id": "median_commission_pct",
@@ -1068,7 +995,7 @@
     },
     "rpc_health": {
       "caveat": "This checks one public RPC endpoint, not every validator.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Health response from the selected public RPC node.",
       "id": "rpc_health",
@@ -1088,7 +1015,7 @@
     },
     "simd_0525_status": {
       "caveat": "A SIMD status is not proof that code is deployed or activated on mainnet.",
-      "collected_at": "2026-09-18T20:56:17.716438Z",
+      "collected_at": "2026-09-19T04:41:03.880568Z",
       "confidence": "high",
       "definition": "Current status declared in the official SIMD-0525 proposal for staged shorter slots.",
       "id": "simd_0525_status",
@@ -1108,7 +1035,7 @@
     },
     "sol_price_24h_change_pct": {
       "caveat": "A price move does not explain network health or user adoption.",
-      "collected_at": "2026-09-18T20:56:09.909873Z",
+      "collected_at": "2026-09-19T04:40:57.463961Z",
       "confidence": "high",
       "definition": "CoinGecko's 24-hour percentage change for SOL/USD.",
       "id": "sol_price_24h_change_pct",
@@ -1120,15 +1047,15 @@
         "name": "CoinGecko",
         "url": "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd&include_24hr_change=true&include_last_updated_at=true"
       },
-      "source_time": "2026-09-18T20:54:10Z",
+      "source_time": "2026-09-19T04:39:10Z",
       "status": "ok",
       "unit": "percent",
-      "value": 12.24,
+      "value": 7.09,
       "why_it_matters": "It supplies a bounded price-move signal for anomaly review."
     },
     "sol_price_usd": {
       "caveat": "Market price is volatile context, not evidence that network or application usage is growing.",
-      "collected_at": "2026-09-18T20:56:09.909873Z",
+      "collected_at": "2026-09-19T04:40:57.463961Z",
       "confidence": "high",
       "definition": "CoinGecko's aggregated market price for one SOL in USD.",
       "id": "sol_price_usd",
@@ -1140,25 +1067,21 @@
         "name": "CoinGecko",
         "url": "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd&include_24hr_change=true&include_last_updated_at=true"
       },
-      "source_time": "2026-09-18T20:54:10Z",
+      "source_time": "2026-09-19T04:39:10Z",
       "status": "ok",
       "unit": "USD",
-      "value": 113.51,
+      "value": 112.18,
       "why_it_matters": "Price supplies market context for SOL-denominated capital and validator economics."
     },
     "solana_app_fees_usd": {
       "caveat": "Adapter coverage can change, and fees paid are not money retained by applications.",
-      "collected_at": "2026-09-18T20:56:09.909873Z",
+      "collected_at": "2026-09-19T04:40:57.463961Z",
       "confidence": "high",
       "definition": "Fees users paid covered Solana applications on the latest complete UTC day, excluding gas, stablecoin issuers, and liquid staking.",
       "id": "solana_app_fees_usd",
       "label": "Solana application fees",
       "section": "economy",
       "series": [
-        {
-          "observed_at": "2026-09-04",
-          "value": 10274074.95
-        },
         {
           "observed_at": "2026-09-05",
           "value": 8686059.18
@@ -1210,6 +1133,10 @@
         {
           "observed_at": "2026-09-17",
           "value": 14429555.18
+        },
+        {
+          "observed_at": "2026-09-18",
+          "value": 12944709.89
         }
       ],
       "source": {
@@ -1217,25 +1144,21 @@
         "name": "DeFiLlama",
         "url": "https://api.llama.fi/overview/fees/solana?excludeTotalDataChart=false&excludeTotalDataChartBreakdown=true&dataType=dailyAppFees"
       },
-      "source_time": "2026-09-17",
+      "source_time": "2026-09-18",
       "status": "ok",
       "unit": "USD",
-      "value": 14429555.18,
+      "value": 12944709.89,
       "why_it_matters": "App fees show what users paid applications for covered services."
     },
     "solana_app_revenue_usd": {
       "caveat": "This is not profit; incentives, token emissions, and operating costs are separate.",
-      "collected_at": "2026-09-18T20:56:09.909873Z",
+      "collected_at": "2026-09-19T04:40:57.463961Z",
       "confidence": "high",
       "definition": "The portion of covered Solana application fees retained by protocols on the latest complete UTC day.",
       "id": "solana_app_revenue_usd",
       "label": "Solana application revenue",
       "section": "economy",
       "series": [
-        {
-          "observed_at": "2026-09-04",
-          "value": 4816730.94
-        },
         {
           "observed_at": "2026-09-05",
           "value": 3844312.58
@@ -1287,6 +1210,10 @@
         {
           "observed_at": "2026-09-17",
           "value": 6212061.21
+        },
+        {
+          "observed_at": "2026-09-18",
+          "value": 4218019.2
         }
       ],
       "source": {
@@ -1294,102 +1221,41 @@
         "name": "DeFiLlama",
         "url": "https://api.llama.fi/overview/fees/solana?excludeTotalDataChart=false&excludeTotalDataChartBreakdown=true&dataType=dailyAppRevenue"
       },
-      "source_time": "2026-09-17",
+      "source_time": "2026-09-18",
       "status": "ok",
       "unit": "USD",
-      "value": 6212061.21,
+      "value": 4218019.2,
       "why_it_matters": "App revenue shows captured value under provider definitions."
     },
     "solana_chain_fees_usd": {
-      "caveat": "Higher fees can reflect demand, congestion, speculation, or MEV. DeFiLlama's adapter estimates base fees from transaction count although Solana's protocol fee is charged per signature.",
-      "collected_at": "2026-09-18T20:56:09.909873Z",
-      "confidence": "high",
-      "definition": "Base and priority transaction fees paid to the Solana network on the latest complete UTC day, as indexed by DeFiLlama.",
+      "caveat": "This source could not be verified during refresh: DeFiLlama series must include fourteen complete UTC days",
+      "collected_at": "2026-09-19T04:40:57.463961Z",
+      "confidence": "experimental",
+      "definition": "Base and priority transaction fees paid to Solana.",
       "id": "solana_chain_fees_usd",
       "label": "Solana chain fees",
       "section": "economy",
-      "series": [
-        {
-          "observed_at": "2026-09-04",
-          "value": 531246.0
-        },
-        {
-          "observed_at": "2026-09-05",
-          "value": 381125.0
-        },
-        {
-          "observed_at": "2026-09-06",
-          "value": 653148.0
-        },
-        {
-          "observed_at": "2026-09-07",
-          "value": 750652.0
-        },
-        {
-          "observed_at": "2026-09-08",
-          "value": 772733.0
-        },
-        {
-          "observed_at": "2026-09-09",
-          "value": 978477.0
-        },
-        {
-          "observed_at": "2026-09-10",
-          "value": 709327.0
-        },
-        {
-          "observed_at": "2026-09-11",
-          "value": 835741.0
-        },
-        {
-          "observed_at": "2026-09-12",
-          "value": 708831.0
-        },
-        {
-          "observed_at": "2026-09-13",
-          "value": 608098.0
-        },
-        {
-          "observed_at": "2026-09-14",
-          "value": 647012.0
-        },
-        {
-          "observed_at": "2026-09-15",
-          "value": 693210.0
-        },
-        {
-          "observed_at": "2026-09-16",
-          "value": 750608.0
-        },
-        {
-          "observed_at": "2026-09-17",
-          "value": 813114.0
-        }
-      ],
+      "series": [],
       "source": {
         "method": "summary/fees/solana?dataType=dailyFees",
         "name": "DeFiLlama",
         "url": "https://api.llama.fi/summary/fees/solana?dataType=dailyFees"
       },
-      "source_time": "2026-09-17",
-      "status": "ok",
+      "source_time": null,
+      "status": "unavailable",
       "unit": "USD",
-      "value": 813114.0,
-      "why_it_matters": "Chain fees show demand for scarce transaction execution."
+      "value": null,
+      "why_it_matters": "Chain fees show demand for transaction execution."
     },
     "solana_defi_tvl_usd": {
       "caveat": "TVL depends on protocol coverage and methodology and can double-count economic exposure through composable assets.",
-      "collected_at": "2026-09-18T20:56:09.909873Z",
+      "collected_at": "2026-09-19T04:40:57.463961Z",
       "confidence": "high",
       "definition": "USD value locked in Solana DeFi protocols tracked by DeFiLlama on the latest complete UTC day.",
       "id": "solana_defi_tvl_usd",
       "label": "Solana DeFi TVL",
       "section": "economy",
       "series": [
-        {
-          "observed_at": "2026-09-04",
-          "value": 5931954848.0
-        },
         {
           "observed_at": "2026-09-05",
           "value": 5872163100.0
@@ -1440,7 +1306,11 @@
         },
         {
           "observed_at": "2026-09-17",
-          "value": 5782044410.0
+          "value": 5782044408.0
+        },
+        {
+          "observed_at": "2026-09-18",
+          "value": 5951019242.0
         }
       ],
       "source": {
@@ -1448,25 +1318,21 @@
         "name": "DeFiLlama",
         "url": "https://api.llama.fi/v2/historicalChainTvl/Solana"
       },
-      "source_time": "2026-09-17",
+      "source_time": "2026-09-18",
       "status": "ok",
       "unit": "USD",
-      "value": 5782044410.0,
+      "value": 5951019242.0,
       "why_it_matters": "TVL shows how much capital is deposited in tracked Solana DeFi protocols."
     },
     "solana_dex_volume_usd": {
       "caveat": "Routing can touch several pools, and provider adapter and deduplication coverage determine the reported total.",
-      "collected_at": "2026-09-18T20:56:09.909873Z",
+      "collected_at": "2026-09-19T04:40:57.463961Z",
       "confidence": "high",
       "definition": "Aggregate Solana spot DEX volume tracked by DeFiLlama on the latest complete UTC day.",
       "id": "solana_dex_volume_usd",
       "label": "Solana daily DEX volume",
       "section": "economy",
       "series": [
-        {
-          "observed_at": "2026-09-04",
-          "value": 1934598320.0
-        },
         {
           "observed_at": "2026-09-05",
           "value": 1914884685.81
@@ -1518,6 +1384,10 @@
         {
           "observed_at": "2026-09-17",
           "value": 2592123183.29
+        },
+        {
+          "observed_at": "2026-09-18",
+          "value": 1883832204.43
         }
       ],
       "source": {
@@ -1525,15 +1395,15 @@
         "name": "DeFiLlama",
         "url": "https://api.llama.fi/overview/dexs/Solana?excludeTotalDataChartBreakdown=true&dataType=dailyVolume"
       },
-      "source_time": "2026-09-17",
+      "source_time": "2026-09-18",
       "status": "ok",
       "unit": "USD",
-      "value": 2592123183.29,
+      "value": 1883832204.43,
       "why_it_matters": "DEX volume shows how much spot exchange activity occurred across tracked Solana venues."
     },
     "solana_identifiable_payments_usd": {
       "caveat": "Raw stablecoin transfers are not payments: they can include trading, bots, rebalancing, and repeated movement.",
-      "collected_at": "2026-09-18T20:56:09.909873Z",
+      "collected_at": "2026-09-19T04:40:57.463961Z",
       "confidence": "experimental",
       "definition": "Value transferred for identifiable commerce or remittance, with a published attribution method and coverage boundary.",
       "id": "solana_identifiable_payments_usd",
@@ -1553,7 +1423,7 @@
     },
     "solana_monthly_active_developers": {
       "caveat": "Source not connected: no dependable no-key live export and repository-attribution contract has been verified.",
-      "collected_at": "2026-09-18T20:56:15.972412Z",
+      "collected_at": "2026-09-19T04:41:02.282862Z",
       "confidence": "experimental",
       "definition": "Developers contributing to attributable open-source Solana repositories in a month.",
       "id": "solana_monthly_active_developers",
@@ -1573,7 +1443,7 @@
     },
     "solana_non_stablecoin_rwa_value_usd": {
       "caveat": "Source not connected: dependable API access requires authentication. No historical article value is substituted.",
-      "collected_at": "2026-09-18T20:56:09.909873Z",
+      "collected_at": "2026-09-19T04:40:57.463961Z",
       "confidence": "experimental",
       "definition": "Circulating market value of tokenized real-world assets on Solana, excluding the stablecoin asset class.",
       "id": "solana_non_stablecoin_rwa_value_usd",
@@ -1593,7 +1463,7 @@
     },
     "solana_retained_developers": {
       "caveat": "Source not connected: no dependable no-key live export and repository-attribution contract has been verified.",
-      "collected_at": "2026-09-18T20:56:15.972412Z",
+      "collected_at": "2026-09-19T04:41:02.282862Z",
       "confidence": "experimental",
       "definition": "Attributable Solana developers active across a defined prior and current period.",
       "id": "solana_retained_developers",
@@ -1612,95 +1482,34 @@
       "why_it_matters": "Retention would separate durable building from one-time repository activity."
     },
     "solana_rev_usd": {
-      "caveat": "REV is not GDP, profit, or app revenue; private or non-Jito MEV may be outside coverage. Jito component: https://api.llama.fi/summary/fees/jito-mev-tips?dataType=dailyFees",
-      "collected_at": "2026-09-18T20:56:09.909873Z",
-      "confidence": "high",
-      "definition": "Solana chain fees plus gross Jito MEV tips tracked by DeFiLlama for the latest complete UTC day.",
+      "caveat": "This source could not be verified during refresh: DeFiLlama series must include fourteen complete UTC days",
+      "collected_at": "2026-09-19T04:40:57.463961Z",
+      "confidence": "experimental",
+      "definition": "Chain fees plus tracked gross Jito MEV tips.",
       "id": "solana_rev_usd",
       "label": "Solana REV (chain fees + tracked Jito tips)",
       "section": "economy",
-      "series": [
-        {
-          "observed_at": "2026-09-04",
-          "value": 641011.0
-        },
-        {
-          "observed_at": "2026-09-05",
-          "value": 442161.0
-        },
-        {
-          "observed_at": "2026-09-06",
-          "value": 765756.0
-        },
-        {
-          "observed_at": "2026-09-07",
-          "value": 875451.0
-        },
-        {
-          "observed_at": "2026-09-08",
-          "value": 905888.0
-        },
-        {
-          "observed_at": "2026-09-09",
-          "value": 1164645.0
-        },
-        {
-          "observed_at": "2026-09-10",
-          "value": 831129.0
-        },
-        {
-          "observed_at": "2026-09-11",
-          "value": 986086.0
-        },
-        {
-          "observed_at": "2026-09-12",
-          "value": 809623.0
-        },
-        {
-          "observed_at": "2026-09-13",
-          "value": 705789.0
-        },
-        {
-          "observed_at": "2026-09-14",
-          "value": 753769.0
-        },
-        {
-          "observed_at": "2026-09-15",
-          "value": 844779.0
-        },
-        {
-          "observed_at": "2026-09-16",
-          "value": 919742.0
-        },
-        {
-          "observed_at": "2026-09-17",
-          "value": 989396.0
-        }
-      ],
+      "series": [],
       "source": {
         "method": "dailyFees(Solana) + dailyFees(jito-mev-tips)",
         "name": "DeFiLlama",
         "url": "https://api.llama.fi/summary/fees/solana?dataType=dailyFees"
       },
-      "source_time": "2026-09-17",
-      "status": "ok",
+      "source_time": null,
+      "status": "unavailable",
       "unit": "USD",
-      "value": 989396.0,
-      "why_it_matters": "REV estimates direct economic value paid for blockspace and transaction ordering."
+      "value": null,
+      "why_it_matters": "REV estimates value paid for blockspace and ordering."
     },
     "solana_stablecoin_value_usd": {
       "caveat": "Circulating stablecoin value is not payment volume or proof that every token is backed by cash.",
-      "collected_at": "2026-09-18T20:56:09.909873Z",
+      "collected_at": "2026-09-19T04:40:57.463961Z",
       "confidence": "high",
       "definition": "USD value of circulating stablecoins on Solana across DeFiLlama's peg buckets on the latest complete UTC day.",
       "id": "solana_stablecoin_value_usd",
       "label": "Solana stablecoin circulating value",
       "section": "financial_rails",
       "series": [
-        {
-          "observed_at": "2026-09-04",
-          "value": 16627891597.0
-        },
         {
           "observed_at": "2026-09-05",
           "value": 16607547917.0
@@ -1752,6 +1561,10 @@
         {
           "observed_at": "2026-09-17",
           "value": 15773623642.0
+        },
+        {
+          "observed_at": "2026-09-18",
+          "value": 15713976587.0
         }
       ],
       "source": {
@@ -1759,15 +1572,15 @@
         "name": "DeFiLlama",
         "url": "https://stablecoins.llama.fi/stablecoincharts/Solana"
       },
-      "source_time": "2026-09-17",
+      "source_time": "2026-09-18",
       "status": "ok",
       "unit": "USD",
-      "value": 15773623642.0,
+      "value": 15713976587.0,
       "why_it_matters": "Stablecoin value shows the dollar-like liquidity available for trading, saving, and settlement on Solana."
     },
     "solana_tracked_tvl_categories": {
       "caveat": "Provider category labels can change and do not measure usage, quality, or economic importance.",
-      "collected_at": "2026-09-18T20:56:15.972412Z",
+      "collected_at": "2026-09-19T04:41:02.282862Z",
       "confidence": "medium",
       "definition": "Distinct DeFiLlama categories among positive-TVL protocol records that include Solana.",
       "id": "solana_tracked_tvl_categories",
@@ -1779,7 +1592,7 @@
         "name": "DeFiLlama",
         "url": "https://api.llama.fi/protocols"
       },
-      "source_time": "2026-09-18T20:56:15.972412Z",
+      "source_time": "2026-09-19T04:41:02.282862Z",
       "status": "ok",
       "unit": "categories",
       "value": 45,
@@ -1787,7 +1600,7 @@
     },
     "solana_tracked_tvl_protocols": {
       "caveat": "This is provider coverage, not all Solana apps, active users, developer retention, or product quality.",
-      "collected_at": "2026-09-18T20:56:15.972412Z",
+      "collected_at": "2026-09-19T04:41:02.282862Z",
       "confidence": "medium",
       "definition": "DeFiLlama protocol records that include Solana and currently report positive TVL.",
       "id": "solana_tracked_tvl_protocols",
@@ -1799,15 +1612,15 @@
         "name": "DeFiLlama",
         "url": "https://api.llama.fi/protocols"
       },
-      "source_time": "2026-09-18T20:56:15.972412Z",
+      "source_time": "2026-09-19T04:41:02.282862Z",
       "status": "ok",
       "unit": "protocols",
-      "value": 394,
+      "value": 395,
       "why_it_matters": "It provides a reproducible lower-bound view of deployed DeFi breadth."
     },
     "superminority_coefficient": {
       "caveat": "This is calculated by vote account, not verified independent operator.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Minimum largest vote accounts whose combined activated stake reaches one third.",
       "id": "superminority_coefficient",
@@ -1827,7 +1640,7 @@
     },
     "top_10_stake_share_pct": {
       "caveat": "Vote accounts are not operators; one organization may control several accounts.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Share of activated stake assigned to the ten largest vote accounts.",
       "id": "top_10_stake_share_pct",
@@ -1847,7 +1660,7 @@
     },
     "top_25_stake_share_pct": {
       "caveat": "Vote accounts are not operators and ownership identity is not inferred.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Share of activated stake assigned to the twenty-five largest vote accounts.",
       "id": "top_25_stake_share_pct",
@@ -1867,7 +1680,7 @@
     },
     "vote_credit_coverage_pct": {
       "caveat": "One credit record is a bounded participation check, not a full performance history.",
-      "collected_at": "2026-09-18T20:56:09.123699Z",
+      "collected_at": "2026-09-19T04:40:55.727071Z",
       "confidence": "high",
       "definition": "Share of active stake on vote accounts whose latest epoch-credit record increased.",
       "id": "vote_credit_coverage_pct",
@@ -1965,7 +1778,7 @@
   ],
   "validator_leaderboard": {
     "caveat": "Ranks are vote accounts, not operators; one organization may control multiple accounts and ownership is not inferred.",
-    "collected_at": "2026-09-18T20:56:09.123699Z",
+    "collected_at": "2026-09-19T04:40:55.727071Z",
     "records": [
       {
         "activated_stake_sol": 17815472.4,

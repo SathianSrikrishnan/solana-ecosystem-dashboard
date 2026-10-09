@@ -1,12 +1,12 @@
 # Solana Ecosystem Report
 
-Generated: `2026-10-09T13:22:24.246974Z`
+Generated: `2026-10-09T22:41:14.231013Z`
 
 **Current reading:** The selected Solana RPC endpoint reports healthy.
 
 ## What is happening now?
 
-### Active stake: 438,973,556.94 SOL
+### Active stake: 437,858,115.65 SOL
 
 Activated stake assigned to currently active vote accounts.
 
@@ -14,7 +14,7 @@ Activated stake assigned to currently active vote accounts.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getVoteAccounts`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: Vote accounts are not necessarily distinct operators or organizations.
 
@@ -26,33 +26,33 @@ Vote accounts currently classified as active by the RPC response.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getVoteAccounts`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: A validator count does not describe how evenly stake is distributed.
 
-### Latest stable Agave release age: 21.00 days
+### Latest stable Agave release age: Not available days
 
-Elapsed days since the newest non-draft, non-prerelease Agave release.
+The live ecosystem source could not be normalized.
 
-**Why it matters:** Release recency is one bounded sign of maintained core software.
+**Why it matters:** This source contributes one bounded ecosystem signal.
 
-- Status: `ok`
-- Source: Anza Agave GitHub releases / `GitHub releases; latest stable tag v4.3.0`
-- Collected: `2026-10-09T13:22:22.875184Z`
-- Confidence: `medium`
-- Important limitation: A recent release is not automatically safe or widely adopted, and release age is not a developer-count metric.
+- Status: `unavailable`
+- Source: Anza Agave GitHub releases / `GitHub stable releases`
+- Collected: `2026-10-09T22:41:13.789963Z`
+- Confidence: `experimental`
+- Important limitation: Source refresh failed visibly: HTTP Error 403: rate limit exceeded
 
-### Stable Agave releases in 90 days: 8 releases
+### Stable Agave releases in 90 days: Not available releases
 
-Non-draft, non-prerelease Agave releases published in the trailing 90 days.
+The live ecosystem source could not be normalized.
 
-**Why it matters:** Release cadence shows whether core client work is shipping publicly.
+**Why it matters:** This source contributes one bounded ecosystem signal.
 
-- Status: `ok`
-- Source: Anza Agave GitHub releases / `GitHub releases; stable releases; trailing 90 days`
-- Collected: `2026-10-09T13:22:22.875184Z`
-- Confidence: `medium`
-- Important limitation: Release count is not adoption, code quality, contributor count, or proof that validators upgraded.
+- Status: `unavailable`
+- Source: Anza Agave GitHub releases / `GitHub stable releases`
+- Collected: `2026-10-09T22:41:13.789963Z`
+- Confidence: `experimental`
+- Important limitation: Source refresh failed visibly: HTTP Error 403: rate limit exceeded
 
 ### Alpenglow upgrade status: In development · Q3 2026 official roadmap
 
@@ -62,11 +62,11 @@ Current phase and expected activation window shown on Solana's official upgrade 
 
 - Status: `ok`
 - Source: Official Solana source / `Alpenglow Phase 1 - Votor`
-- Collected: `2026-10-09T13:22:24.246974Z`
+- Collected: `2026-10-09T22:41:14.231013Z`
 - Confidence: `high`
 - Important limitation: Roadmap dates can move; announced development is not mainnet activation.
 
-### Block height: 432,915,717 block
+### Block height: 433,065,051 block
 
 Current block height reported by the selected RPC node.
 
@@ -74,11 +74,11 @@ Current block height reported by the selected RPC node.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getBlockHeight`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: This is network progress, not a measure of user adoption.
 
-### Current slot: 454,878,412 slot
+### Current slot: 455,027,802 slot
 
 Latest slot reported by the selected public RPC node.
 
@@ -86,7 +86,7 @@ Latest slot reported by the selected public RPC node.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getSlot`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: Different RPC nodes can be a few slots apart.
 
@@ -138,7 +138,7 @@ Distinct signer addresses on successful non-vote Solana transactions during the 
 - Confidence: `high`
 - Important limitation: Wallet addresses are not people: one person or bot can control many addresses, and one transaction may require several signers. Automatic refresh note: The saved Dune result is preserved but needs a fresh query execution.
 
-### Delinquent stake share: 0.01 percent
+### Delinquent stake share: 0.00 percent
 
 Delinquent activated stake as a share of all activated stake in this response.
 
@@ -146,11 +146,11 @@ Delinquent activated stake as a share of all activated stake in this response.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getVoteAccounts`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: One RPC snapshot can change quickly as validators recover or fall behind.
 
-### Delinquent stake: 31,895.70 SOL
+### Delinquent stake: 9,610.86 SOL
 
 Activated stake assigned to vote accounts currently classified as delinquent.
 
@@ -158,11 +158,11 @@ Activated stake assigned to vote accounts currently classified as delinquent.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getVoteAccounts`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: Delinquency can be temporary and does not imply malicious behavior.
 
-### Delinquent validators: 8 validators
+### Delinquent validators: 6 validators
 
 Vote accounts currently classified as delinquent by the RPC response.
 
@@ -170,11 +170,11 @@ Vote accounts currently classified as delinquent by the RPC response.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getVoteAccounts`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: Temporary delinquency can recover and is not automatically malicious behavior.
 
-### Epoch progress: 95.93 percent
+### Epoch progress: 30.51 percent
 
 Share of the current epoch's slots already completed.
 
@@ -182,7 +182,7 @@ Share of the current epoch's slots already completed.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getEpochInfo`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: Epoch progress describes validator timing, not economic growth.
 
@@ -194,11 +194,11 @@ One-signature base fee plus the median recent prioritization fee reported by the
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getRecentPrioritizationFees + protocol base fee`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `medium`
 - Important limitation: This is an estimate for a one-signature transaction using one RPC node's recent cache, not the median fee of every executed transaction.
 
-### Estimated non-vote TPS: 1,580.08 transactions/second
+### Estimated non-vote TPS: 1,677.50 transactions/second
 
 Non-vote transactions in the latest RPC performance sample divided by sample seconds.
 
@@ -206,11 +206,11 @@ Non-vote transactions in the latest RPC performance sample divided by sample sec
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getRecentPerformanceSamples`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: Non-vote transactions can still include bots and automated programs.
 
-### Non-vote TPS vs recent sample median: 3.48 percent
+### Non-vote TPS vs recent sample median: -14.89 percent
 
 Latest non-vote TPS relative to the median of earlier RPC performance samples.
 
@@ -218,11 +218,11 @@ Latest non-vote TPS relative to the median of earlier RPC performance samples.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getRecentPerformanceSamples`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `medium`
 - Important limitation: The RPC sample window is short and non-vote transactions can include automation.
 
-### Estimated slot time: 0.27 seconds
+### Estimated slot time: 0.22 seconds
 
 Latest performance sample duration divided by slots produced.
 
@@ -230,11 +230,11 @@ Latest performance sample duration divided by slots produced.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getRecentPerformanceSamples`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: This is a short recent estimate and can move between samples.
 
-### Slot time vs recent sample median: 0.45 percent
+### Slot time vs recent sample median: 1.48 percent
 
 Latest estimated slot time relative to the median of earlier RPC performance samples.
 
@@ -242,11 +242,11 @@ Latest estimated slot time relative to the median of earlier RPC performance sam
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getRecentPerformanceSamples`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `medium`
 - Important limitation: This compares a bounded set of recent samples from one RPC endpoint.
 
-### Estimated total TPS: 4,085.13 transactions/second
+### Estimated total TPS: 4,711.30 transactions/second
 
 All transactions in the latest RPC performance sample divided by sample seconds.
 
@@ -254,7 +254,7 @@ All transactions in the latest RPC performance sample divided by sample seconds.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getRecentPerformanceSamples`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: Includes validator votes, so it is not the same as user activity.
 
@@ -270,7 +270,7 @@ Share of the day's Jupiter Swap signer addresses also seen at least once during 
 - Confidence: `high`
 - Important limitation: Returning addresses are not necessarily returning people; bots and one person using several wallets remain included. Automatic refresh note: The saved Dune result is preserved but needs a fresh query execution.
 
-### Latest official Solana news age: 1.60 days
+### Latest official Solana news age: 2.00 days
 
 Elapsed days since the newest item in Solana's official RSS feed.
 
@@ -278,7 +278,7 @@ Elapsed days since the newest item in Solana's official RSS feed.
 
 - Status: `ok`
 - Source: Official Solana source / `RSS latest item: Samsung Partners with Solana to Natively Deliver Stablecoins in Samsung Wallet to 82 Million U.S. Galaxy Devices`
-- Collected: `2026-10-09T13:22:24.246974Z`
+- Collected: `2026-10-09T22:41:14.231013Z`
 - Confidence: `high`
 - Important limitation: This is one official editorial feed, not a complete view of community news or sentiment.
 
@@ -290,7 +290,7 @@ Median advertised commission among active vote accounts with valid values.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getVoteAccounts`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: The median does not include operating cost, MEV, or total validator profitability.
 
@@ -302,7 +302,7 @@ Health response from the selected public RPC node.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getHealth`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: This checks one public RPC endpoint, not every validator.
 
@@ -314,11 +314,11 @@ Current status declared in the official SIMD-0525 proposal for staged shorter sl
 
 - Status: `ok`
 - Source: Official Solana source / `SIMD-0525 front matter`
-- Collected: `2026-10-09T13:22:24.246974Z`
+- Collected: `2026-10-09T22:41:14.231013Z`
 - Confidence: `high`
 - Important limitation: A SIMD status is not proof that code is deployed or activated on mainnet.
 
-### SOL 24-hour price change: -2.09 percent
+### SOL 24-hour price change: -1.08 percent
 
 CoinGecko's 24-hour percentage change for SOL/USD.
 
@@ -326,11 +326,11 @@ CoinGecko's 24-hour percentage change for SOL/USD.
 
 - Status: `ok`
 - Source: CoinGecko / `simple/price?include_24hr_change=true`
-- Collected: `2026-10-09T13:22:10.147908Z`
+- Collected: `2026-10-09T22:41:07.809041Z`
 - Confidence: `high`
 - Important limitation: A price move does not explain network health or user adoption.
 
-### SOL price: 110.35 USD
+### SOL price: 109.27 USD
 
 CoinGecko's aggregated market price for one SOL in USD.
 
@@ -338,11 +338,11 @@ CoinGecko's aggregated market price for one SOL in USD.
 
 - Status: `ok`
 - Source: CoinGecko / `simple/price?ids=solana`
-- Collected: `2026-10-09T13:22:10.147908Z`
+- Collected: `2026-10-09T22:41:07.809041Z`
 - Confidence: `high`
 - Important limitation: Market price is volatile context, not evidence that network or application usage is growing.
 
-### Solana application fees: 13,429,241.50 USD
+### Solana application fees: 13,531,357.50 USD
 
 Fees users paid covered Solana applications on the latest complete UTC day, excluding gas, stablecoin issuers, and liquid staking.
 
@@ -350,14 +350,14 @@ Fees users paid covered Solana applications on the latest complete UTC day, excl
 
 - Status: `ok`
 - Source: DeFiLlama / `overview/fees/solana?dataType=dailyAppFees`
-- Collected: `2026-10-09T13:22:10.147908Z`
+- Collected: `2026-10-09T22:41:07.809041Z`
 - Confidence: `high`
 - Important limitation: Adapter coverage can change, and fees paid are not money retained by applications.
 
 - 7-day average change: `-4.2%`
 - Direction is not a health verdict.
 
-### Solana application revenue: 5,243,926.97 USD
+### Solana application revenue: 5,249,063.97 USD
 
 The portion of covered Solana application fees retained by protocols on the latest complete UTC day.
 
@@ -365,7 +365,7 @@ The portion of covered Solana application fees retained by protocols on the late
 
 - Status: `ok`
 - Source: DeFiLlama / `overview/fees/solana?dataType=dailyAppRevenue`
-- Collected: `2026-10-09T13:22:10.147908Z`
+- Collected: `2026-10-09T22:41:07.809041Z`
 - Confidence: `high`
 - Important limitation: This is not profit; incentives, token emissions, and operating costs are separate.
 
@@ -380,14 +380,14 @@ Base and priority transaction fees paid to the Solana network on the latest comp
 
 - Status: `ok`
 - Source: DeFiLlama / `summary/fees/solana?dataType=dailyFees`
-- Collected: `2026-10-09T13:22:10.147908Z`
+- Collected: `2026-10-09T22:41:07.809041Z`
 - Confidence: `high`
 - Important limitation: Higher fees can reflect demand, congestion, speculation, or MEV. DeFiLlama's adapter estimates base fees from transaction count although Solana's protocol fee is charged per signature.
 
 - 7-day average change: `-5.5%`
 - Direction is not a health verdict.
 
-### Solana DeFi TVL: 6,455,454,397.00 USD
+### Solana DeFi TVL: 6,455,454,389.00 USD
 
 USD value locked in Solana DeFi protocols tracked by DeFiLlama on the latest complete UTC day.
 
@@ -395,11 +395,11 @@ USD value locked in Solana DeFi protocols tracked by DeFiLlama on the latest com
 
 - Status: `ok`
 - Source: DeFiLlama / `v2/historicalChainTvl/Solana`
-- Collected: `2026-10-09T13:22:10.147908Z`
+- Collected: `2026-10-09T22:41:07.809041Z`
 - Confidence: `high`
 - Important limitation: TVL depends on protocol coverage and methodology and can double-count economic exposure through composable assets.
 
-- 7-day average change: `+0.2%`
+- 7-day average change: `+1.1%`
 - Direction is not a health verdict.
 
 ### Solana daily DEX volume: 2,644,852,886.24 USD
@@ -410,7 +410,7 @@ Aggregate Solana spot DEX volume tracked by DeFiLlama on the latest complete UTC
 
 - Status: `ok`
 - Source: DeFiLlama / `overview/dexs/Solana?dataType=dailyVolume`
-- Collected: `2026-10-09T13:22:10.147908Z`
+- Collected: `2026-10-09T22:41:07.809041Z`
 - Confidence: `high`
 - Important limitation: Routing can touch several pools, and provider adapter and deduplication coverage determine the reported total.
 
@@ -425,7 +425,7 @@ Value transferred for identifiable commerce or remittance, with a published attr
 
 - Status: `unavailable`
 - Source: No approved live source / `deferred pending defensible payment attribution`
-- Collected: `2026-10-09T13:22:10.147908Z`
+- Collected: `2026-10-09T22:41:07.809041Z`
 - Confidence: `experimental`
 - Important limitation: Raw stablecoin transfers are not payments: they can include trading, bots, rebalancing, and repeated movement.
 
@@ -437,7 +437,7 @@ Developers contributing to attributable open-source Solana repositories in a mon
 
 - Status: `unavailable`
 - Source: Electric Capital Developer Report / `optional reproducible developer dataset`
-- Collected: `2026-10-09T13:22:22.875184Z`
+- Collected: `2026-10-09T22:41:13.789963Z`
 - Confidence: `experimental`
 - Important limitation: Source not connected: no dependable no-key live export and repository-attribution contract has been verified.
 
@@ -449,7 +449,7 @@ Circulating market value of tokenized real-world assets on Solana, excluding the
 
 - Status: `unavailable`
 - Source: RWA.xyz (optional adapter) / `v4 assets aggregate; Solana; exclude Stablecoins`
-- Collected: `2026-10-09T13:22:10.147908Z`
+- Collected: `2026-10-09T22:41:07.809041Z`
 - Confidence: `experimental`
 - Important limitation: Source not connected: dependable API access requires authentication. No historical article value is substituted.
 
@@ -461,7 +461,7 @@ Attributable Solana developers active across a defined prior and current period.
 
 - Status: `unavailable`
 - Source: Electric Capital Developer Report / `optional reproducible developer dataset`
-- Collected: `2026-10-09T13:22:22.875184Z`
+- Collected: `2026-10-09T22:41:13.789963Z`
 - Confidence: `experimental`
 - Important limitation: Source not connected: no dependable no-key live export and repository-attribution contract has been verified.
 
@@ -473,7 +473,7 @@ Solana chain fees plus gross Jito MEV tips tracked by DeFiLlama for the latest c
 
 - Status: `ok`
 - Source: DeFiLlama / `dailyFees(Solana) + dailyFees(jito-mev-tips)`
-- Collected: `2026-10-09T13:22:10.147908Z`
+- Collected: `2026-10-09T22:41:07.809041Z`
 - Confidence: `high`
 - Important limitation: REV is not GDP, profit, or app revenue; private or non-Jito MEV may be outside coverage. Jito component: https://api.llama.fi/summary/fees/jito-mev-tips?dataType=dailyFees
 
@@ -488,7 +488,7 @@ USD value of circulating stablecoins on Solana across DeFiLlama's peg buckets on
 
 - Status: `ok`
 - Source: DeFiLlama / `stablecoincharts/Solana`
-- Collected: `2026-10-09T13:22:10.147908Z`
+- Collected: `2026-10-09T22:41:07.809041Z`
 - Confidence: `high`
 - Important limitation: Circulating stablecoin value is not payment volume or proof that every token is backed by cash.
 
@@ -503,11 +503,11 @@ Distinct DeFiLlama categories among positive-TVL protocol records that include S
 
 - Status: `ok`
 - Source: DeFiLlama / `protocols; distinct category; Solana; tvl > 0`
-- Collected: `2026-10-09T13:22:22.875184Z`
+- Collected: `2026-10-09T22:41:13.789963Z`
 - Confidence: `medium`
 - Important limitation: Provider category labels can change and do not measure usage, quality, or economic importance.
 
-### Solana protocols with tracked TVL: 398 protocols
+### Solana protocols with tracked TVL: 399 protocols
 
 DeFiLlama protocol records that include Solana and currently report positive TVL.
 
@@ -515,7 +515,7 @@ DeFiLlama protocol records that include Solana and currently report positive TVL
 
 - Status: `ok`
 - Source: DeFiLlama / `protocols; chains includes Solana; tvl > 0`
-- Collected: `2026-10-09T13:22:22.875184Z`
+- Collected: `2026-10-09T22:41:13.789963Z`
 - Confidence: `medium`
 - Important limitation: This is provider coverage, not all Solana apps, active users, developer retention, or product quality.
 
@@ -527,11 +527,11 @@ Minimum largest vote accounts whose combined activated stake reaches one third.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getVoteAccounts`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: This is calculated by vote account, not verified independent operator.
 
-### Top 10 stake share: 24.58 percent
+### Top 10 stake share: 24.63 percent
 
 Share of activated stake assigned to the ten largest vote accounts.
 
@@ -539,11 +539,11 @@ Share of activated stake assigned to the ten largest vote accounts.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getVoteAccounts`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: Vote accounts are not operators; one organization may control several accounts.
 
-### Top 25 stake share: 40.03 percent
+### Top 25 stake share: 40.18 percent
 
 Share of activated stake assigned to the twenty-five largest vote accounts.
 
@@ -551,7 +551,7 @@ Share of activated stake assigned to the twenty-five largest vote accounts.
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getVoteAccounts`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: Vote accounts are not operators and ownership identity is not inferred.
 
@@ -563,7 +563,7 @@ Share of active stake on vote accounts whose latest epoch-credit record increase
 
 - Status: `ok`
 - Source: Solana JSON-RPC / `getVoteAccounts`
-- Collected: `2026-10-09T13:22:09.099969Z`
+- Collected: `2026-10-09T22:41:06.240202Z`
 - Confidence: `high`
 - Important limitation: One credit record is a bounded participation check, not a full performance history.
 
@@ -571,16 +571,16 @@ Share of active stake on vote accounts whose latest epoch-credit record increase
 
 | Rank | Vote account | Stake (SOL) | Share | Commission | Status |
 |---:|---|---:|---:|---:|---|
-| 1 | `CcaHc2L43ZWjwCHART3oZoJvHLAe9hzT2DJNUpBzoTN1` | 17,819,093.93 | 4.06% | 7.00% | current |
-| 2 | `he1iusunGwqrNtafDtLdhsUQDFvo13z9sUa36PauBtk` | 15,944,778.11 | 3.63% | 0.00% | current |
-| 3 | `3N7s9zXMZ4QqvHQR15t5GNHyqc89KduzMP7423eWiD5g` | 12,318,266.26 | 2.81% | 0.00% | current |
-| 4 | `8GbwASqdpw4dVcwbWUxbHXMrjyQx2aKkoBR5H1GJF8iD` | 11,224,868.23 | 2.56% | 0.00% | current |
-| 5 | `CatzoSMUkTRidT5DwBxAC2pEtnwMBTpkCepHkFgZDiqb` | 11,075,221.92 | 2.52% | 5.00% | current |
-| 6 | `51JBzSTU5rAM8gLAVQKgp4WoZerQcSqWC7BitBzgUNAm` | 9,267,423.20 | 2.11% | 10.00% | current |
-| 7 | `26pV97Ce83ZQ6Kz9XT4td8tdoUFPTng8Fb8gPyc53dJx` | 9,257,644.96 | 2.11% | 7.00% | current |
-| 8 | `9QU2QSxhb24FUX3Tu2FpczXjpK3VYrvRudywSZaM29mF` | 7,512,075.98 | 1.71% | 7.00% | current |
-| 9 | `CvSb7wdQAFpHuSpTYTJnX5SYH4hCfQ9VuGnqrKaKwycB` | 6,812,500.09 | 1.55% | 5.00% | current |
-| 10 | `3JD3jMmnR6g88qff2WZ3cMHJRjJMUk9yVZtmYTYeFrXf` | 6,691,194.46 | 1.52% | 0.00% | current |
+| 1 | `CcaHc2L43ZWjwCHART3oZoJvHLAe9hzT2DJNUpBzoTN1` | 17,788,627.20 | 4.06% | 7.00% | current |
+| 2 | `he1iusunGwqrNtafDtLdhsUQDFvo13z9sUa36PauBtk` | 15,954,194.79 | 3.64% | 0.00% | current |
+| 3 | `3N7s9zXMZ4QqvHQR15t5GNHyqc89KduzMP7423eWiD5g` | 12,299,759.25 | 2.81% | 0.00% | current |
+| 4 | `8GbwASqdpw4dVcwbWUxbHXMrjyQx2aKkoBR5H1GJF8iD` | 11,178,786.74 | 2.55% | 0.00% | current |
+| 5 | `CatzoSMUkTRidT5DwBxAC2pEtnwMBTpkCepHkFgZDiqb` | 10,972,769.54 | 2.51% | 5.00% | current |
+| 6 | `51JBzSTU5rAM8gLAVQKgp4WoZerQcSqWC7BitBzgUNAm` | 9,315,835.37 | 2.13% | 10.00% | current |
+| 7 | `26pV97Ce83ZQ6Kz9XT4td8tdoUFPTng8Fb8gPyc53dJx` | 9,251,552.15 | 2.11% | 7.00% | current |
+| 8 | `9QU2QSxhb24FUX3Tu2FpczXjpK3VYrvRudywSZaM29mF` | 7,589,921.71 | 1.73% | 7.00% | current |
+| 9 | `CvSb7wdQAFpHuSpTYTJnX5SYH4hCfQ9VuGnqrKaKwycB` | 6,809,494.18 | 1.56% | 5.00% | current |
+| 10 | `3JD3jMmnR6g88qff2WZ3cMHJRjJMUk9yVZtmYTYeFrXf` | 6,692,115.38 | 1.53% | 0.00% | current |
 
 **Important limitation:** Ranks are vote accounts, not operators; one organization may control multiple accounts and ownership is not inferred.
 
